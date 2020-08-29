@@ -38,8 +38,6 @@ function sendmailToUser($mail_user){
 
 
 // 以下、本文
-$bodyOfMail = $_POST["body"];
-$name = $_POST["name"];
 $mail_to = $_POST["email"];
 
 sendmailToUser($mail_to);
