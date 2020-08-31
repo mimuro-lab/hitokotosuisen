@@ -7,13 +7,35 @@ function make_file(String $filename){
     
     // ファイルが既に存在していたらリターンする。
     if(file_exists($filename)){
-        echo "すでにこのファイルは存在していました。";
         return false;
     }
 
     // touch関数でファイル作成
     // touchが成功したらtrue、失敗したらfalse
     return touch($filename);
+}
+
+// 存在するファイルに書き込み(追記)を行う関数。
+function write_to_file(String $filename, String $number, String $name, String $email, String $book, String $comment){
+    // ファイルが既に存在していたらリターンする。
+    if(!file_exists($filename)){
+        return false;
+    }
+
+    // ファイルを開けなかったらリターンする。
+    if(!fopen($filename, "a")){
+        return false;
+    }
+    $fp = fopen($filename, "a");
+    $writeOfContent = $number . "," . $name . "," . $email . ",\n";
+    $writeOfContent .= $book . ",\n";
+    $writeOfContent .= $comment;
+
+    // ファイルに書き込めなかったらリターンする。
+    if(!fwrite($fp, $writeOfContent)){
+        return false;
+    }
+    return true;
 }
 
 ?>
@@ -43,8 +65,11 @@ function make_file(String $filename){
 
         // 「本のタイトル＋学籍番号＋名前」
         $saveFileName = $book."__".$number."__".$name;
-        if(make_file($saveFileName)){
-            echo "ファイルの作成に成功しました。";
+        if(!make_file($saveFileName)){
+            echo "ファイルの作成に失敗しました。";
+        }
+        if(write_to_file($saveFileName, $number, $name, $email, $book, $comment)){
+
         }
 
         ?>
