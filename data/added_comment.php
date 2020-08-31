@@ -17,7 +17,7 @@ function make_file(String $filename){
 
 // 存在するファイルに書き込み(追記)を行う関数。
 function write_to_file(String $filename, String $number, String $name, String $email, String $book, String $comment){
-    // ファイルが既に存在していたらリターンする。
+    // ファイルがなかったらリターンする。
     if(!file_exists($filename)){
         return false;
     }
@@ -27,8 +27,8 @@ function write_to_file(String $filename, String $number, String $name, String $e
         return false;
     }
     $fp = fopen($filename, "a");
-    $writeOfContent = $number . "," . $name . "," . $email . ",\n";
-    $writeOfContent .= $book . ",\n";
+    $writeOfContent = $number . "," . $name . "," . $email . ",";
+    $writeOfContent .= $book . ",";
     $writeOfContent .= $comment;
 
     // ファイルに書き込めなかったらリターンする。
@@ -59,6 +59,9 @@ function write_to_file(String $filename, String $number, String $name, String $e
             $email = $_POST['email'];
             $book = $_POST['book'];
             $comment = $_POST['comment'];
+            // 改行文字は<br>に置き換える。
+            $comment = str_replace("\r\n", "<br>", $comment);
+            echo $comment;
         }else{
             echo "変数がどれか受信できませんでした。";
         }
