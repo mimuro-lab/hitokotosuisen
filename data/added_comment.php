@@ -30,6 +30,7 @@ function write_to_file(String $filename, String $number, String $name, String $e
     $writeOfContent = $number . "," . $name . "," . $email . ",";
     $writeOfContent .= $book . ",";
     $writeOfContent .= $comment;
+    $writeOfContent .= ",\n";
 
     // ファイルに書き込めなかったらリターンする。
     if(!fwrite($fp, $writeOfContent)){
@@ -51,14 +52,16 @@ function write_to_file(String $filename, String $number, String $name, String $e
         $email = "";
         $book = "";
         $comment = "";
+        $page = "";
         // もし、変数がすべて送信されていたら
-        if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book'] and $_POST['comment']){
+        if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book'] and $_POST['comment'] and $_POST['page']){
             // add_comment.htmlから変数を受け取る
             $number = $_POST['number'];
             $name = $_POST['name'];
             $email = $_POST['email'];
             $book = $_POST['book'];
             $comment = $_POST['comment'];
+            $page = $_POST['page'];
             // 改行文字は<br>に置き換える。
             $comment = str_replace("\r\n", "<br>", $comment);
             echo $comment;
@@ -67,14 +70,14 @@ function write_to_file(String $filename, String $number, String $name, String $e
         }
 
         // 「本のタイトル＋学籍番号＋名前」
-        $saveFileName = $book."__".$number."__".$name;
-        if(!make_file($saveFileName)){
+        $pathToSaveFolder = __DIR__."\\comment\\".$page;
+        $pathToSaveFile = $pathToSaveFolder."\\".$book.".csv";
+        if(!make_file($pathToSaveFile)){
             echo "ファイルの作成に失敗しました。";
         }
-        if(write_to_file($saveFileName, $number, $name, $email, $book, $comment)){
-
+        if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment)){
         }
-
+        
         ?>
     </body>
 </html>
