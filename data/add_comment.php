@@ -33,8 +33,10 @@
                 echo "<option value=\"".$dir."\">".$dir."</option>";
             
         }
+
         ?>
         </select>
+        <?php echo $_GET['token'];?>
 
     </form>
 </html>

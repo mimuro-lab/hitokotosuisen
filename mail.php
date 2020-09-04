@@ -28,7 +28,7 @@ function sendmailToUser($mail_user){
     とても分かり易い！用語の定義から、公式の導出過程まで丁寧に書かれている！
     また、問題の内容もとても良い！初学者向けの簡単な問題から、編入対策にもなる問題もある！
     電気回路を総合的に勉強したい人向けの教科書！
-    <a href = \"http://localhost:8080/data/add_comment.php\">コメントしに行く</a>
+    <a href = \"http://localhost:8080/data/add_comment.php?token=pass\">コメントしに行く</a>
     ";
 
     if(mail($mail_user, $subject, $message, $headers)){
