@@ -29,7 +29,8 @@ function write_to_file(String $filename, String $number, String $name, String $e
     $fp = fopen($filename, "a");
     $writeOfContent = $number . "," . $name . "," . $email . ",";
     $writeOfContent .= $book . ",";
-    $writeOfContent .= $comment;
+    // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
+    $writeOfContent .= str_replace(",", "?cma?", $comment);
     $writeOfContent .= ",\n";
 
     // ファイルに書き込めなかったらリターンする。
