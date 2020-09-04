@@ -25,7 +25,19 @@ function read_from_file_all(String $filename){
     return $contentOfText;
 }
 
-echo read_from_file_all(__DIR__."\comment\sample.txt")
+#echo read_from_file_all(__DIR__."\comment\page1\電気回路.csv")
+
+function echoListOfComment(){
+    $listdir = scandir(__DIR__."\comment");
+    foreach ($listdir as $dir){
+        if($dir != "." && $dir != "..") {
+            $getParameter = "?comment_page=".$dir;
+            echo "<a href=\"http://localhost:8080\\data\\readed_comment.php".$getParameter."\">".$dir."</a><br>";
+        }
+    }
+}
+
+echoListOfComment();
 
 ?>
 
