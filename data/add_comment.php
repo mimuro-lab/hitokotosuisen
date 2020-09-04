@@ -24,6 +24,17 @@
             <label for="comment">推薦内容<br></label>
             <textarea id="comment" name="comment"></textarea>
         </div>
-        <input type="submit" value="確定する">
+        <input type="submit" value="確定する"><br>
+        <select name="page">
+        <?php
+        $listdir = scandir(__DIR__."\comment");
+        foreach ($listdir as $dir){
+            if($dir != "." && $dir != "..") 
+                echo "<option value=\"".$dir."\">".$dir."</option>";
+            
+        }
+        ?>
+        </select>
+
     </form>
 </html>
