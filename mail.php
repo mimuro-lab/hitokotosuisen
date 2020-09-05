@@ -38,10 +38,44 @@ function sendmailToUser($mail_user){
     return false;
 }
 
+// ランダムな英数字を作成する。同じ文字が出現する可能性あり。
+// 第一引数には文字列の長さを入力する。
+function random($length)
+{
+    return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
+}
+
+// 
+function make_token_table(String $email){
+
+    $tokenAndEmail = $email.",".random(10)."\n";
+
+    $pathToToken = __DIR__."/data/token.csv";
+
+    // token.csvがなかったらリターンする。
+    if(!file_exists($pathToToken)){
+        echo "token.csvが見つかりません。";
+        return;
+    }
+    // ファイルを開けなかったらリターンする。
+    if(!fopen($pathToToken, "a")){
+        return false;
+    }
+    $fp = fopen($pathToToken, "a");
+    // ファイルに書き込めなかったらリターンする。
+    if(!fwrite($fp, $tokenAndEmail)){
+        return false;
+    }
+    return true;
+}
 
 // 以下、本文
 $mail_to = $_POST["email"];
 
 sendmailToUser($mail_to);
+
+make_token_table($mail_to);
+
+
 
 ?>
