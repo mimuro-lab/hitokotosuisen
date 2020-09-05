@@ -45,7 +45,7 @@ function random($length)
     return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
 }
 
-// 
+// tokenのテーブルを作成する。
 function make_token_table(String $email){
 
     $tokenAndEmail = $email.",".random(10)."\n";
@@ -69,6 +69,34 @@ function make_token_table(String $email){
     return true;
 }
 
+// tokenを取得する。emailにマッチするtokenを返す関数。
+function read_token(String $email){
+    $pathToToken = __DIR__."/data/token.csv";
+
+    // token.csvがなかったらリターンする。
+    if(!file_exists($pathToToken)){
+        echo "token.csvが見つかりません。";
+        return false;
+    }
+    // ファイルを開けなかったらリターンする。
+    if(!fopen($pathToToken, "a")){
+        return false;
+    }
+    $fp = fopen($pathToToken, "r");
+    
+    // 一行ずつ読み込む
+    $tokenLine = "";
+    while(!feof($fp)){
+
+        // fgetにより一行読み込み
+        $tokenLine = fgets($fp);
+        if(strpos($tokenLine, $email) !== false){
+            return $tokenLine;
+        }
+    }
+    return false;
+}
+
 // 以下、本文
 $mail_to = $_POST["email"];
 
@@ -76,6 +104,6 @@ sendmailToUser($mail_to);
 
 make_token_table($mail_to);
 
-
+echo read_token($mail_to);
 
 ?>
