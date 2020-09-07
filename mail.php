@@ -46,8 +46,14 @@ function random($length)
 }
 
 // tokenのテーブルを作成する。
+// 一つのメールアドレスに対して、一つのtokenしか作らない
 function make_token_table(String $email){
 
+    // 以前このメールアドレスに対してのtokenを作成したか？
+    if(read_token($email) != false){
+        echo "同じメールアカウントに対して、複数のtokenは作りません。";
+        return false;
+    }
     $tokenAndEmail = $email.",".random(10)."\n";
 
     $pathToToken = __DIR__."/data/token.csv";
@@ -80,6 +86,7 @@ function read_token(String $email){
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "a")){
+        echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -94,6 +101,8 @@ function read_token(String $email){
             return $tokenLine;
         }
     }
+
+    echo "メールアカウントに対するtokenを見つけられませんでした。";
     return false;
 }
 
