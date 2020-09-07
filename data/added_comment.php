@@ -1,5 +1,7 @@
 <?php
 
+require "utils.php";
+
 // ここでは、added_comment.phpで使用されるPHPの関数を定義する。
 
 //　ファイルを作成する関数。
@@ -70,14 +72,16 @@ function write_to_file(String $filename, String $number, String $name, String $e
         }else{
             echo "変数がどれか受信できませんでした。";
         }
-
-        // 「本のタイトル＋学籍番号＋名前」
-        $pathToSaveFolder = __DIR__."\\comment\\".$page;
-        $pathToSaveFile = $pathToSaveFolder."\\".$book.".csv";
-        if(!make_file($pathToSaveFile)){
-            echo "ファイルの作成に失敗しました。";
-        }
-        if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment)){
+        // ただしいtokenを持っていたときのみに、ファイル処理をする。
+        if(get_token($token) != false){
+            // 「本のタイトル＋学籍番号＋名前」
+            $pathToSaveFolder = __DIR__."\\comment\\".$page;
+            $pathToSaveFile = $pathToSaveFolder."\\".$book.".csv";
+            if(!make_file($pathToSaveFile)){
+                echo "ファイルの作成に失敗しました。";
+            }
+            if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment)){
+            }
         }
         
         ?>
