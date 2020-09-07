@@ -1,7 +1,18 @@
 <?php
 
-//とりあえず、このPHPファイルが呼び出されたら送信する
+//とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
+// 発行したtokenをURLにくっつける
 function sendmailToUser($mail_user){
+
+    if(read_token($mail_user) == false){
+        echo "メールアドレスに対応するtokenを見つけられなかったので、メールを送信できませんでした。<br>";
+        return false;
+    }
+
+    // メールアドレスにマッチするtokenを取得する。
+    $token = str_getcsv(read_token($mail_user))[1];
+    echo "<br>".$token."<br>";
+
     $mail_from      = 'hitokotosuisen@gmail.com';
     
     $subject = '小山高専図書情報　ひとことすいせん係より';
@@ -9,7 +20,7 @@ function sendmailToUser($mail_user){
     // ヘッダー情報
     $headers = "From: ". $mail_from . "\r\n";
     // htmlメールに対応させる
-    $headers .= "Content-type: text/html;";
+    $headers .= "Content-type: text/html;charset=UTF-8";
     
     // メッセージ部分
     $message = "
@@ -28,7 +39,7 @@ function sendmailToUser($mail_user){
     とても分かり易い！用語の定義から、公式の導出過程まで丁寧に書かれている！
     また、問題の内容もとても良い！初学者向けの簡単な問題から、編入対策にもなる問題もある！
     電気回路を総合的に勉強したい人向けの教科書！
-    <a href = \"http://localhost:8080/data/add_comment.php?token=pass\">コメントしに行く</a>
+    <a href = \"http://localhost:8080/data/add_comment.php?token=".$token."\">コメントしに行く</a>
     ";
 
     if(mail($mail_user, $subject, $message, $headers)){
