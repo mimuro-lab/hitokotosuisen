@@ -3,6 +3,8 @@
         <meta http-equiv="content-type" charset="utf-8">
     </head>
 
+
+
     <form action="added_comment.php" method="post">
         <div>
             <label for="number">学籍番号<br></label>
@@ -36,7 +38,13 @@
 
         ?>
         </select>
-        <?php echo $_GET['token'];?>
+        <?php
+        require_once "utils.php";
+        
+        echo get_email($_GET['token'])."<br>";
+        echo get_token("mimurosyunya@gmail.com");
+        
+        ?>
 
     </form>
 </html>
