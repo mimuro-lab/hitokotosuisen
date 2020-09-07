@@ -22,7 +22,11 @@ function get_token(String $email){
 
         // fgetにより一行読み込み
         $tokenLine = fgets($fp);
-        if(strpos($tokenLine, $email) !== false){
+        // 最後の行になったらbreak
+        if($tokenLine == ""){
+            break;
+        }   
+        if(str_getcsv($tokenLine)[0] == $email){
             return str_getcsv($tokenLine)[1];
         }
     }
@@ -32,6 +36,7 @@ function get_token(String $email){
 }
 
 // emailを取得する。tokenにマッチするemailを返す関数。
+// 失敗したら必ずfalseを返す。
 function get_email(String $token){
     $pathToToken = __DIR__."/token.csv";
 
@@ -53,7 +58,12 @@ function get_email(String $token){
 
         // fgetにより一行読み込み
         $tokenLine = fgets($fp);
-        if(strpos($tokenLine, $token) !== false){
+        #if(strpos($tokenLine, $token) !== false){
+        // 最後の行になったらbreak
+        if($tokenLine == ""){
+            break;
+        }
+        if(str_getcsv($tokenLine)[1] == $token){
             return str_getcsv($tokenLine)[0];
         }
     }
