@@ -71,4 +71,29 @@ function get_email(String $token){
     echo "tokenに対するメールアカウントを見つけられませんでした。";
     return false;
 }
+
+// 最も大きいID番号を返す関数。
+function getID_recent($filename){
+    // ファイルがなかったらリターンする。
+    if(!file_exists($filename)){
+        echo "ファイル".$filename."が存在しませんでした。よって、処理を行いませんでした";
+        return false;
+    }
+
+    $fp = fopen($filename, "r");
+    // ファイルの中身を格納する変数
+    $maxID = -1;
+
+    $contentOfText = "";
+    while(!feof($fp)){
+
+        // fgetにより一行読み込み
+        $nowID = (int)fgets($fp)[0];
+        if($maxID < $nowID){
+            $maxID = $nowID;
+        }
+    }
+    
+    return $maxID;
+}
 ?>
