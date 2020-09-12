@@ -70,7 +70,6 @@ function delete_token(String $token){
 
     // tmpファイルの内容をtoken.csvに上書きする。
     if(copy($pathToTmp, $pathToToken)){
-        //unlink($pathToTmp);
     }
 
 }

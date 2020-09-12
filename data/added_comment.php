@@ -143,6 +143,7 @@ function sendmailToOwner($idOfComment){
         $idOfComment = $page . ":" . $book . ":" . $id_writed;
         sendmailToOwner($idOfComment);
         echo get_content("page1:電子路:3");
+        delete_token($token);
         ?>
     </body>
 </html>
