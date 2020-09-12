@@ -59,6 +59,30 @@ function write_to_file(String $filename, String $number, String $name, String $e
     return true;
 }
 
+//とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
+// 発行したtokenをURLにくっつける
+function sendmailToOwner(){
+
+    $mail_owner = 'hitokotosuisen@gmail.com';
+    
+    $subject = 'ひとことすいせん　管理用メール';
+    
+    // ヘッダー情報
+    $headers = "From: ". $mail_owner . "\r\n";
+    // htmlメールに対応させる
+    $headers .= "Content-type: text/html;charset=UTF-8";
+    
+    // メッセージ部分
+    $message = "
+    ";
+
+    if(mail($mail_owner, $subject, $message, $headers)){
+        return true;
+    }
+    
+    return false;
+}
+
 ?>
 
 <html>
@@ -103,6 +127,9 @@ function write_to_file(String $filename, String $number, String $name, String $e
                 echo "ファイルに書き込みを行いませんでした。<br>";
             }
         }
+
+        // hitokotosuisen@gmailに対して管理用メールを送信する。
+        sendmailToOwner();
         
         ?>
     </body>
