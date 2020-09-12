@@ -82,7 +82,8 @@ function sendmailToOwner($idOfComment){
     $headers .= "Content-type: text/html;charset=UTF-8";
     
     // メッセージ部分
-    $message = $idOfComment;
+    $contentOfComment = get_content($idOfComment);
+    $message = "コメントの管理IDは、\"".$idOfComment."\"です。<br>内容は以下、<br>".$contentOfComment;
 
     if(mail($mail_owner, $subject, $message, $headers)){
         return true;
