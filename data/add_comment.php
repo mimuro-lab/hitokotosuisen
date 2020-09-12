@@ -1,8 +1,8 @@
 <?php
 
-function showForm(){
+function showForm(String $token){
+    echo "<form action=\"added_comment.php?token=".$token."\" method=\"post\">";
     echo <<<END
-    <form action="added_comment.php" method="post">
     <div>
         <label for="number">学籍番号<br></label>
         <input type="text" id="number" name="number">
@@ -58,7 +58,7 @@ function showForm(){
         }
         if(get_email($token) != false){
             echo "ようこそ、".get_email($token)."さん。<br>";
-            showForm();
+            showForm($token);
         }
         
         ?>
