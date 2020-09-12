@@ -29,6 +29,7 @@ function make_file(String $filename, String $token){
 }
 
 // 存在するファイルに書き込み(追記)を行う関数。
+// 成功したらIDを返す。
 function write_to_file(String $filename, String $number, String $name, String $email, String $book, String $comment, String $token){
 
     // 正しいtokenを持っていなかったらリターンする
@@ -61,12 +62,12 @@ function write_to_file(String $filename, String $number, String $name, String $e
     if(!fwrite($fp, $writeOfContent)){
         return false;
     }
-    return true;
+    return $id;
 }
 
 //とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
 // 発行したtokenをURLにくっつける
-function sendmailToOwner(){
+function sendmailToOwner($idOfComment){
 
     $mail_owner = 'hitokotosuisen@gmail.com';
     
@@ -78,8 +79,7 @@ function sendmailToOwner(){
     $headers .= "Content-type: text/html;charset=UTF-8";
     
     // メッセージ部分
-    $message = "
-    ";
+    $message = $idOfComment;
 
     if(mail($mail_owner, $subject, $message, $headers)){
         return true;
@@ -104,6 +104,7 @@ function sendmailToOwner(){
         $page = "";
         $token = "";
         $pathToSavedCSV = "";
+        $id_writed;
         // もし、変数がすべて送信されていたら
         if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book']){
             // add_comment.htmlから変数を受け取る
@@ -127,17 +128,17 @@ function sendmailToOwner(){
             if(!make_file($pathToSaveFile, $token)){
                 echo "ファイルの作成を行いませんでした。<br>";
             }
-            if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token)){
-                echo "ファイルに書き込みを行ました。<br>";
+            $id_writed = write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token);
+            if($id_writed != false){
+                echo "ファイルに書き込みを行ました。(id:".$id_writed.")<br>";
             }
             $pathToSavedCSV = $pathToSaveFile;
         }
 
         // hitokotosuisen@gmailに対して管理用メールを送信する。
-        sendmailToOwner();
-
-        getID_recent($pathToSavedCSV);
-        
+        $idOfComment = $page . ":" . $book . ":" . $id_writed;
+        sendmailToOwner($idOfComment);
+        echo get_content("page1:電子路:3");
         ?>
     </body>
 </html>
