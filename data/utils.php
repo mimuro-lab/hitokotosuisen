@@ -100,4 +100,38 @@ function getID_recent($filename){
     
     return $maxID;
 }
+
+// 管理用IDから、コメントの内容を取得する関数。
+// 対応する行をそのまま返す
+function get_content($ID){
+    
+    $page = explode(":",$ID)[0];
+    $book = explode(":",$ID)[1];
+    $lineID = (int)explode(":",$ID)[2];
+
+    $pathToCSV = __DIR__."\\comment\\".$page."\\".$book.".csv";
+    if(!file_exists($pathToCSV)){
+        return false;
+    }
+
+    $fp = fopen($pathToCSV, "r");
+
+    // ファイルの中身を格納する変数
+    $contentOfText = "";
+    while(!feof($fp)){
+
+        // fgetにより一行読み込み
+        $contentOfText = fgets($fp);
+        if($contentOfText == ""){
+            break;
+        }
+        $nowID = (int)explode(",", $contentOfText)[0];
+        if($lineID == $nowID){
+            return $contentOfText;
+        }
+    }
+
+    return false;
+}
+
 ?>
