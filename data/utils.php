@@ -88,7 +88,11 @@ function getID_recent($filename){
     while(!feof($fp)){
 
         // fgetにより一行読み込み
-        $nowID = (int)fgets($fp)[0];
+        $contentOfText = fgets($fp);
+        if($contentOfText == ""){
+            break;
+        }
+        $nowID = (int)explode(",", $contentOfText)[0];
         if($maxID < $nowID){
             $maxID = $nowID;
         }
