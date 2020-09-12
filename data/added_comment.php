@@ -2,6 +2,8 @@
 
 require "utils.php";
 
+date_default_timezone_set('Asia/Tokyo');
+
 // ここでは、added_comment.phpで使用されるPHPの関数を定義する。
 
 //　ファイルを作成する関数。
@@ -51,7 +53,8 @@ function write_to_file(String $filename, String $number, String $name, String $e
     
     $fp = fopen($filename, "a");
     $id = getID_recent($filename) + 1;
-    $writeOfContent = (String)$id. ",".$number . "," . $name . "," . $email . ",";
+    $date = date("Y/m/d H:i:s");
+    $writeOfContent = (String)$id. ",".$date .",". $number . "," . $name . "," . $email . ",";
     $writeOfContent .= $book . ",";
     // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
     //$writeOfContent .= str_replace(",", "?cma?", $comment);
