@@ -21,7 +21,11 @@ function make_file(String $filename, String $token){
 
     // touch関数でファイル作成
     // touchが成功したらtrue、失敗したらfalse
-    return touch($filename);
+    if(touch($filename)){
+        // 初期IDを作成する
+        fwrite(fopen($filename,"w"), "-1,\n");
+    }
+
 }
 
 // 存在するファイルに書き込み(追記)を行う関数。
@@ -98,7 +102,7 @@ function sendmailToOwner(){
         $comment = "";
         $page = "";
         $token = "";
-        echo $_GET['token'];
+        $pathToSavedCSV = "";
         // もし、変数がすべて送信されていたら
         if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book']){
             // add_comment.htmlから変数を受け取る
@@ -111,7 +115,6 @@ function sendmailToOwner(){
             // 改行文字は<br>に置き換える。
             $comment = str_replace("\r\n", "<br>", $comment);
             $token = $_GET['token'];
-            echo $comment;
         }else{
             echo "変数がどれか受信できませんでした。";
         }
@@ -126,10 +129,13 @@ function sendmailToOwner(){
             if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token)){
                 echo "ファイルに書き込みを行ました。<br>";
             }
+            $pathToSavedCSV = $pathToSaveFile;
         }
 
         // hitokotosuisen@gmailに対して管理用メールを送信する。
         sendmailToOwner();
+
+        getID_recent($pathToSavedCSV);
         
         ?>
     </body>
