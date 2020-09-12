@@ -124,7 +124,7 @@ function sendmailToOwner(){
                 echo "ファイルの作成を行いませんでした。<br>";
             }
             if(write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token)){
-                echo "ファイルに書き込みを行いませんでした。<br>";
+                echo "ファイルに書き込みを行ました。<br>";
             }
         }
 
