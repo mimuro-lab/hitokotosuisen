@@ -120,9 +120,9 @@ function read_token(String $email){
 // 以下、本文
 $mail_to = $_POST["email"];
 
-sendmailToUser($mail_to);
-
 make_token_table($mail_to);
+
+sendmailToUser($mail_to);
 
 echo read_token($mail_to);
 
