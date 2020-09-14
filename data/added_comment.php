@@ -31,7 +31,7 @@ function make_file(String $filename, String $token){
 }
 
 // 存在するファイルに書き込み(追記)を行う関数。
-// 成功したらIDを返す。
+// 成功したらID＋token_commentを返す。
 function write_to_file(String $filename, String $number, String $name, String $email, String $book, String $comment, String $token){
 
     // 正しいtokenを持っていなかったらリターンする
@@ -51,13 +51,17 @@ function write_to_file(String $filename, String $number, String $name, String $e
         return false;
     }
     
+    // コメント単位のtokenを発行する。
+    $token_comment = random(10);
+
     $fp = fopen($filename, "a");
     $id = getID_recent($filename) + 1;
     $date = date("Y/m/d H:i:s");
-    $writeOfContent = (String)$id. ",".$date .",". $number . "," . $name . "," . $email . ",";
+    $writeOfContent = (String)$id. "," . (String)$token_comment. ",".$date .",". $number . "," . $name . "," . $email . ",";
     $writeOfContent .= $book . ",";
     // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
     $comment = str_replace(",", "?cma?", $comment);
+    // コメント内の" <br> "は　"?newl?"　に置き換える（htmlspecialcharsを回避）
     $comment = str_replace("<br>", "?newl?", $comment);
     $comment = htmlspecialchars($comment);
     echo $comment;
@@ -68,7 +72,7 @@ function write_to_file(String $filename, String $number, String $name, String $e
     if(!fwrite($fp, $writeOfContent)){
         return false;
     }
-    return $id;
+    return array($id, $token_comment);
 }
 
 //とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
@@ -112,6 +116,7 @@ function sendmailToOwner($idOfComment){
         $token = "";
         $pathToSavedCSV = "";
         $id_writed;
+        $token_writed;
         // もし、変数がすべて送信されていたら
         if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book']){
             // add_comment.htmlから変数を受け取る
@@ -135,15 +140,17 @@ function sendmailToOwner($idOfComment){
             if(!make_file($pathToSaveFile, $token)){
                 echo "ファイルの作成を行いませんでした。<br>";
             }
-            $id_writed = write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token);
+            $writed_result = write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token);
+            $id_writed = $writed_result[0];
+            $token_writed = $writed_result[1];
             if($id_writed != false){
-                echo "ファイルに書き込みを行ました。(id:".$id_writed.")<br>";
+                echo "ファイルに書き込みを行ました。(id:".$id_writed.", token:".$token_writed.")<br>";
             }
             $pathToSavedCSV = $pathToSaveFile;
         }
 
         // hitokotosuisen@gmailに対して管理用メールを送信する。
-        $idOfComment = $page . ":" . $book . ":" . $id_writed;
+        $idOfComment = $page . ":" . $book . ":" . $id_writed . ":" . $token_writed;
         sendmailToOwner($idOfComment);
         echo get_content("page1:電子路:3");
         delete_token($token);

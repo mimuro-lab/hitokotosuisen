@@ -1,5 +1,13 @@
 
 <?php
+
+// ランダムな英数字を作成する。同じ文字が出現する可能性あり。
+// 第一引数には文字列の長さを入力する。
+function random($length)
+{
+    return base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
+}
+
 // tokenを取得する。emailにマッチするtokenを返す関数。
 function get_token(String $email){
     $pathToToken = __DIR__."/token.csv";
