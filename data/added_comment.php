@@ -57,8 +57,11 @@ function write_to_file(String $filename, String $number, String $name, String $e
     $writeOfContent = (String)$id. ",".$date .",". $number . "," . $name . "," . $email . ",";
     $writeOfContent .= $book . ",";
     // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
-    //$writeOfContent .= str_replace(",", "?cma?", $comment);
-    $writeOfContent .= str_replace(",","?cma?",htmlspecialchars($comment));
+    $comment = str_replace(",", "?cma?", $comment);
+    $comment = str_replace("<br>", "?newl?", $comment);
+    $comment = htmlspecialchars($comment);
+    echo $comment;
+    $writeOfContent .= $comment;
     $writeOfContent .= ",\n";
 
     // ファイルに書き込めなかったらリターンする。
