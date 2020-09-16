@@ -118,7 +118,7 @@ function getID_recent($filename){
 function get_content($ID){
 
     // 3つの要素（page,book,lineID）で構成されていなかったらfalseを返す
-    if(count(explode(":",$ID_and_token)) != 3){
+    if(count(explode(":",$ID)) != 3){
         return false;
     }
 
