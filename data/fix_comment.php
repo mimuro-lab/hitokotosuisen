@@ -7,6 +7,10 @@ function divide_content(String $content){
     return $divided_content;
 }
 
+function echo_comment(String $comment){
+    return str_replace("?newl?","<br>", $comment);
+}
+
 ?>
 
 <html>
@@ -47,7 +51,7 @@ function divide_content(String $content){
                 <td>本のタイトル</td><td><?php echo $book;?></td>
             </tr>
             <tr>
-                <td>コメント内容</td><td><?php echo $comment;?></td>
+                <td>コメント内容</td><td><?php echo echo_comment($comment);?></td>
             </tr>
         </table>
         </td>
@@ -59,16 +63,16 @@ function divide_content(String $content){
                 <th colspan="2">変更内容</th>
             </tr>
             <tr>
-                <td>学籍番号</th><td><input type="text" name="number"></p></td>
+                <td>学籍番号</th><td><input type="text" name="number_fixed"></p></td>
             </tr>
             <tr>
-                <td>お名前</td><td><input type="text" name="name"></p></td>
+                <td>お名前</td><td><input type="text" name="name_fixed"></p></td>
             </tr>
             <tr>
-                <td>本のタイトル</td><td><input type="text" name="book"></p></td>
+                <td>本のタイトル</td><td><input type="text" name="book_fixed"></p></td>
             </tr>
             <tr>
-                <td>コメント内容</td><td><textarea id="comment" name="comment"></textarea></td>
+                <td>コメント内容</td><td><textarea id="comment" name="comment_fixed"></textarea></td>
             </tr>
             
         </table>
@@ -78,7 +82,27 @@ function divide_content(String $content){
     <p><input type="submit" value="変更内容を反映する"></p>
     </form>
     <?php 
-    echo $_POST["number"];
+    // 以下、main要素
+
+    $number_fixed = "";
+    $name_fixed = "";
+    $book_fixed = "";
+    $comment_fixed = "";
+    if(isset($_POST["number_fixed"])){
+        $number_fixed = $_POST["number_fixed"];
+    }
+    if(isset($_POST["name_fixed"])){
+        $name_fixed = $_POST["name_fixed"];
+    }
+    if(isset($_POST["book_fixed"])){
+        $book_fixed = $_POST["book_fixed"];
+    }
+    if(isset($_POST["comment_fixed"])){
+        $comment_fixed = $_POST["comment_fixed"];
+    }
+
+    fix_comment($id, $number_fixed, $name_fixed, $book_fixed, $comment_fixed);
+
     ?>
     </body>
 </html>

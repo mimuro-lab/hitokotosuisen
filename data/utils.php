@@ -191,4 +191,103 @@ function check_comment_token(String $ID_and_token){
     return false;
 }
 
+// 既存のコメント内容を上書きする関数。第一引数には、token付きIDが入力される。
+// 成功したら上書き後のコメント内容を返す。
+function fix_comment(String $ID_and_token, String $input_number, String $input_name, String $input_book, String $input_comment){
+
+    $input_number = str_replace(",", "?cma?", $input_number);
+    $input_name = str_replace(",", "?cma?", $input_name);
+    $input_book = str_replace(",", "?cma?", $input_book);
+    $input_comment = str_replace(",", "?cma?", $input_comment);
+
+    $page = explode(":", $ID_and_token)[0];
+    $book = explode(":", $ID_and_token)[1];
+    $lineID = explode(":", $ID_and_token)[2];
+    $token_comment = explode(":", $ID_and_token)[3];
+
+    // 正しいtokenを持っていなかったらリターンする
+    $pre_content = check_comment_token($ID_and_token);
+    if($pre_content == false){
+        echo "有効なtokenが受信できませんでした。<br>";
+        return false;
+    }
+
+    $filename_tmp = __DIR__."\\comment"."\\fix_tmp.csv";
+    $filename = __DIR__."\\comment\\".$page."\\".$book.".csv";
+
+    // ファイルがなかったらリターンする。
+    if(!file_exists($filename)){
+        echo "ファイル".$filename."が存在しませんでした。よって、書き込み処理を行いませんでした";
+        return false;
+    }
+
+    // ファイルを開けなかったらリターンする。
+    if(!fopen($filename, "r") && !fopen($filename_tmp, "w")){
+        return false;
+    }
+    
+
+    echo $pre_content;
+
+    // 修正前の要素を一時保存
+    $id_pre = explode(",",$pre_content)[0];
+    $token_pre = explode(",",$pre_content)[1];
+    $date_pre = explode(",",$pre_content)[2];
+    $number_pre = explode(",",$pre_content)[3];
+    $name_pre = explode(",",$pre_content)[4];
+    $email_pre = explode(",",$pre_content)[5];
+    $book_pre = explode(",",$pre_content)[6];
+    $comment_pre = explode(",",$pre_content)[7];
+
+    // 編集後の内容
+    $fixed_content = $id_pre.",".$token_pre.",".$date_pre.",";
+
+    // 変更内容が入力されていれば、コメントの修正を行う。
+    // 学籍番号
+    if($input_number != ""){
+        $fixed_content .= $input_number.",";
+    }else{
+        $fixed_content .= $number_pre.",";
+    }
+    // 名前
+    if($input_name != ""){
+        $fixed_content .= $input_name.",";
+    }else{
+        $fixed_content .= $name_pre.",";
+    }
+    // メールは変更不可
+    $fixed_content .= $email_pre.",";
+
+    // book
+    if($input_book != ""){
+        $fixed_content .= $input_book.",";
+    }else{
+        $fixed_content .= $book_pre.",";
+    }
+    // comment
+    if($input_comment != ""){
+        $fixed_content .= $input_comment.",";
+    }else{
+        $fixed_content .= $comment_pre.",";
+    }
+    $fixed_content .= ",";
+    
+    // 編集後の内容をtmpファイルに書き込む。
+    $fp = fopen($filename, "r");
+    $fp_tmp = fopen($filename_tmp, "w");
+    
+    // 編集対象の内容を一時的にfix_tmp.csvに避難させる。
+    while(!feof($fp)){
+        $OneLine = fgets($fp);
+        $nowID = explode(",", $OneLine)[0];
+        if($nowID == $lineID){
+            fwrite($fp_tmp, $fixed_content);
+        }else{
+            fwrite($fp_tmp, $OneLine);
+        }
+    }
+
+
+}
+
 ?>
