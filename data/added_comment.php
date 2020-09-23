@@ -151,9 +151,9 @@ function sendmailToOwner($idOfComment){
         }
 
         // hitokotosuisen@gmailに対して管理用メールを送信する。
-        $idOfComment = $page . ":" . $book . ":" . $id_writed . ":" . $token_writed;
+        // コメント特定用のIDは、「コメント作成時日時」＋「id(index)」＋「token」とする。
+        $idOfComment = $today . ":" . $id_writed . ":" . $token_writed;
         sendmailToOwner($idOfComment);
-        echo get_content("page1:電子路:3");
         delete_token($token);
         ?>
     </body>
