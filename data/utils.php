@@ -155,17 +155,16 @@ function get_content($ID){
 // マッチするものがなかった場合、falseを返す。
 function check_comment_token(String $ID_and_token){
     
-    // 4つの要素（page,book,lineID, token）で構成されていなかったらfalseを返す
-    if(count(explode(":",$ID_and_token)) != 4){
+    // 3つの要素（date,lineID, token）で構成されていなかったらfalseを返す
+    if(count(explode(":",$ID_and_token)) != 3){
         return false;
     }
 
-    $page = explode(":",$ID_and_token)[0];
-    $book = explode(":",$ID_and_token)[1];
-    $lineID = (int)explode(":",$ID_and_token)[2];
-    $token = explode(":",$ID_and_token)[3];
+    $date = explode(":",$ID_and_token)[0];
+    $lineID = (int)explode(":",$ID_and_token)[1];
+    $token = explode(":",$ID_and_token)[2];
 
-    $pathToCSV = __DIR__."\\comment\\".$page."\\".$book.".csv";
+    $pathToCSV = __DIR__."\\comment\\".$date.".csv";
     if(!file_exists($pathToCSV)){
         return false;
     }
@@ -183,11 +182,11 @@ function check_comment_token(String $ID_and_token){
         }
         $nowID = (int)explode(",", $contentOfText)[0];
         $nowToken = explode(",", $contentOfText)[1];
-        if($lineID == $nowID){
+        if($lineID == $nowID && $nowToken == $token){
             return $contentOfText;
         }
     }
-
+    
     return false;
 }
 
