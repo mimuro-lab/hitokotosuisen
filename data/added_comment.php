@@ -32,7 +32,7 @@ function make_file(String $filename, String $token){
 
 // 存在するファイルに書き込み(追記)を行う関数。
 // 成功したらID＋token_commentを返す。
-function write_to_file(String $filename, String $number, String $name, String $email, String $book, String $comment, String $token){
+function write_to_file(String $filename, String $number, String $name, String $email, String $tag, String $comment, String $token){
 
     // 正しいtokenを持っていなかったらリターンする
     if(get_email($token) == false){
@@ -58,7 +58,7 @@ function write_to_file(String $filename, String $number, String $name, String $e
     $id = getID_recent($filename) + 1;
     $date = date("Y/m/d H:i:s");
     $writeOfContent = (String)$id. "," . (String)$token_comment. ",".$date .",". $number . "," . $name . "," . $email . ",";
-    $writeOfContent .= $book . ",";
+    $writeOfContent .= $tag . ",";
     // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
     $comment = str_replace(",", "?cma?", $comment);
     // コメント内の" <br> "は　"?newl?"　に置き換える（htmlspecialcharsを回避）
@@ -110,20 +110,21 @@ function sendmailToOwner($idOfComment){
         $number = "";
         $name = "";
         $email = "";
-        $book = "";
+        $tag = "";
         $comment = "";
         $page = "";
         $token = "";
         $pathToSavedCSV = "";
-        $id_writed;
-        $token_writed;
+        $id_writed = "";
+        $token_writed = "";
+        $today = "";
         // もし、変数がすべて送信されていたら
         if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book']){
             // add_comment.htmlから変数を受け取る
             $number = $_POST['number'];
             $name = $_POST['name'];
             $email = $_POST['email'];
-            $book = $_POST['book'];
+            $tag = $_POST['book'];
             $comment = $_POST['comment'];
             $page = $_POST['page'];
             // 改行文字は<br>に置き換える。
@@ -135,13 +136,13 @@ function sendmailToOwner($idOfComment){
         // ただしいtokenを持っていたときのみに、ファイル処理をする。
         if(get_email($token) != false){
             // 保尊先のファイル名は、作成時の日付。
-            $today = date("Y-m-d-H");
+            $today = date("Y-m-d");
             $pathToSaveFolder = __DIR__."\\comment\\";
             $pathToSaveFile = $pathToSaveFolder."\\".$today.".csv";
             if(!make_file($pathToSaveFile, $token)){
                 echo "ファイルの作成を行いませんでした。<br>";
             }
-            $writed_result = write_to_file($pathToSaveFile, $number, $name, $email, $book, $comment, $token);
+            $writed_result = write_to_file($pathToSaveFile, $number, $name, $email, $tag, $comment, $token);
             $id_writed = $writed_result[0];
             $token_writed = $writed_result[1];
             if($id_writed != false){
