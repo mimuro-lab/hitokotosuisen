@@ -198,7 +198,14 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     $input_number = str_replace(",", "?cma?", $input_number);
     $input_name = str_replace(",", "?cma?", $input_name);
     $input_book = str_replace(",", "?cma?", $input_book);
+    //echo mb_detect_encoding($input_comment);
     $input_comment = str_replace(",", "?cma?", $input_comment);
+    // コメント内の改行文字("\r\n")は　"?newl?"　に置き換える（htmlspecialcharsを回避）
+    $input_comment = str_replace("\r\n", "?newl?", $input_comment);
+    // コメント内の" <br> "は　"?newl?"　に置き換える（htmlspecialcharsを回避）
+    $input_comment = str_replace("<br>", "?newl?", $input_comment);
+    // htmlの特殊文字は置き換える。
+    $input_comment = htmlspecialchars($input_comment);
 
     $page = explode(":", $ID_and_token)[0];
     $book = explode(":", $ID_and_token)[1];
@@ -270,12 +277,11 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     }else{
         $fixed_content .= $comment_pre.",";
     }
-    $fixed_content .= ",";
     
     // 編集後の内容をtmpファイルに書き込む。
     $fp = fopen($filename, "r");
     $fp_tmp = fopen($filename_tmp, "w");
-    
+
     // 編集対象の内容を一時的にfix_tmp.csvに避難させる。
     while(!feof($fp)){
         $OneLine = fgets($fp);
