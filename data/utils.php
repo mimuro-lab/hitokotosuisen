@@ -293,6 +293,8 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
         }
     }
 
+    // tmpファイルの内容を、対象のファイルに上書きする。
+    copy($filename_tmp, $filename);
 
 }
 
