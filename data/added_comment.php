@@ -134,9 +134,10 @@ function sendmailToOwner($idOfComment){
         }
         // ただしいtokenを持っていたときのみに、ファイル処理をする。
         if(get_email($token) != false){
-            // 「本のタイトル＋学籍番号＋名前」
-            $pathToSaveFolder = __DIR__."\\comment\\".$page;
-            $pathToSaveFile = $pathToSaveFolder."\\".$book.".csv";
+            // 保尊先のファイル名は、作成時の日付。
+            $today = date("Y-m-d-H");
+            $pathToSaveFolder = __DIR__."\\comment\\";
+            $pathToSaveFile = $pathToSaveFolder."\\".$today.".csv";
             if(!make_file($pathToSaveFile, $token)){
                 echo "ファイルの作成を行いませんでした。<br>";
             }
