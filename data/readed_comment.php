@@ -21,9 +21,11 @@ function read_from_file_all(String $filename){
         // fgetにより一行読み込み
         $contentOfText .= fgets($fp);
         // htmlspecialcharsにより変換された特殊文字文字（改行など）
-        $contentOfText = htmlspecialchars_decode($contentOfText);
+        //$contentOfText = htmlspecialchars_decode($contentOfText);
         // ?cma?をカンマ（,）に直す
         $contentOfText = str_replace("?cma?", ",", $contentOfText);
+        // ?newl?を改行（<br>）に直す
+        $contentOfText = str_replace("?newl?", "<br>", $contentOfText);
     }
         
     return $contentOfText;
