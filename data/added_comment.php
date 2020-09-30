@@ -6,6 +6,10 @@ date_default_timezone_set('Asia/Tokyo');
 
 // ここでは、added_comment.phpで使用されるPHPの関数を定義する。
 
+function getSaveTag(String $originalTag){
+    return str_replace(",", ":", $originalTag);
+}
+
 //　ファイルを作成する関数。
 function make_file(String $filename, String $token){
     
@@ -119,12 +123,13 @@ function sendmailToOwner($idOfComment){
         $token_writed = "";
         $today = "";
         // もし、変数がすべて送信されていたら
-        if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book']){
+        if($_POST['number'] and $_POST['name'] and $_POST['email'] and $_POST['book'] and $_POST['tag']){
             // add_comment.htmlから変数を受け取る
             $number = $_POST['number'];
             $name = $_POST['name'];
             $email = $_POST['email'];
             $tag = $_POST['book'];
+            $tag = $tag . ":" . getSaveTag($_POST['tag']);
             $comment = $_POST['comment'];
             $page = $_POST['page'];
             // 改行文字は<br>に置き換える。
