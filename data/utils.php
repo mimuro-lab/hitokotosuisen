@@ -206,10 +206,12 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     // htmlの特殊文字は置き換える。
     $input_comment = htmlspecialchars($input_comment);
 
-    $page = explode(":", $ID_and_token)[0];
-    $book = explode(":", $ID_and_token)[1];
-    $lineID = explode(":", $ID_and_token)[2];
-    $token_comment = explode(":", $ID_and_token)[3];
+
+    //$page = explode(":", $ID_and_token)[0];
+    $date = explode(":", $ID_and_token)[0];
+    $lineID = explode(":", $ID_and_token)[1];
+    $token_comment = explode(":", $ID_and_token)[2];
+    //$token_comment = explode(":", $ID_and_token)[3];
 
     // 正しいtokenを持っていなかったらリターンする
     $pre_content = check_comment_token($ID_and_token);
@@ -219,7 +221,7 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     }
 
     $filename_tmp = __DIR__."\\comment"."\\fix_tmp.csv";
-    $filename = __DIR__."\\comment\\".$page."\\".$book.".csv";
+    $filename = __DIR__."\\comment\\".$date.".csv";
 
     // ファイルがなかったらリターンする。
     if(!file_exists($filename)){
