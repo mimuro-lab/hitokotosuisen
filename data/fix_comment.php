@@ -28,7 +28,11 @@ function echo_comment(String $comment){
     $fixed_content = divide_content(check_comment_token($id));
     $number = $fixed_content[3];
     $name = $fixed_content[4];
-    $book = $fixed_content[6];
+    $bookAndTag = $fixed_content[6];
+
+    $book = explode(":", $bookAndTag)[0];
+    $tag = str_replace($book.":","", $bookAndTag);
+
     $comment = $fixed_content[7];
     ?>
     <h1>コメントを修正します。<br></h1>
@@ -51,6 +55,9 @@ function echo_comment(String $comment){
                 <td>本のタイトル</td><td><?php echo $book;?></td>
             </tr>
             <tr>
+                <td>タグ</td><td><?php echo $tag;?></td>
+            </tr>
+            <tr>
                 <td>コメント内容</td><td><?php echo echo_comment($comment);?></td>
             </tr>
         </table>
@@ -71,6 +78,10 @@ function echo_comment(String $comment){
             <tr>
                 <td>本のタイトル</td><td><input type="text" name="book_fixed"></p></td>
             </tr>
+            </tr>
+            <tr>
+                <td>タグ</td><td><input type="text" name="tag_fixed"></p></td>
+            </tr>
             <tr>
                 <td>コメント内容</td><td><textarea id="comment" name="comment_fixed"></textarea></td>
             </tr>
@@ -87,6 +98,7 @@ function echo_comment(String $comment){
     $number_fixed = "";
     $name_fixed = "";
     $book_fixed = "";
+    $tag_fixed = "";
     $comment_fixed = "";
     if(isset($_POST["number_fixed"])){
         $number_fixed = $_POST["number_fixed"];
@@ -100,8 +112,10 @@ function echo_comment(String $comment){
     if(isset($_POST["comment_fixed"])){
         $comment_fixed = $_POST["comment_fixed"];
     }
-
-    fix_comment($id, $number_fixed, $name_fixed, $book_fixed, $comment_fixed);
+    if(isset($_POST["tag_fixed"])){
+        $comment_fixed = $_POST["tag_fixed"];
+    }
+    fix_comment($id, $number_fixed, $name_fixed, $book_fixed, $tag_fixed, $comment_fixed);
 
     ?>
     </body>

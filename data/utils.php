@@ -192,7 +192,7 @@ function check_comment_token(String $ID_and_token){
 
 // 既存のコメント内容を上書きする関数。第一引数には、token付きIDが入力される。
 // 成功したら上書き後のコメント内容を返す。
-function fix_comment(String $ID_and_token, String $input_number, String $input_name, String $input_book, String $input_comment){
+function fix_comment(String $ID_and_token, String $input_number, String $input_name, String $input_book, String $tag, String $input_comment){
 
     $input_number = str_replace(",", "?cma?", $input_number);
     $input_name = str_replace(",", "?cma?", $input_name);
