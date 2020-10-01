@@ -115,8 +115,8 @@ function echo_comment(String $comment){
     if(isset($_POST["tag_fixed"])){
         $tag_fixed = $_POST["tag_fixed"];
         // タグのエスケープ処理
-        $tag_fixed = str_replace(",", "?cma?", $tag_fixed);
         $tag_fixed = str_replace(":", "?cln?", $tag_fixed);
+        $tag_fixed = str_replace(",", ":", $tag_fixed);
         echo $tag_fixed;
     }
     fix_comment($id, $number_fixed, $name_fixed, $book_fixed, $tag_fixed, $comment_fixed);
