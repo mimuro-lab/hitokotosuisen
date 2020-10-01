@@ -192,7 +192,7 @@ function check_comment_token(String $ID_and_token){
 
 // 既存のコメント内容を上書きする関数。第一引数には、token付きIDが入力される。
 // 成功したら上書き後のコメント内容を返す。
-function fix_comment(String $ID_and_token, String $input_number, String $input_name, String $input_book, String $tag, String $input_comment){
+function fix_comment(String $ID_and_token, String $input_number, String $input_name, String $input_book, String $input_tag, String $input_comment){
 
     $input_number = str_replace(",", "?cma?", $input_number);
     $input_name = str_replace(",", "?cma?", $input_name);
@@ -233,9 +233,7 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     if(!fopen($filename, "r") && !fopen($filename_tmp, "w")){
         return false;
     }
-    
 
-    echo $pre_content;
 
     // 修正前の要素を一時保存
     $id_pre = explode(",",$pre_content)[0];
@@ -244,7 +242,12 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
     $number_pre = explode(",",$pre_content)[3];
     $name_pre = explode(",",$pre_content)[4];
     $email_pre = explode(",",$pre_content)[5];
-    $book_pre = explode(",",$pre_content)[6];
+    $bookAndTag_pre = explode(",",$pre_content)[6];
+    $book_pre = explode(":", $bookAndTag_pre)[0];
+    $tag_pre = "";
+    if(count(explode(":", $bookAndTag_pre)) > 1){
+        $tag_pre = explode(":", $bookAndTag_pre)[1];
+    }
     $comment_pre = explode(",",$pre_content)[7];
 
     // 編集後の内容
@@ -268,10 +271,18 @@ function fix_comment(String $ID_and_token, String $input_number, String $input_n
 
     // book
     if($input_book != ""){
-        $fixed_content .= $input_book.",";
+        $fixed_content .= $input_book;
     }else{
-        $fixed_content .= $book_pre.",";
+        $fixed_content .= $book_pre;
     }
+
+    // tag
+    if($input_tag != ""){
+        $fixed_content .= ":".$input_tag.",";
+    }else{
+        $fixed_content .= ":".$tag_pre.",";
+    }
+
     // comment
     if($input_comment != ""){
         $fixed_content .= $input_comment.",";
