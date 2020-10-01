@@ -2,7 +2,7 @@
 
 function showForm(String $token){
     echo "<form action=\"added_comment.php?token=".$token."\" method=\"post\">";
-    echo <<<END
+    echo '
     <div>
         <label for="number">学籍番号<br></label>
         <input type="text" id="number" name="number">
@@ -20,12 +20,16 @@ function showForm(String $token){
         <input type="mail" id="book" name="book">
     </div>  
     <div>
+        <label for="tag">タグ<br></label>
+        <input type="text" id="tag" name="tag">
+    </div>
+    <div>
         <label for="comment">推薦内容<br></label>
         <textarea id="comment" name="comment"></textarea>
     </div>
         <input type="submit" value="確定する"><br>
         <select name="page">
-    END;
+    ';
 
     
     $listdir = scandir(__DIR__."\comment");
