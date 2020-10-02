@@ -32,7 +32,10 @@ function read_from_file_all(String $filename){
     $tag = str_replace($book.":", "", $bookAndTag);
     $comment = explode(",", $line)[7];
 
-    $pushLine = array($date, $book, $tag, $comment);
+    // 文字のエスケープ処理
+    $comment = str_replace("?newl?", "<br>", $comment);
+
+    $pushLine = array("date"=>$date, "book"=>$book, "tag"=>$tag, "comment"=>$comment);
 
     array_push($contentOfText, $pushLine);
 
@@ -41,9 +44,8 @@ function read_from_file_all(String $filename){
   return $contentOfText;
 }
 
-function viewDefaultComment(int $readDates, int $maxComments)
+function getViewContents(int $readDates, int $maxComments)
 {
-	
   $pathToCommentFolder = __DIR__."/./../data/comment/";
   $listOfCSV = scandir($pathToCommentFolder);
   $listTmp = array();
@@ -84,8 +86,58 @@ function viewDefaultComment(int $readDates, int $maxComments)
     array_pop($viewContentOfList);
   }
 
-  print_r($viewContentOfList);
+  return $viewContentOfList;
+}
 
+function printHTMLOfComment($listOfContents)
+{
+  
+  foreach($listOfContents as $comment){
+    echo '
+    <table border="0" width="100%">
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+      <td style="word-break: break-all;">'.$comment["book"].'</td>
+      <td style="word-break: break-all;"  align="right">'.$comment["date"].'</td>
+    </tr>
+    <tr>
+      <td style="word-break: break-all;"  colspan="2">'.$comment["comment"].'</td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    </table>  
+
+    ';
+  }
+
+}
+
+function viewDefaultComment()
+{
+  
+  // 2週間分、上限10コメント読み込む。
+  $viewContents = getViewContents(14, 10);
+  echo '
+  <table border="0" width="100%">
+  <tr>
+    <td colspan="3" align="center">
+    <h1>ひとことすいせん　閲覧ページ</
+    </td>
+  </tr>
+  <tr>
+    <td align="center">他のページへのリンク</td>
+    <td align="left" width="50%">
+  ';
+  printHTMLOfComment(($viewContents));
+  echo '
+    </td>
+    <td align="center">右側の余ったスペース</td>
+  <tr>
+  ';
+  
 }
 
 ?>
