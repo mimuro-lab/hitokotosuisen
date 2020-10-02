@@ -120,23 +120,9 @@ function viewDefaultComment()
   
   // 2週間分、上限10コメント読み込む。
   $viewContents = getViewContents(14, 10);
-  echo '
-  <table border="0" width="100%">
-  <tr>
-    <td colspan="3" align="center">
-    <h1>ひとことすいせん　閲覧ページ</
-    </td>
-  </tr>
-  <tr>
-    <td align="center">他のページへのリンク</td>
-    <td align="left" width="50%">
-  ';
+
   printHTMLOfComment(($viewContents));
-  echo '
-    </td>
-    <td align="center">右側の余ったスペース</td>
-  <tr>
-  ';
+
   
 }
 
