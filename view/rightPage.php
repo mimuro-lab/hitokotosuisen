@@ -7,4 +7,5 @@
 	</p>
 </form>
 
-<a href="http://localhost:8080/view">閲覧ページトップ</a>
+<a href="http://localhost:8080/view">閲覧ページトップ</a><br><br>
+<a href="http://localhost:8080/view?tag=___time_">最新の投稿順</a><br><br>

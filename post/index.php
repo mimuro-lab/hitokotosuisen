@@ -12,7 +12,7 @@ $scine = "default";
 $token = "";
 $userMail = "";
 $sended = "";
-if(isset($_POST["sended"]) && isset($_POST["email"])){
+if(isset($_POST["sended"]) && isset($_POST["email"]) && $_POST["email"] !== ""){
 	$scine = "sended_email";
 	$userMail = $_POST["email"];
 	$sended = $_POST["sended"];
@@ -29,6 +29,7 @@ if(isset($_GET["token"])){
 if(isset($_POST["scine"])){
 	$scine = $_POST["scine"];
 }
+
 
 ?>
 
@@ -49,7 +50,7 @@ if(isset($_POST["scine"])){
 		<tr>
 			<td width="5%"></td>
 			<td width="20%" valign="top">
-                <?php if($scine == "default"){echo file_get_contents(__DIR__."\\leftPage.php");}?>
+                <?php if($scine == "default" || $scine == "sended_email"){echo file_get_contents(__DIR__."\\leftPage.php");}?>
 			</td>
 			<td align="left" width="50%">
 				<?php

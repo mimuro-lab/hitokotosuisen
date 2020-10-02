@@ -27,6 +27,10 @@ function getTagViewContents(string $serachTag)
     $viewContentOfList =  array_merge($viewContentOfList, array_reverse(read_from_file_all($pathToCSV)));
   }
 
+  // タグが___time_だったら、全てが対称。
+  if($serachTag == "___time_"){
+    return $viewContentOfList;
+  }
   // $serachTagを含むもののみを抽出。
   $tmpContent = array();
   foreach($viewContentOfList as $content){

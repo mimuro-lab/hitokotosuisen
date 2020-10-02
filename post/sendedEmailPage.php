@@ -113,8 +113,7 @@ function sendPostMail($mail_to)
     if(!make_token_table($mail_to)){
         return "cannot make token";
     }
-    echo "kdjfals";
-
+    
     if(!sendmailToUser($mail_to)){
         return "cannot send mail";
     }

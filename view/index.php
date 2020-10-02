@@ -8,6 +8,10 @@ function printTitleLine(string $inputTag)
   if($inputTag == ""){
     return "<h4>最近の投稿</h4>";
   }
+
+  if($inputTag == "___time_"){
+    return "<h4>投稿時刻が早い順</h4>";
+  }
   
   return "<h4>キーワード".$inputTag."を含む投稿</h4>";
 
@@ -45,6 +49,8 @@ function printPageButton(string $viewTag, int $nowPage)
   $isDefaultPage = false;
   if(isset($_GET["tag"]) && $_GET["tag"] != ""){
     $viewTag = $_GET["tag"];
+  }else if(isset($_GET["stag"])){
+    $viewTag = $_GET["stag"];
   }else{
     $isDefaultPage = true;
   }
@@ -74,7 +80,7 @@ function printPageButton(string $viewTag, int $nowPage)
   // デフォルト（タグが入力されていない）ページなら、
   // コメントを上から10個表示する。
   if($isDefaultPage){
-    viewDefaultComment(14, 10);
+    viewDefaultComment(14, 5);
   }else{
     viewTagComment($viewTag, $nowPage);
   }
