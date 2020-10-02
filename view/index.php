@@ -13,6 +13,21 @@ function printTitleLine(string $inputTag)
 
 }
 
+function printPageButton(string $viewTag, int $nowPage)
+{
+  if($nowPage < 1){
+    $nowPage = 1;
+  }
+  return '
+  <form action="" method="get">
+    <input type="hidden" name="tag" value="'.$viewTag.'">
+    <button type="submit" name="page" value="'.($nowPage-1).'">前へ</button>
+    <button type="submit" name="page" value="1">検索トップ</button>
+    <button type="submit" name="page" value="'.($nowPage+1).'">次へ</button>
+  </form>
+  ';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +38,7 @@ function printTitleLine(string $inputTag)
   </head>
   <body>
   <?php
-  print_r($_GET);
+  
   // メイン処理
   // 閲覧ページの状態を表す変数
   $viewTag = "";
@@ -68,11 +83,7 @@ function printTitleLine(string $inputTag)
   </tr>
   <tr>
     <td align="center" colspan="3">
-      <form action="" method="get">
-        <input type="hidden" name="tag" value="'.$viewTag.'">
-        <button type="submit" name="page" value="'.($nowPage-1).'">前へ</button>
-        <button type="submit" name="page" value="'.($nowPage+1).'">次へ</button>
-      </form>
+    '.printPageButton($viewTag, $nowPage).'
     </td>
   </tr>
   ';
