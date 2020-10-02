@@ -40,7 +40,7 @@ require_once(__DIR__."\\tagPage.php");
   if($isDefaultPage){
     viewDefaultComment();
   }else{
-    viewTagComment();
+    viewTagComment($viewTag);
   }
 
   echo '
