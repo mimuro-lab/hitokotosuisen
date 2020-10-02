@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__."\\defaultPage.php");
+require_once(__DIR__."\\tagPage.php");
 
 ?>
 
@@ -39,7 +40,7 @@ require_once(__DIR__."\\defaultPage.php");
   if($isDefaultPage){
     viewDefaultComment();
   }else{
-
+    viewTagComment();
   }
 
   echo '

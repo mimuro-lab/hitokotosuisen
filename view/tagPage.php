@@ -1,7 +1,8 @@
 ﻿<?php
+
 require_once(__DIR__."\\utils.php");
 
-function getDefailtViewContents(int $readDates, int $maxComments)
+function getTagViewContents(int $readDates, int $maxComments)
 {
   $pathToCommentFolder = __DIR__."/./../data/comment/";
   $listOfCSV = scandir($pathToCommentFolder);
@@ -46,11 +47,12 @@ function getDefailtViewContents(int $readDates, int $maxComments)
   return $viewContentOfList;
 }
 
-function viewDefaultComment()
+
+function viewTagComment()
 {
   
   // 2週間分、上限10コメント読み込む。
-  $viewContents = getDefailtViewContents(14, 10);
+  $viewContents = getTagViewContents(14, 10);
 
   printHTMLOfComment($viewContents);
 
