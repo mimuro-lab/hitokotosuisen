@@ -2,6 +2,33 @@
 require_once(".//sendedEmailPage.php");
 require_once(".//inputPage.php");
 require_once(".//previewPage.php");
+require_once(".//postPage.php");
+
+// 変数の取得
+//print_r($_GET); echo "<br>";
+//print_r($_POST);echo "<br>";
+//print_r($_COOKIE);
+$scine = "default";
+$token = "";
+$userMail = "";
+$sended = "";
+if(isset($_POST["sended"]) && isset($_POST["email"])){
+	$scine = "sended_email";
+	$userMail = $_POST["email"];
+	$sended = $_POST["sended"];
+}	
+if(isset($_COOKIE["token"])){
+	$token = $_COOKIE["token"];
+}			
+if(isset($_GET["token"])){
+	$token = $_GET["token"];
+	$scine = "input_comment";
+}
+
+// postにscineがセットされていたら、postを優先する。
+if(isset($_POST["scine"])){
+	$scine = $_POST["scine"];
+}
 
 ?>
 
@@ -22,34 +49,11 @@ require_once(".//previewPage.php");
 		<tr>
 			<td width="5%"></td>
 			<td width="20%" valign="top">
-                <?php echo file_get_contents(__DIR__."\\leftPage.php");?>
+                <?php if($scine == "default"){echo file_get_contents(__DIR__."\\leftPage.php");}?>
 			</td>
 			<td align="left" width="50%">
 				<?php
-				//print_r($_GET); echo "<br>";
-				//print_r($_POST);echo "<br>";
-				//print_r($_COOKIE);
-				$scine = "default";
-				$token = "";
-				$userMail = "";
-				$sended = "";
 
-				if(isset($_POST["sended"]) && isset($_POST["email"])){
-					$scine = "sended_email";
-					$userMail = $_POST["email"];
-					$sended = $_POST["sended"];
-				}				
-				if(isset($_GET["token"])){
-					$token = $_GET["token"];
-					$scine = "input_comment";
-				}
-				if(isset($_COOKIE["token"])){
-					$token = $_COOKIE["token"];
-				}
-				// postにscineがセットされていたら、postを優先する。
-				if(isset($_POST["scine"])){
-					$scine = $_POST["scine"];
-				}
 				switch($scine){
 				case "default":
 					echo file_get_contents(__DIR__."\\defaultPage.php");
@@ -63,7 +67,9 @@ require_once(".//previewPage.php");
 					break;
 				case "preview_comment":
 					main_previewPage($_POST);
-					echo "確認画面です。";
+					break;
+				case "post_comment":
+					main_postPage($_COOKIE);
 					break;
 				}
 
