@@ -7,7 +7,9 @@ date_default_timezone_set('Asia/Tokyo');
 // ここでは、added_comment.phpで使用されるPHPの関数を定義する。
 
 function getSaveTag(String $originalTag){
-    return str_replace(",", ":", $originalTag);
+    $originalTag = str_replace(":", "?cln?", $originalTag);
+    $originalTag = str_replace(",", ":", $originalTag);
+    return $originalTag;
 }
 
 //　ファイルを作成する関数。
@@ -116,7 +118,6 @@ function sendmailToOwner($idOfComment){
         $email = "";
         $tag = "";
         $comment = "";
-        $page = "";
         $token = "";
         $pathToSavedCSV = "";
         $id_writed = "";
@@ -131,7 +132,6 @@ function sendmailToOwner($idOfComment){
             $tag = $_POST['book'];
             $tag = $tag . ":" . getSaveTag($_POST['tag']);
             $comment = $_POST['comment'];
-            $page = $_POST['page'];
             // 改行文字は<br>に置き換える。
             $comment = str_replace("\r\n", "<br>", $comment);
             $token = $_GET['token'];
