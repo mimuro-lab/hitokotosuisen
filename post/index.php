@@ -1,29 +1,7 @@
 ﻿<?php
 require_once(".//sendedEmailPage.php");
-
-function main_sendMail($userMail, $sended)
-{
-	if(sendPostMail($userMail)){
-		echo $userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。<br><br>';
-	}else{
-		echo sendPostMail($userMail);
-	}
-
-	// メールを再送信する。
-	if($sended == "resend"){
-		sendmailToUser($userMail);
-		echo "再送信しました。<br>";
-	}
-
-	echo '
-	<br>
-	<form action="" method="post">
-	<input type="hidden" name="sended" value="resend">
-	<input type="hidden" name="email" value="'.$userMail.'">
-	<button type="submit">メールを再送信する</button>
-	</form>
-	';
-}
+require_once(".//inputPage.php");
+require_once(".//previewPage.php");
 
 ?>
 
@@ -46,27 +24,33 @@ function main_sendMail($userMail, $sended)
 			<td width="20%" valign="top">
                 <?php echo file_get_contents(__DIR__."\\leftPage.php");?>
 			</td>
-			<td align="center" width="50%">
+			<td align="left" width="50%">
 				<?php
-				print_r($_GET);
-				print_r($_POST);
-				echo "<br><br>";
-				$scene = "default";
+				//print_r($_GET); echo "<br>";
+				//print_r($_POST);echo "<br>";
+				//print_r($_COOKIE);
+				$scine = "default";
 				$token = "";
 				$userMail = "";
 				$sended = "";
 
 				if(isset($_POST["sended"]) && isset($_POST["email"])){
-					$scene = "sended_email";
+					$scine = "sended_email";
 					$userMail = $_POST["email"];
 					$sended = $_POST["sended"];
 				}				
 				if(isset($_GET["token"])){
 					$token = $_GET["token"];
-					$scene = "input_comment";
+					$scine = "input_comment";
 				}
-
-				switch($scene){
+				if(isset($_COOKIE["token"])){
+					$token = $_COOKIE["token"];
+				}
+				// postにscineがセットされていたら、postを優先する。
+				if(isset($_POST["scine"])){
+					$scine = $_POST["scine"];
+				}
+				switch($scine){
 				case "default":
 					echo file_get_contents(__DIR__."\\defaultPage.php");
 					break;
@@ -74,7 +58,12 @@ function main_sendMail($userMail, $sended)
 					main_sendMail($userMail, $sended);
 					break;
 				case "input_comment":
-					echo "入力画面です。";
+					main_inputPage($token);
+					setcookie("token", $token, time() + 60 * 15);
+					break;
+				case "preview_comment":
+					main_previewPage($_POST);
+					echo "確認画面です。";
 					break;
 				}
 

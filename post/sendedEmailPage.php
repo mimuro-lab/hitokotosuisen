@@ -51,7 +51,7 @@ function make_token_table(String $email){
 
     // 以前このメールアドレスに対してのtokenを作成したか？
     if(read_token($email) != false){
-        //echo "同じメールアカウントに対して、複数のtokenは作りません。";
+        echo "同じメールアカウントに対して、複数のtokenは作りません。";
         return false;
     }
     $tokenAndEmail = $email.",".random(10)."\n";
@@ -60,7 +60,7 @@ function make_token_table(String $email){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        //echo "token.csvが見つかりません。(make_token_table)";
+        echo "token.csvが見つかりません。(make_token_table)";
         return false;
     }
     // ファイルを開けなかったらリターンする。
@@ -113,6 +113,7 @@ function sendPostMail($mail_to)
     if(!make_token_table($mail_to)){
         return "cannot make token";
     }
+    echo "kdjfals";
 
     if(!sendmailToUser($mail_to)){
         return "cannot send mail";
@@ -121,4 +122,27 @@ function sendPostMail($mail_to)
     return true;
 }
 
+function main_sendMail($userMail, $sended)
+{
+	if(sendPostMail($userMail)){
+		echo $userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。<br><br>';
+	}else{
+		echo sendPostMail($userMail);
+	}
+
+	// メールを再送信する。
+	if($sended == "resend"){
+		sendmailToUser($userMail);
+		echo "再送信しました。<br>";
+	}
+
+	echo '
+	<br>
+	<form action="" method="post">
+	<input type="hidden" name="sended" value="resend">
+	<input type="hidden" name="email" value="'.$userMail.'">
+	<button type="submit">メールを再送信する</button>
+	</form>
+	';
+}
 ?>

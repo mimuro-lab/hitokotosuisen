@@ -12,7 +12,8 @@ require_once(".//view//defaultPage.php")
 		<table border="0" width="100%">
 		<tr>
 			<td colspan="4" align="center">
-			<h1>ひとことすいせん　トップページ</h1>
+            <h1>ひとことすいせん</h1>
+            <h2>トップページ</h2>
 			</td>
 		</tr>
 		<tr>
