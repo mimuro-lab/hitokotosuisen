@@ -45,7 +45,7 @@ function getTagViewContents(string $serachTag)
 }
 
 
-function viewTagComment(string $viewTag)
+function viewTagComment(string $viewTag, int $page)
 {
   
   // 2週間分、上限10コメント読み込む。

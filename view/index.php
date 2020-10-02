@@ -23,6 +23,7 @@ function printTitleLine(string $inputTag)
   </head>
   <body>
   <?php
+  print_r($_GET);
   // メイン処理
   // 閲覧ページの状態を表す変数
   $viewTag = "";
@@ -31,6 +32,11 @@ function printTitleLine(string $inputTag)
     $viewTag = $_GET["tag"];
   }else{
     $isDefaultPage = true;
+  }
+  if(isset($_GET["page"])){
+    $nowPage = intval($_GET["page"]);
+  }else{
+    $nowPage = 0;
   }
 
   echo '
@@ -44,7 +50,7 @@ function printTitleLine(string $inputTag)
     <td colspan="3" align="center">'.printTitleLine($viewTag).'</td>
   </tr>
   <tr>
-    <td align="center" width="25%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
+    <td align="left" valign="top"  width="25%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
     <td align="left" width="50%">
   ';
   
@@ -53,15 +59,26 @@ function printTitleLine(string $inputTag)
   if($isDefaultPage){
     viewDefaultComment();
   }else{
-    viewTagComment($viewTag);
+    viewTagComment($viewTag, $nowPage);
   }
 
   echo '
   </td>
   <td align="center" valign="top" width="25%">'.file_get_contents(__DIR__."\\rightPage.php").'</td>
+  </tr>
   <tr>
+    <td align="center" colspan="3">
+      <form action="" method="get">
+        <input type="hidden" name="tag" value="'.$viewTag.'">
+        <button type="submit" name="page" value="'.($nowPage-1).'">前へ</button>
+        <button type="submit" name="page" value="'.($nowPage+1).'">次へ</button>
+      </form>
+    </td>
+  </tr>
   ';
 
   ?>
+
+  <
   </body>
 </html>
