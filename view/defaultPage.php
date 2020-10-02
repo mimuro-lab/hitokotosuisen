@@ -46,11 +46,11 @@ function getDefailtViewContents(int $readDates, int $maxComments)
   return $viewContentOfList;
 }
 
-function viewDefaultComment()
+function viewDefaultComment($maxDate, $maxComments)
 {
   
   // 2週間分、上限10コメント読み込む。
-  $viewContents = getDefailtViewContents(14, 10);
+  $viewContents = getDefailtViewContents($maxDate, $maxComments);
 
   printHTMLOfComment($viewContents);
 

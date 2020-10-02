@@ -57,22 +57,23 @@ function printPageButton(string $viewTag, int $nowPage)
   echo '
   <table border="0" width="100%">
   <tr>
-    <td colspan="3" align="center">
+    <td colspan="4" align="center">
     <h1>ひとことすいせん　閲覧ページ</h1>
     </td>
   </tr>
   <tr>
-    <td colspan="3" align="center">'.printTitleLine($viewTag).'</td>
+    <td colspan="4" align="center">'.printTitleLine($viewTag).'</td>
   </tr>
   <tr>
-    <td align="left" valign="top"  width="25%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
+    <td width="5%"></td>
+    <td align="left" valign="top"  width="20%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
     <td align="left" width="50%">
   ';
   
   // デフォルト（タグが入力されていない）ページなら、
   // コメントを上から10個表示する。
   if($isDefaultPage){
-    viewDefaultComment();
+    viewDefaultComment(14, 10);
   }else{
     viewTagComment($viewTag, $nowPage);
   }
@@ -82,7 +83,7 @@ function printPageButton(string $viewTag, int $nowPage)
   <td align="center" valign="top" width="25%">'.file_get_contents(__DIR__."\\rightPage.php").'</td>
   </tr>
   <tr>
-    <td align="center" colspan="3">
+    <td align="center" colspan="4">
     '.printPageButton($viewTag, $nowPage).'
     </td>
   </tr>
