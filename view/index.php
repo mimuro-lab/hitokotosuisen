@@ -3,6 +3,16 @@
 require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
 
+function printTitleLine(string $inputTag)
+{
+  if($inputTag == ""){
+    return "<h4>最近の投稿</h4>";
+  }
+  
+  return "<h4>キーワード".$inputTag."を含む投稿</h4>";
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +37,11 @@ require_once(__DIR__."\\tagPage.php");
   <table border="0" width="100%">
   <tr>
     <td colspan="3" align="center">
-    <h1>ひとことすいせん　閲覧ページ</
+    <h1>ひとことすいせん　閲覧ページ</h1>
     </td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">'.printTitleLine($viewTag).'</td>
   </tr>
   <tr>
     <td align="center" width="25%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
