@@ -1,17 +1,17 @@
-<?php
+﻿<?php
 
 //とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
 // 発行したtokenをURLにくっつける
 function sendmailToUser($mail_user){
 
     if(read_token($mail_user) == false){
-        echo "メールアドレスに対応するtokenを見つけられなかったので、メールを送信できませんでした。<br>";
+        //echo "メールアドレスに対応するtokenを見つけられなかったので、メールを送信できませんでした。<br>";
         return false;
     }
 
     // メールアドレスにマッチするtokenを取得する。
     $token = str_getcsv(read_token($mail_user))[1];
-    echo "<br>".$token."<br>";
+    //echo "<br>".$token."<br>";
 
     $mail_from      = 'hitokotosuisen@gmail.com';
     
@@ -23,12 +23,13 @@ function sendmailToUser($mail_user){
     $headers .= "Content-type: text/html;charset=UTF-8";
     
     // メッセージ部分
-    $message = "
-    ひとことすいせんに参加して頂き、ありがとうございます。
-    以下のリンクをクリックして、投稿画面へとお進みください。
-    
-    <a href = \"http://localhost:8080/data/add_comment.php?token=".$token."\">投稿しに行く</a>
-    ";
+    $message = '
+    ひとことすいせんに参加して頂き、ありがとうございます。<br>
+    以下のリンクをクリックして、投稿用画面へおすすみください。<br><br>
+
+    <a href = "http://localhost:8080/post/?token='.$token.'">投稿しに行く</a>
+    <br>
+    ';
 
     if(mail($mail_user, $subject, $message, $headers)){
         return true;
@@ -50,17 +51,17 @@ function make_token_table(String $email){
 
     // 以前このメールアドレスに対してのtokenを作成したか？
     if(read_token($email) != false){
-        echo "同じメールアカウントに対して、複数のtokenは作りません。";
+        //echo "同じメールアカウントに対して、複数のtokenは作りません。";
         return false;
     }
     $tokenAndEmail = $email.",".random(10)."\n";
 
-    $pathToToken = __DIR__."/data/token.csv";
+    $pathToToken = __DIR__."/../data/token.csv";
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。";
-        return;
+        //echo "token.csvが見つかりません。(make_token_table)";
+        return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "a")){
@@ -76,16 +77,16 @@ function make_token_table(String $email){
 
 // tokenを取得する。emailにマッチするtokenを返す関数。
 function read_token(String $email){
-    $pathToToken = __DIR__."/data/token.csv";
+    $pathToToken = __DIR__."/../data/token.csv";
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。";
+        //echo "token.csvが見つかりません。(read_token)";
         return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "a")){
-        echo "token.csvを開けませんでした。";
+        //echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -101,11 +102,13 @@ function read_token(String $email){
         }
     }
 
-    echo "メールアカウントに対するtokenを見つけられませんでした。";
+    //echo "メールアカウントに対するtokenを見つけられませんでした。";
     return false;
 }
 
-function sendMailToPost($mail_to){
+// 以下、本文
+function sendPostMail($mail_to)
+{
 
     if(!make_token_table($mail_to)){
         return "cannot make token";
@@ -116,7 +119,6 @@ function sendMailToPost($mail_to){
     }
 
     return true;
-
 }
 
 ?>

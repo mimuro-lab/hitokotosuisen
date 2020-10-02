@@ -58,7 +58,8 @@ function printPageButton(string $viewTag, int $nowPage)
   <table border="0" width="100%">
   <tr>
     <td colspan="4" align="center">
-    <h1>ひとことすいせん　閲覧ページ</h1>
+    <h1>ひとことすいせん</h1>
+    <h2>閲覧ページ</h2>
     </td>
   </tr>
   <tr>
