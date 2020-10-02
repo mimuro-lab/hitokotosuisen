@@ -5,7 +5,6 @@
 		<input type="hidden" name="page" value="1">
 		<input type="submit" value="検索">
 	</p>
-	<p>
-		<input type="submit" value="最近の投稿に戻る">
-	</p>
 </form>
+
+<a href="http://localhost:8080/view">閲覧ページトップ</a>

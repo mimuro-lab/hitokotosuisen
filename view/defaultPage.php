@@ -30,7 +30,7 @@ function getDefailtViewContents(int $readDates, int $maxComments)
       break;
     }
     $pathToCSV = __DIR__."\\..\\data\\comment\\".$CSV;
-    $viewContentOfList =  array_merge($viewContentOfList, read_from_file_all($pathToCSV));
+    $viewContentOfList =  array_merge($viewContentOfList, array_reverse(read_from_file_all($pathToCSV)));
     // 読み込むコメント数を上回ったらbreak
     if(count($viewContentOfList) > $maxComments){
       $diff_len = count($viewContentOfList) - $maxComments;

@@ -85,7 +85,11 @@ function printPageButton(string $viewTag, int $nowPage)
   </tr>
   <tr>
     <td align="center" colspan="4">
-    '.printPageButton($viewTag, $nowPage).'
+  ';
+  if(!$isDefaultPage){ 
+    echo printPageButton($viewTag, $nowPage);
+  }
+  echo '
     </td>
   </tr>
   ';

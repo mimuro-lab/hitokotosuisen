@@ -24,7 +24,7 @@ function getTagViewContents(string $serachTag)
   // 作成日が新しいCSVファイルから読み込む。すべて。
   foreach($viewListOfCSV as $CSV){
     $pathToCSV = __DIR__."\\..\\data\\comment\\".$CSV;
-    $viewContentOfList =  array_merge($viewContentOfList, read_from_file_all($pathToCSV));
+    $viewContentOfList =  array_merge($viewContentOfList, array_reverse(read_from_file_all($pathToCSV)));
   }
 
   // $serachTagを含むもののみを抽出。
