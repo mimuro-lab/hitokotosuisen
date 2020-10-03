@@ -228,6 +228,8 @@ function delete_cookie()
 function main_postPage($cookie)
 {
     
+    $sccess = false;
+
     $number = "";
     $name = "";
     $email = "";
@@ -256,6 +258,7 @@ function main_postPage($cookie)
         $token = $cookie['token'];
     }else{
         //echo "変数がどれか受信できませんでした。";
+        $sccess = false;
     }
     // ただしいtokenを持っていたときのみに、ファイル処理をする。
     if(get_email($token) != false){
@@ -265,12 +268,14 @@ function main_postPage($cookie)
         $pathToSaveFile = $pathToSaveFolder."\\".$today.".csv";
         if(!make_file($pathToSaveFile, $token)){
             //echo "ファイルの作成を行いませんでした。<br>";
+            $sccess = false;
         }
         $writed_result = write_to_file($pathToSaveFile, $number, $name, $email, $tag, $comment, $token);
         $id_writed = $writed_result[0];
         $token_writed = $writed_result[1];
         if($id_writed != false){
             //echo "ファイルに書き込みを行ました。(id:".$id_writed.", token:".$token_writed.")<br>";
+            $sccess = true;
         }
         $pathToSavedCSV = $pathToSaveFile;
     }
@@ -282,14 +287,25 @@ function main_postPage($cookie)
     delete_token($token);
     delete_cookie();
 
-    echo '
-    <table border="1" width="100%">
-    <tr><td align="center">
-    投稿は完了しました。<br>
-    <a href="http://localhost:8080">トップページへ戻る</a>
-    </td></tr>
-    </table>
-    ';
+    if($sccess){
+        echo '
+        <table border="1" width="100%">
+        <tr><td align="center">
+        投稿は完了しました。<br>
+        <a href="http://localhost:8080">トップページへ戻る</a>
+        </td></tr>
+        </table>
+        ';
+    }else if(!$sccess){
+        echo '
+        <table border="1" width="100%">
+        <tr><td align="center">
+        投稿できませんでした。最初からやり直してください。<br>
+        <a href="http://localhost:8080">トップページへ戻る</a>
+        </td></tr>
+        </table>
+        ';
+    }
 
 }
 

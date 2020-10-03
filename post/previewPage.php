@@ -48,7 +48,9 @@ function printButton($next)
 
 function printPreview($post)
 {
-    $post["comment"] = str_replace("\r\n", "<br>", $post["comment"]);
+    $post["comment"] = str_replace("\r\n", "?newl?", $post["comment"]);
+    $post["comment"] = htmlspecialchars($post["comment"]);
+    $post["comment"] = str_replace("?newl?", "<br>", $post["comment"]);
 
     $number = false;
     $name = false;
