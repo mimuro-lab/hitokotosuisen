@@ -28,6 +28,7 @@ function showForm(string $token, string $email){
     echo '
     <form action="." method="post">
         <input type="hidden" name="email" value="'.$email.'">
+        <input type="hidden" name="token" value="'.$token.'">
         <input type="hidden" name="scine" value="preview_comment">
         <label for="number">〇学籍番号　　　　</label>
         <input type="text" id="number" name="number" value="'.$pre_number.'">

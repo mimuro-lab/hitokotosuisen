@@ -57,16 +57,16 @@ function printPreviewFromID($comment)
     <table width="100%">
     <tr><td colspan="2"><hr></td></tr>
     <tr>
-        <td align="center">〇学籍番号</td><td align="center">'.$comment["number"].'</td>
+        <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$comment["number"].'</td>
     </tr>
     <tr>
-        <td align="center">〇名　前　</td><td align="center">'.$comment["name"].'</td>
+        <td width="50%" align="center">〇名　前　</td><td width="50%" align="center">'.$comment["name"].'</td>
     </tr>
     <tr>
-        <td align="center">〇推薦する本の名前</td><td align="center">'.$comment["tag"][0].'</td>
+        <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["tag"][0].'</td>
     </tr>
     <tr>
-        <td align="center">〇タグ</td><td align="center">';
+        <td width="50%" align="center">〇タグ</td><td width="50%" align="center">';
     
     // タグを全て表示する
     if(count($comment["tag"])===1){
@@ -83,7 +83,7 @@ function printPreviewFromID($comment)
         <td align="center" colspan="2">〇推薦内容</td>
     </tr>
     <tr>
-        <td>'.$comment["comment"].'</td>
+        <td colspan="2">'.$comment["comment"].'</td>
     </tr>
     <tr><td colspan="2"><hr></td></tr>
     </table>

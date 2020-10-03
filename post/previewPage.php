@@ -11,7 +11,7 @@ function isSetAll($post)
     return false;
 }
 
-function printButton($next)
+function printButton($next, $post)
 {
     //入力画面へ戻るボタンと、確定ボタン
     echo '
@@ -30,7 +30,15 @@ function printButton($next)
     if($next){
     echo '
     <form action="" method="post">
-        <input type="hidden" name="scine" value="post_comment">　
+        <input type="hidden" name="scine" value="post_comment">
+        <input type="hidden" name="email" value="'.$post["email"].'">
+        <input type="hidden" name="number" value="'.$post["number"].'">
+        <input type="hidden" name="name" value="'.$post["name"].'">
+        <input type="hidden" name="book" value="'.$post["book"].'">
+        <input type="hidden" name="tag" value="'.$post["tag"].'">
+        <input type="hidden" name="comment" value="'.$post["comment"].'">
+        <input type="hidden" name="token" value="'.$post["token"].'">
+        　
         <button type="submit">確定する</button>
     </form>
     ';
@@ -159,7 +167,7 @@ function main_previewPage($post){
     }
 
     $next = printPreview($post);
-    printButton($next);
+    printButton($next, $post);
 
 }
 

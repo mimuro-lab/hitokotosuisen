@@ -17,13 +17,13 @@ function make_file(String $filename, String $token){
     
     // 正しいtokenを持っていなかったらリターンする
     if(get_email($token) == false){
-        //echo "有効なtokenが受信できませんでした。<br>";
+        echo "有効なtokenが受信できませんでした。<br>";
         return false;
     }
 
     // ファイルが既に存在していたらリターンする。
     if(file_exists($filename)){
-        //echo "すでにファイル".$filename."は存在しています。（新たに作成はしませんでした）<br>";
+        echo "すでにファイル".$filename."は存在しています。（新たに作成はしませんでした）<br>";
         return false;
     }
 
@@ -41,7 +41,7 @@ function make_file(String $filename, String $token){
 function getID_recent($filename){
     // ファイルがなかったらリターンする。
     if(!file_exists($filename)){
-        //echo "ファイル".$filename."が存在しませんでした。よって、処理を行いませんでした";
+        echo "ファイル".$filename."が存在しませんでした。よって、処理を行いませんでした";
         return false;
     }
 
@@ -73,12 +73,12 @@ function delete_token(String $token){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        //echo "token.csvが見つかりません。(delete_token)".$pathToToken;
+        echo "token.csvが見つかりません。(delete_token)".$pathToToken;
         return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "r")){
-        //echo "token.csvを開けませんでした。";
+        echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -112,13 +112,13 @@ function write_to_file(String $filename, String $number, String $name, String $e
 
     // 正しいtokenを持っていなかったらリターンする
     if(get_email($token) == false){
-        //echo "有効なtokenが受信できませんでした。<br>";
+        echo "有効なtokenが受信できませんでした。<br>";
         return false;
     }
 
     // ファイルがなかったらリターンする。
     if(!file_exists($filename)){
-        //echo "ファイル".$filename."が存在しませんでした。よって、書き込み処理を行いませんでした";
+        echo "ファイル".$filename."が存在しませんでした。よって、書き込み処理を行いませんでした";
         return false;
     }
 
@@ -140,7 +140,7 @@ function write_to_file(String $filename, String $number, String $name, String $e
     // コメント内の" <br> "は　"?newl?"　に置き換える（htmlspecialcharsを回避）
     $comment = str_replace("<br>", "?newl?", $comment);
     $comment = htmlspecialchars($comment);
-    //echo $comment;
+    echo $comment;
     $writeOfContent .= $comment;
     $writeOfContent .= ",\n";
 
@@ -227,7 +227,7 @@ function delete_cookie()
 
 function main_postPage($cookie)
 {
-    
+    print_r($cookie);
     $sccess = false;
 
     $number = "";
@@ -257,7 +257,7 @@ function main_postPage($cookie)
         $comment = str_replace("\r\n", "<br>", $comment);
         $token = $cookie['token'];
     }else{
-        //echo "変数がどれか受信できませんでした。";
+        echo "変数がどれか受信できませんでした。";
         $sccess = false;
     }
     // ただしいtokenを持っていたときのみに、ファイル処理をする。
@@ -267,14 +267,14 @@ function main_postPage($cookie)
         $pathToSaveFolder = __DIR__."\\..\\data\\comment\\";
         $pathToSaveFile = $pathToSaveFolder."\\".$today.".csv";
         if(!make_file($pathToSaveFile, $token)){
-            //echo "ファイルの作成を行いませんでした。<br>";
+            echo "ファイルの作成を行いませんでした。<br>";
             $sccess = false;
         }
         $writed_result = write_to_file($pathToSaveFile, $number, $name, $email, $tag, $comment, $token);
         $id_writed = $writed_result[0];
         $token_writed = $writed_result[1];
         if($id_writed != false){
-            //echo "ファイルに書き込みを行ました。(id:".$id_writed.", token:".$token_writed.")<br>";
+            echo "ファイルに書き込みを行ました。(id:".$id_writed.", token:".$token_writed.")<br>";
             $sccess = true;
         }
         $pathToSavedCSV = $pathToSaveFile;

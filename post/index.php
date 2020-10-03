@@ -6,7 +6,7 @@ require_once(".//postPage.php");
 
 // 変数の取得
 //print_r($_GET); echo "<br>";
-//print_r($_POST);echo "<br>";
+print_r($_POST);echo "<br>";
 //print_r($_COOKIE);
 $scine = "default";
 $token = "";
@@ -70,7 +70,7 @@ if(isset($_POST["scine"])){
 					main_previewPage($_POST);
 					break;
 				case "post_comment":
-					main_postPage($_COOKIE);
+					main_postPage($_POST);
 					break;
 				}
 
