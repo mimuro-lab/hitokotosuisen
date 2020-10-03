@@ -23,6 +23,8 @@ require_once(".//view//defaultPage.php")
 				<a href="./view">閲覧ページへ</a>
 				<br><br>
 				<a href="./post">投稿ページへ</a>
+				<br><br>
+				<a href="./edit">編集ページへ</a>
 			</td>
 			<td align="center" width="50%">最近の投稿<?php viewDefaultComment(7, 5);?></td>
 			<td width="25%"></td>
