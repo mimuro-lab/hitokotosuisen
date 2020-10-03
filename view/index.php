@@ -101,7 +101,6 @@ function printPageButton(string $viewTag, int $nowPage)
   ';
 
   ?>
-
-  <
+  
   </body>
 </html>

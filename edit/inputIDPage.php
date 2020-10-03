@@ -1,6 +1,6 @@
 ﻿<?php
 
-function printButton($canFind)
+function printButton($canFind, $comment, $ID)
 {
     echo'
     <table width="100%">
@@ -12,7 +12,22 @@ function printButton($canFind)
     ';
     if($canFind){
         echo '
-            <form action="" method="post"><input type="hidden" name="scene" value="default"><button type="submit">このコメントを編集する</button></form>
+            <form action="" method="post">
+            <input type="hidden" name="scene" value="edit_comment">
+            <input type="hidden" name="ID" value="'.$ID.'">
+            <input type="hidden" name="number" value="'.$comment["number"].'">
+            <input type="hidden" name="name" value="'.$comment["name"].'">
+            <input type="hidden" name="email" value="'.$comment["email"].'">
+            <input type="hidden" name="tag" value="';
+        
+        foreach($comment["tag"] as $tag){
+            echo $tag.":";
+        }
+
+        echo '">
+            <input type="hidden" name="comment" value="'.$comment["comment"].'">
+            <button type="submit">このコメントを編集する</button>
+            </form>
         ';
     }
     echo '            
@@ -137,7 +152,7 @@ function main_inputID($ID)
         printPreviewFromID($comment);
     }
 
-    printButton($canFind);
+    printButton($canFind, $comment, $ID);
 
 }
 

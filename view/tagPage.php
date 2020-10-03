@@ -8,7 +8,7 @@ function getTagViewContents(string $serachTag)
   $listOfCSV = scandir($pathToCommentFolder);
   $listTmp = array();
   foreach($listOfCSV as $path){
-    if($path != "." && $path != ".."){
+    if($path != "." && $path != ".." && $path !== "fix_tmp.csv"){
       array_push($listTmp, $path);
     } 
   }

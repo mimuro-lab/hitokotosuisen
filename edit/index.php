@@ -1,15 +1,18 @@
 ﻿<?php
 
 require_once(".//inputIDPage.php");
+require_once(".//editPage.php");
+require_once(".//previewPage.php");
+require_once(".//repostPage.php");
 
 // 変数の取得
 if(!isset($_POST["scene"])){
 	$_POST["scene"] = "default";
 }
 
-print_r($_GET); echo "<br>";
-print_r($_POST);echo "<br>";
-print_r($_COOKIE);
+//print_r($_GET); echo "<br>";
+//print_r($_POST);echo "<br>";
+//print_r($_COOKIE);
 
 ?>
 
@@ -42,15 +45,14 @@ print_r($_COOKIE);
 				case "input_ID":
 					main_inputID($_POST["ID"]);
 					break;
-				case "input_comment":
-					main_inputPage($token);
-					setcookie("token", $token, time() + 60 * 15);
+				case "edit_comment":
+					main_editPage($_POST);
 					break;
 				case "preview_comment":
 					main_previewPage($_POST);
 					break;
 				case "post_comment":
-					main_postPage($_COOKIE);
+					main_postPage($_POST);
 					break;
 				}
 
