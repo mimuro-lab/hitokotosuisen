@@ -20,7 +20,8 @@ function printButton($next, $post)
     
     <td align="left">
     <form action="" method="post">
-        <input type="hidden" name="scine" value="input_comment">
+        <input type="hidden" name="scene" value="input_comment">
+        <input type="hidden" name="token" value="'.$post["token"].'">
         <button type="submit">　戻る　</button>
     </form>
     </td>
@@ -28,20 +29,21 @@ function printButton($next, $post)
     <td align="right">
     ';
     if($next){
-    echo '
-    <form action="" method="post">
-        <input type="hidden" name="scine" value="post_comment">
-        <input type="hidden" name="email" value="'.$post["email"].'">
-        <input type="hidden" name="number" value="'.$post["number"].'">
-        <input type="hidden" name="name" value="'.$post["name"].'">
-        <input type="hidden" name="book" value="'.$post["book"].'">
-        <input type="hidden" name="tag" value="'.$post["tag"].'">
-        <input type="hidden" name="comment" value="'.$post["comment"].'">
-        <input type="hidden" name="token" value="'.$post["token"].'">
-        　
-        <button type="submit">確定する</button>
-    </form>
-    ';
+        $send_comment = htmlspecialchars($post["comment"]);
+        echo '
+        <form action="" method="post">
+            <input type="hidden" name="scene" value="post_comment">
+            <input type="hidden" name="email" value="'.$post["email"].'">
+            <input type="hidden" name="number" value="'.$post["number"].'">
+            <input type="hidden" name="name" value="'.$post["name"].'">
+            <input type="hidden" name="book" value="'.$post["book"].'">
+            <input type="hidden" name="tag" value="'.$post["tag"].'">
+            <input type="hidden" name="comment" value="'.$send_comment.'">
+            <input type="hidden" name="token" value="'.$post["token"].'">
+            　
+            <button type="submit">確定する</button>
+        </form>
+        ';
     }
 
     echo '

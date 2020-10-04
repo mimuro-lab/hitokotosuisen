@@ -27,9 +27,9 @@ function showForm(string $token, string $email){
     }
     echo '
     <form action="." method="post">
-        <input type="hidden" name="email" value="'.$email.'">
-        <input type="hidden" name="token" value="'.$token.'">
-        <input type="hidden" name="scine" value="preview_comment">
+    <table width="100%">
+    <tr>
+    <td>
         <label for="number">〇学籍番号　　　　</label>
         <input type="text" id="number" name="number" value="'.$pre_number.'">
         <label for="name"><br>〇名　前　　　　　</label>
@@ -39,14 +39,26 @@ function showForm(string $token, string $email){
         <label for="tag"><br>〇タ　グ　　　　　</label>
         <input type="text" id="tag" name="tag" value="'.$pre_tag.'">
         <label for="comment"><br><br>〇推薦内容<br></label>
-        <textarea id="comment" name="comment"  rows="20" cols="70">'.$pre_comment.'</textarea>
+        <textarea id="comment" name="comment"  rows="20" cols="100">'.$pre_comment.'</textarea>
         <br>
-        <table width="100%">
-        <tr><td align="center">
-            <input type="submit" value="プレビュー画面へ行く">
-        </td></tr>
-        </table>
-    </form>';
+    </td>
+    </tr>
+    </table>
+    <table width="100%">
+        <tr>
+            <td align="left">
+
+            </td>
+            <td align="right">
+                <input type="hidden" name="email" value="'.$email.'">
+                <input type="hidden" name="token" value="'.$token.'">
+                <input type="hidden" name="scene" value="preview_comment">
+                <input type="submit" value="プレビュー画面へ行く">
+            </td>
+        </tr>
+    </table>
+    </form>
+    ';
 
 }
 
@@ -55,6 +67,11 @@ function main_inputPage($token){
     if(get_email($token) != false){
         echo "ようこそ、".get_email($token)."さん。<br>以下の項目を全て入力してください。<br><br>";
         showForm($token, get_email($token));
+    }else{
+        echo '
+        無効なURLを受け取りました。<br>
+        もう一度最初からやり直してください。<br>
+        ';
     }
 }
 

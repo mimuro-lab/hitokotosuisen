@@ -3,31 +3,26 @@ require_once(".//sendedEmailPage.php");
 require_once(".//inputPage.php");
 require_once(".//previewPage.php");
 require_once(".//postPage.php");
+require_once(".//quitPage.php");
 
 // 変数の取得
-//print_r($_GET); echo "<br>";
-print_r($_POST);echo "<br>";
-//print_r($_COOKIE);
-$scine = "default";
+print_r($_GET); echo "<br>";
+print_r($_POST); echo "<br>";
+print_r($_COOKIE); echo "<br>";
+$scene = "default";
 $token = "";
 $userMail = "";
-$sended = "";
-if(isset($_POST["sended"]) && isset($_POST["email"]) && $_POST["email"] !== ""){
-	$scine = "sended_email";
-	$userMail = $_POST["email"];
-	$sended = $_POST["sended"];
-}	
-if(isset($_COOKIE["token"])){
-	$token = $_COOKIE["token"];
-}			
+
 if(isset($_GET["token"])){
 	$token = $_GET["token"];
-	$scine = "input_comment";
+	$scene = "input_comment";
+}else if(isset($_POST["token"])){
+	$token = $_POST["token"];
 }
 
 // postにscineがセットされていたら、postを優先する。
-if(isset($_POST["scine"])){
-	$scine = $_POST["scine"];
+if(isset($_POST["scene"])){
+	$scene = $_POST["scene"];
 }
 
 
@@ -42,7 +37,7 @@ if(isset($_POST["scine"])){
   <body>  
 		<table border="0" width="100%">
 		<tr>
-			<td colspan="4" align="center">
+			<td colspan="5" align="center">
             <h1>ひとことすいせん</h1>
             <h2>投稿ページ</h2>
 			</td>
@@ -50,17 +45,20 @@ if(isset($_POST["scine"])){
 		<tr>
 			<td width="5%"></td>
 			<td width="20%" valign="top">
-                <?php if($scine == "default" || $scine == "sended_email"){echo file_get_contents(__DIR__."\\leftPage.php");}?>
+				<?php
+				if($scene == "default"){
+					echo file_get_contents(__DIR__."\\leftPage.php");
+				}?>
 			</td>
 			<td align="left" width="50%">
 				<?php
 
-				switch($scine){
+				switch($scene){
 				case "default":
 					echo file_get_contents(__DIR__."\\defaultPage.php");
 					break;
 				case "sended_email":
-					main_sendMail($userMail, $sended);
+					main_sendMail($_POST);
 					break;
 				case "input_comment":
 					main_inputPage($token);
@@ -72,11 +70,21 @@ if(isset($_POST["scine"])){
 				case "post_comment":
 					main_postPage($_POST);
 					break;
+				case "quit_post":
+					main_quitPage($_POST);
+					break;
 				}
 
 				?>
 			</td>
-			<td width="25%"></td>
+			<td width="5%"></td>
+			<td width="20%" valign="top">
+			<br>
+			<?php
+			if($scene == "sended_email" || $scene == "input_comment" || $scene == "preview_comment"){
+				require_once(".//rightPage.php");
+			}?>
+			</td>
 		</tr>
 		</table>
 	</body>

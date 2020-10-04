@@ -225,9 +225,9 @@ function delete_cookie()
     setcookie("token", "", time() - 1800);
 }
 
-function main_postPage($cookie)
+function main_postPage($post)
 {
-    print_r($cookie);
+    print_r($post);
     $sccess = false;
 
     $number = "";
@@ -241,21 +241,21 @@ function main_postPage($cookie)
     $token_writed = "";
     $today = "";
     // もし、変数がすべて送信されていたら
-    if(isset($cookie['number']) && 
-       isset($cookie['name']) &&
-       isset($cookie['email']) && 
-       isset($cookie['book']) && 
-       isset($cookie['tag']) &&
-       isset($cookie['token'])){
-        $number = $cookie['number'];
-        $name = $cookie['name'];
-        $email = $cookie['email'];
-        $tag = $cookie['book'];
-        $tag = $tag . ":" . getSaveTag($cookie['tag']);
-        $comment = $cookie['comment'];
+    if(isset($post['number']) && 
+       isset($post['name']) &&
+       isset($post['email']) && 
+       isset($post['book']) && 
+       isset($post['tag']) &&
+       isset($post['token'])){
+        $number = $post['number'];
+        $name = $post['name'];
+        $email = $post['email'];
+        $tag = $post['book'];
+        $tag = $tag . ":" . getSaveTag($post['tag']);
+        $comment = $post['comment'];
         // 改行文字は<br>に置き換える。
         $comment = str_replace("\r\n", "<br>", $comment);
-        $token = $cookie['token'];
+        $token = $post['token'];
     }else{
         echo "変数がどれか受信できませんでした。";
         $sccess = false;

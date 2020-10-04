@@ -5,6 +5,6 @@
 
 <form action="" method="post">
     <p><label>メールアドレス：<input type="email" name="email" size="30" maxlength="40"></label></p>
-    <input type="hidden" name="sended" value="true">
+    <input type="hidden" name="scene" value="sended_email">
     <input type="submit" value="送信">
 </form>

@@ -121,24 +121,29 @@ function sendPostMail($mail_to)
     return true;
 }
 
-function main_sendMail($userMail, $sended)
+function main_sendMail($post)
 {
+    $userMail = $post["email"];
+
 	if(sendPostMail($userMail)){
 		echo $userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。<br><br>';
 	}else{
 		echo sendPostMail($userMail);
 	}
 
-	// メールを再送信する。
-	if($sended == "resend"){
+    // メールを再送信する。
+    
+	if(isset($post["isResend"]) && $post["isResend"] == "true"){
 		sendmailToUser($userMail);
 		echo "再送信しました。<br>";
-	}
+    }
+    
 
 	echo '
 	<br>
 	<form action="" method="post">
-	<input type="hidden" name="sended" value="resend">
+    <input type="hidden" name="isResend" value="true">
+    <input type="hidden" name="scene" value="sended_email">
 	<input type="hidden" name="email" value="'.$userMail.'">
 	<button type="submit">メールを再送信する</button>
 	</form>
