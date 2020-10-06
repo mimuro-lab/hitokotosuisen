@@ -2,6 +2,46 @@
 
 date_default_timezone_set('Asia/Tokyo');
 
+
+// tokenを削除する。与えられたtokenの行を削除する。
+function delete_token(String $token){
+    $pathToToken = __DIR__."/../data/token.csv";
+
+    // token.csvがなかったらリターンする。
+    if(!file_exists($pathToToken)){
+        echo "token.csvが見つかりません。";
+        return false;
+    }
+    // ファイルを開けなかったらリターンする。
+    if(!fopen($pathToToken, "r")){
+        echo "token.csvを開けませんでした。";
+        return false;
+    }
+    $fp = fopen($pathToToken, "r");
+    $pathToTmp = __DIR__."/token_tmp.csv";
+    $fp_tmp = fopen($pathToTmp, "w");
+    
+    // 一行ずつ読み込み、tmpファイルに書き込む
+    $tokenLine = "";
+    while(!feof($fp)){
+
+        // fgetにより一行読み込み
+        $tokenLine = fgets($fp);
+        // 最後の行になったらbreak
+        if($tokenLine == ""){
+            break;
+        }   
+        if(str_getcsv($tokenLine)[1] != $token){
+            fwrite($fp_tmp, $tokenLine);
+        }
+    }
+
+    // tmpファイルの内容をtoken.csvに上書きする。
+    if(copy($pathToTmp, $pathToToken)){
+    }
+
+}
+
 function delete_cookie()
 {
     setcookie("email", "", time() - 1800);
@@ -119,7 +159,7 @@ function main_postPage($post)
     }
 
     if($success){
-
+        delete_token($post["token"]);
         echo '
         コメントIDを発行しました。<br><br>
         <h3>'.$token_comment.'</h3><br><br>
