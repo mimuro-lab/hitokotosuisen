@@ -4,47 +4,64 @@ require_once(__DIR__."\\utils.php");
 
 function getTagViewContents(string $serachTag)
 {
-  $pathToCommentFolder = __DIR__."/./../data/comment/";
-  $listOfCSV = scandir($pathToCommentFolder);
-  $listTmp = array();
-  foreach($listOfCSV as $path){
-    if($path != "." && $path != ".." && $path !== "fix_tmp.csv"){
-      array_push($listTmp, $path);
+  $pathToCommentPosted = __DIR__."/./../data/posted/";
+  $listOfFolder = scandir($pathToCommentPosted);
+  $max = 0;
+  foreach($listOfFolder as $path){
+    if((int)$path > $max){
+      $max = (int)$path;
+    }
+  }
+  $listTmp = array_fill(0, $max, "none");
+  foreach($listOfFolder as $path){
+    if($path != "." && $path != ".."){
+      $listTmp[(int)$path] = $path;
     } 
   }
-    $listOfCSV = $listTmp;
-
-  // CSVファイルのリストを取得、最新順に並べ替える。
-  $viewListOfCSV = $listOfCSV;
-  arsort($viewListOfCSV);
-
-  // 表示対象の内容を保管する配列、要素0伴ね
+  $listOfFolder = $listTmp;
+  $listOfFolder = array_reverse($listOfFolder);
+  
   $viewContentOfList = array();
 
-  // 作成日が新しいCSVファイルから読み込む。すべて。
-  foreach($viewListOfCSV as $CSV){
-    $pathToCSV = __DIR__."\\..\\data\\comment\\".$CSV;
-    $viewContentOfList =  array_merge($viewContentOfList, array_reverse(read_from_file_all($pathToCSV)));
-  }
+  //　全部たどる。
+  foreach($listOfFolder as $path){
+    if($path == "none"){
+      continue;
+    }
+    
+    $pathToFolder = $pathToCommentPosted."/".$path;
+    
+    $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
+    $contentOfTxt = explode(",", $contentOfTxt);
 
-  // タグが___time_だったら、全てが対称。
-  if($serachTag == "___time_"){
-    return $viewContentOfList;
-  }
-  // $serachTagを含むもののみを抽出。
-  $tmpContent = array();
-  foreach($viewContentOfList as $content){
-    if(strpos($content["tag"], $serachTag) !== false){
+    $isHit = false;
+    
+    if($serachTag !== "___time_"){
       
+      //tagと一致するか
+      $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
+      $contentOfTag = explode(",", $contentOfTag);
+      foreach($contentOfTag as $tag){
+        if($tag === $serachTag){
+          $isHit = true;
+        }
+      }
+      if(!$isHit){
+        continue;
+      }
     }
-    if(strpos($content["tag"], $serachTag) !== false ||
-       strpos($content["book"], $serachTag) !== false){
-      array_push($tmpContent, $content);
-    }
+
+
+
+    $OneViewContents = array();
+    $OneViewContents["book"] = $contentOfTxt[0];
+    $OneViewContents["date"] = $contentOfTxt[1];
+    $OneViewContents["comment"] = $contentOfTxt[2];
+    //print_r($viewContentOfList);
+    $viewContentOfList[] = $OneViewContents;
+    
   }
-
-  $viewContentOfList = $tmpContent;
-
+  
   return $viewContentOfList;
 }
 
