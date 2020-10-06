@@ -95,44 +95,34 @@ function printPreviewFromID($comment)
 // マッチするものがなかった場合、falseを返す。
 function get_comment_matched(String $ID_and_token){
     
-    // 3つの要素（date,lineID, token）で構成されていなかったらfalseを返す
-    if(count(explode(":",$ID_and_token)) != 3){
+    // 3つの要素（index, token）で構成されていなかったらfalseを返す
+    if(count(explode(":",$ID_and_token)) != 2){
         return false;
     }
 
-    $date = explode(":",$ID_and_token)[0];
-    $lineID = (int)explode(":",$ID_and_token)[1];
-    $token = explode(":",$ID_and_token)[2];
+    $folderIND = explode(":",$ID_and_token)[0];
+    $token_comment = explode(":",$ID_and_token)[1];
 
-    $pathToCSV = __DIR__."\\..\\data\\comment\\".$date.".csv";
-    if(!file_exists($pathToCSV)){
+    $pathToInfo = __DIR__."\\..\\data\\posted\\".$folderIND."\\info.txt";
+    if(!file_exists($pathToInfo)){
         return false;
     }
-
-    $fp = fopen($pathToCSV, "r");
-
-    // ファイルの中身を格納する変数
-    $contentOfText = "";
-    while(!feof($fp)){
-
-        // fgetにより一行読み込み
-        $contentOfText = fgets($fp);
-        if($contentOfText == ""){
-            break;
-        }
-        $nowID = (int)explode(",", $contentOfText)[0];
-        $nowToken = explode(",", $contentOfText)[1];
-        if($lineID == $nowID && $nowToken == $token){
-            $retList = array();
-            $retList["index"] = explode(",", $contentOfText)[0];
-            $retList["date"] = explode(",", $contentOfText)[2];
-            $retList["number"] = explode(",", $contentOfText)[3];
-            $retList["name"] = explode(",", $contentOfText)[4];
-            $retList["email"] = explode(",", $contentOfText)[5];
-            $retList["tag"] = explode(":",explode(",", $contentOfText)[6]);
-            $retList["comment"] = explode(",", $contentOfText)[7];
-            return $retList;
-        }
+    
+    $savedToken = file_get_contents($pathToInfo);
+    $savedToken = explode(",", $savedToken)[0];
+    echo "saved:".$savedToken."<br>".$token_comment;
+    
+    if($savedToken === $token_comment){
+        $retContent = array();
+        $infoContent = explode(",", file_get_contents($pathToInfo));
+        $retContent["name"] = $infoContent[1];
+        $retContent["number"] = $infoContent[2];
+        $retContent["email"] = $infoContent[3];
+        $pathToTag = __DIR__."\\..\\data\\posted\\".$folderIND."\\search_kwd.txt";
+        $retContent["tag"] = explode(",", file_get_contents($pathToTag));
+        $pathToView = __DIR__."\\..\\data\\posted\\".$folderIND."\\view.txt";
+        $retContent["comment"] = explode(",", file_get_contents($pathToView))[2];
+        return $retContent;
     }
     
     return false;

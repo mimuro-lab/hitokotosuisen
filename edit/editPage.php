@@ -11,6 +11,7 @@ function savePostToCookie($post)
 
 function printEditFormBack($post)
 {
+    $comment = str_replace("<br>", "\r\n", $post["comment"]);
     echo '
     <form action="." method="post">
     <table width="100%">
@@ -39,7 +40,7 @@ function printEditFormBack($post)
     <input type="hidden" name="ID" value="'.$post["ID"].'">
     <input type="hidden" name="email" value="'.$post["email"].'">
     <input type="hidden" name="name" value="'.$post["name"].'">
-    <input type="hidden" name="number" value="'.$post["number"].'">
+    <input type="hidden" name="number" value="'.$comment.'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';
