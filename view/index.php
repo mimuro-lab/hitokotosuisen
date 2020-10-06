@@ -2,6 +2,7 @@
 
 require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
+date_default_timezone_set('Asia/Tokyo');
 
 function printTitleLine(string $inputTag)
 {
@@ -80,7 +81,8 @@ function printPageButton(string $viewTag, int $nowPage)
   // デフォルト（タグが入力されていない）ページなら、
   // コメントを上から10個表示する。
   if($isDefaultPage){
-    viewDefaultComment(14, 5);
+    $recent = date('Y/m/d', strtotime('-2 week', time()));
+    viewDefaultComment($recent, 5);
   }else{
     viewTagComment($viewTag, $nowPage);
   }
