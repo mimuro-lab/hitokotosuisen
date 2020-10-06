@@ -6,9 +6,9 @@ require_once(".//postPage.php");
 require_once(".//quitPage.php");
 
 // 変数の取得
-print_r($_GET); echo "<br>";
-print_r($_POST); echo "<br>";
-print_r($_COOKIE); echo "<br>";
+//print_r($_GET); echo "<br>";
+//print_r($_POST); echo "<br>";
+//print_r($_COOKIE); echo "<br>";
 $scene = "default";
 $token = "";
 $userMail = "";

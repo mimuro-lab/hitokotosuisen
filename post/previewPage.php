@@ -15,6 +15,10 @@ function printButton($next, $post)
 {
     //入力画面へ戻るボタンと、確定ボタン
     echo '
+    <head>
+        <title>トップページ</title>
+        <meta charset="utf-8">
+    </head>
     <table width="100%">
     <tr>
     
@@ -41,7 +45,7 @@ function printButton($next, $post)
             <input type="hidden" name="comment" value="'.$send_comment.'">
             <input type="hidden" name="token" value="'.$post["token"].'">
             　
-            <button type="submit">確定する</button>
+            <button type="submit">投稿する</button>
         </form>
         ';
     }

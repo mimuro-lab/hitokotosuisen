@@ -1,218 +1,6 @@
 ﻿<?php
 
-require_once(".//utils.php");
-
 date_default_timezone_set('Asia/Tokyo');
-
-// ここでは、added_comment.phpで使用されるPHPの関数を定義する。
-
-function getSaveTag(String $originalTag){
-    $originalTag = str_replace(":", "?cln?", $originalTag);
-    $originalTag = str_replace(",", ":", $originalTag);
-    return $originalTag;
-}
-
-//　ファイルを作成する関数。
-function make_file(String $filename, String $token){
-    
-    // 正しいtokenを持っていなかったらリターンする
-    if(get_email($token) == false){
-        echo "有効なtokenが受信できませんでした。<br>";
-        return false;
-    }
-
-    // ファイルが既に存在していたらリターンする。
-    if(file_exists($filename)){
-        echo "すでにファイル".$filename."は存在しています。（新たに作成はしませんでした）<br>";
-        return false;
-    }
-
-    // touch関数でファイル作成
-    // touchが成功したらtrue、失敗したらfalse
-    if(touch($filename)){
-        // 初期IDを作成する
-        fwrite(fopen($filename,"w"), "-1,\n");
-    }
-
-}
-
-
-// 最も大きいID番号を返す関数。
-function getID_recent($filename){
-    // ファイルがなかったらリターンする。
-    if(!file_exists($filename)){
-        echo "ファイル".$filename."が存在しませんでした。よって、処理を行いませんでした";
-        return false;
-    }
-
-    $fp = fopen($filename, "r");
-    // ファイルの中身を格納する変数
-    $maxID = -1;
-
-    $contentOfText = "";
-    while(!feof($fp)){
-
-        // fgetにより一行読み込み
-        $contentOfText = fgets($fp);
-        if($contentOfText == ""){
-            break;
-        }
-        $nowID = (int)explode(",", $contentOfText)[0];
-        if($maxID < $nowID){
-            $maxID = $nowID;
-        }
-    }
-    
-    return $maxID;
-}
-
-
-// tokenを削除する。与えられたtokenの行を削除する。
-function delete_token(String $token){
-    $pathToToken = __DIR__."/../data/token.csv";
-
-    // token.csvがなかったらリターンする。
-    if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。(delete_token)".$pathToToken;
-        return false;
-    }
-    // ファイルを開けなかったらリターンする。
-    if(!fopen($pathToToken, "r")){
-        echo "token.csvを開けませんでした。";
-        return false;
-    }
-    $fp = fopen($pathToToken, "r");
-    $pathToTmp = __DIR__."/../data/token_tmp.csv";
-    $fp_tmp = fopen($pathToTmp, "w");
-    
-    // 一行ずつ読み込み、tmpファイルに書き込む
-    $tokenLine = "";
-    while(!feof($fp)){
-
-        // fgetにより一行読み込み
-        $tokenLine = fgets($fp);
-        // 最後の行になったらbreak
-        if($tokenLine == ""){
-            break;
-        }   
-        if(str_getcsv($tokenLine)[1] != $token){
-            fwrite($fp_tmp, $tokenLine);
-        }
-    }
-
-    // tmpファイルの内容をtoken.csvに上書きする。
-    if(copy($pathToTmp, $pathToToken)){
-    }
-
-}
-
-// 存在するファイルに書き込み(追記)を行う関数。
-// 成功したらID＋token_commentを返す。
-function write_to_file(String $filename, String $number, String $name, String $email, String $tag, String $comment, String $token){
-
-    // 正しいtokenを持っていなかったらリターンする
-    if(get_email($token) == false){
-        echo "有効なtokenが受信できませんでした。<br>";
-        return false;
-    }
-
-    // ファイルがなかったらリターンする。
-    if(!file_exists($filename)){
-        echo "ファイル".$filename."が存在しませんでした。よって、書き込み処理を行いませんでした";
-        return false;
-    }
-
-    // ファイルを開けなかったらリターンする。
-    if(!fopen($filename, "a")){
-        return false;
-    }
-    
-    // コメント単位のtokenを発行する。
-    $token_comment = random(10);
-
-    $fp = fopen($filename, "a");
-    $id = getID_recent($filename) + 1;
-    $date = date("Y/m/d H:i:s");
-    $writeOfContent = (String)$id. "," . (String)$token_comment. ",".$date .",". $number . "," . $name . "," . $email . ",";
-    $writeOfContent .= $tag . ",";
-    // コメント内の" , "は　"?cma?"　に置き換える（保存形式がCSVなので）
-    $comment = str_replace(",", "?cma?", $comment);
-    // コメント内の" <br> "は　"?newl?"　に置き換える（htmlspecialcharsを回避）
-    $comment = str_replace("<br>", "?newl?", $comment);
-    $comment = htmlspecialchars($comment);
-    echo $comment;
-    $writeOfContent .= $comment;
-    $writeOfContent .= ",\n";
-
-    // ファイルに書き込めなかったらリターンする。
-    if(!fwrite($fp, $writeOfContent)){
-        return false;
-    }
-    return array($id, $token_comment);
-}
-
-
-// 管理用IDから、コメントの内容を取得する関数。
-// 対応する行をそのまま返す
-function get_content($ID){
-
-    // 3つの要素（page,book,lineID）で構成されていなかったらfalseを返す
-    if(count(explode(":",$ID)) != 3){
-        return false;
-    }
-
-    $page = explode(":",$ID)[0];
-    $book = explode(":",$ID)[1];
-    $lineID = (int)explode(":",$ID)[2];
-
-    $pathToCSV = __DIR__."\\comment\\".$page."\\".$book.".csv";
-    if(!file_exists($pathToCSV)){
-        return false;
-    }
-
-    $fp = fopen($pathToCSV, "r");
-
-    // ファイルの中身を格納する変数
-    $contentOfText = "";
-    while(!feof($fp)){
-
-        // fgetにより一行読み込み
-        $contentOfText = fgets($fp);
-        if($contentOfText == ""){
-            break;
-        }
-        $nowID = (int)explode(",", $contentOfText)[0];
-        if($lineID == $nowID){
-            return $contentOfText;
-        }
-    }
-
-    return false;
-}
-
-//とりあえず、このPHPファイルが呼び出されたら送信する(失敗したらfalseを返す)
-// 発行したtokenをURLにくっつける
-function sendmailToOwner($idOfComment){
-
-    $mail_owner = 'hitokotosuisen@gmail.com';
-    
-    $subject = 'ひとことすいせん　管理用メール';
-    
-    // ヘッダー情報
-    $headers = "From: ". $mail_owner . "\r\n";
-    // htmlメールに対応させる
-    $headers .= "Content-type: text/html;charset=UTF-8";
-    
-    // メッセージ部分
-    $contentOfComment = get_content($idOfComment);
-    $message = "コメントの管理IDは、\"".$idOfComment."\"です。<br>内容は以下、<br>".$contentOfComment;
-
-    if(mail($mail_owner, $subject, $message, $headers)){
-        return true;
-    }
-    
-    return false;
-}
 
 function delete_cookie()
 {
@@ -225,9 +13,172 @@ function delete_cookie()
     setcookie("token", "", time() - 1800);
 }
 
+function sendToken($token, $email)
+{
+    echo $token.":::".$email;
+    $subject = '小山高専図書情報　ひとことすいせん係より';
+    
+    // ヘッダー情報
+    $headers = "From: ". $email . "\r\n";
+    // htmlメールに対応させる
+    $headers .= "Content-type: text/html;charset=UTF-8";
+    
+    // メッセージ部分
+    $message = '
+    コメントIDをお送りします。
+
+    <h3>'.$token.'</h3>';
+
+    if(mail($email, $subject, $message, $headers)){
+        return true;
+    }
+}
+
+// 次のコメントのフォルダ番号を取得する
+function getNextFolder()
+{
+    $rootDirOfPosted = __DIR__."\\..\\data\\posted";
+    $max = 0;
+    foreach(scandir($rootDirOfPosted) as $file){
+        if(!is_dir($rootDirOfPosted."\\".$file)){
+            continue;
+        }
+        $num = preg_replace("/[^0-9]/", "", $file);
+        if($num == ""){
+            continue;
+        }
+        $num = (int)$num;
+        if($max < $num){
+            $max = $num;
+        }
+    }
+    $nextPath = $rootDirOfPosted."\\".(string)($max + 1);
+    return $nextPath;
+}
+
+function make_info($post, $pathToFolder)
+{
+    $w = date("w");
+    $week_name = array("日", "月", "火", "水", "木", "金", "土");
+    $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
+
+    // 検索に使われるファイル（タグと、ほんのタイトル）
+    $tag = $post["tag"];
+    $book = $post["book"];
+    $tag_content = $book.",".$tag.",".$dateOfMake;
+    $tag_filePath = $pathToFolder."\\search_kwd.txt";
+    file_put_contents($tag_filePath, $tag_content);
+
+    // コメントの表示に使われるファイル
+    $comment = $post["comment"];
+    $comment = str_replace("\r\n", "<br>", $comment);   //改行をhtml形式に合わせる
+    $comment = str_replace(",", "?cma?", $comment);     //,のエスケープ処理（保存形式がCSVになるから）
+    $comment = htmlspecialchars($comment);              //htmlのエスケープ処理
+    $view_content = $book.",".$dateOfMake.",".$comment;
+    $view_filePath = $pathToFolder."\\view.txt";
+    file_put_contents($view_filePath, $view_content);
+
+    // 投稿主の情報を格納するファイル
+    $length = 10;
+    $token_comment = base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
+    $name = $post["name"];
+    $number = $post["number"];
+    $email = $post["email"];
+    $info_content = $token_comment.','.$name.','.$number.','.$email.','.$dateOfMake;
+    $info_filePath = $pathToFolder."\\info.txt";
+    file_put_contents($info_filePath, $info_content);
+
+    return $token_comment;
+}
+
 function main_postPage($post)
 {
-    print_r($post);
+    
+    session_start();session_destroy();
+
+    $success = false;
+    $token_comment = "";
+
+    //print_r($_SESSION);
+    if(!isset($_SESSION["isFirst"]))
+    {
+        $_SESSION["isFirst"] = "yes";
+    }
+    if(isset($_SESSION["isFirst"]) && $_SESSION["isFirst"] == "yes"){
+        if(isset($post["number"]) && isset($post["name"]) && isset($post["email"]) && 
+        isset($post["book"]) && isset($post["tag"]) && isset($post["comment"])){
+            $success = true;
+            // 一回目の処理
+            $pathToFolder = getNextFolder();
+            mkdir($pathToFolder);
+            $token_comment = basename($pathToFolder).":".make_info($post, $pathToFolder);
+            $_SESSION["isFirst"] = "no";
+        }
+
+    }
+
+    if($success){
+
+        echo '
+        コメントIDを発行しました。<br><br>
+        <h3>'.$token_comment.'</h3><br><br>
+        ※コメントを編集・削除するのに必要なIDです。メモしておいてください。<br><br>
+
+        '.$post["email"].' 宛てにこのコメントIDを送信しますか？<br><br>
+        <form action="" method="post">
+        <input type="hidden" name="scene" value="post_comment">
+        <input type="hidden" name="sendToken" value="true">
+        <input type="hidden" name="token_comment" value="'.$token_comment.'">
+        <input type="hidden" name="email" value="'.$post["email"].'">
+        <input type="submit" value="送信する">
+        </form>
+        ';
+        // 「トップページへ戻る」を表示する。
+        echo '
+        <table border="1" width="100%">
+        <tr><td align="center">
+        投稿は完了しました。<br>
+        <a href="http://localhost:8080">トップページへ戻る</a>
+        </td></tr>
+        </table>
+        ';
+        return;
+    }
+
+    if($post["sendToken"] == "true"){
+        sendToken($post["token_comment"], $post["email"]);
+        echo '
+        コメントIDをてに送信しました。。<br><br>
+        送信したコメントIDは以下の通りです。<br><br>
+        <h3>'.$post["token_comment"].'</h3><br><br>
+        <form action="" method="post">
+        <input type="hidden" name="scene" value="post_comment">
+        <input type="hidden" name="sendToken" value="true">
+        <input type="hidden" name="token_comment" value='.$post["token_comment"].'>
+        <input type="hidden" name="email" value="'.$post["email"].'">
+        <input type="submit" value="再送信する">
+        </form>
+        <table border="1" width="100%">
+        <tr><td align="center">
+        投稿は完了しました。<br>
+        <a href="http://localhost:8080">トップページへ戻る</a>
+        </td></tr>
+        </table>
+        ';
+        return ;
+    }
+
+    echo '
+    <table border="1" width="100%">
+    <tr><td align="center">
+    投稿できませんでした。最初からやり直してください。<br>
+    <a href="http://localhost:8080">トップページへ戻る</a>
+    </td></tr>
+    </table>
+    ';
+    return;
+
+    /*
     $sccess = false;
 
     $number = "";
@@ -306,6 +257,7 @@ function main_postPage($post)
         </table>
         ';
     }
+    */
 
 }
 
