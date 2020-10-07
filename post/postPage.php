@@ -101,6 +101,7 @@ function make_info($post, $pathToFolder)
     $w = date("w");
     $week_name = array("日", "月", "火", "水", "木", "金", "土");
     $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
+    $dateOfTag =  date("Y/m/d") . "($week_name[$w]) ";
 
     // 検索に使われるファイル（タグと、ほんのタイトル）
     $tag = $post["tag"];

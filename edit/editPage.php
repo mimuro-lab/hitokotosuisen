@@ -11,7 +11,7 @@ function savePostToCookie($post)
 
 function printEditFormBack($post)
 {
-    $comment = str_replace("<br>", "\r\n", $post["comment"]);
+    $comment = str_replace("<br>", "", $post["comment"]);
     echo '
     <form action="." method="post">
     <table width="100%">
@@ -99,7 +99,7 @@ function printEditForm($post)
 
 function main_editPage($post)
 {
-    savePostToCookie($post);
+    //savePostToCookie($post);
 
     if(!isset($_POST["back"])){
         printEditForm($post);

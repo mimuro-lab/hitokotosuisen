@@ -18,17 +18,21 @@ function printTitleLine(string $inputTag)
 
 }
 
-function printPageButton(string $viewTag, int $nowPage)
+function printPageButton(string $viewTag, int $nowPage, int $maxPage)
 {
   if($nowPage < 1){
     $nowPage = 1;
+  }
+  $nextPage = $nowPage + 1;
+  if($maxPage < $nextPage){
+    $nextPage = $maxPage;
   }
   return '
   <form action="" method="get">
     <input type="hidden" name="tag" value="'.$viewTag.'">
     <button type="submit" name="page" value="'.($nowPage-1).'">前へ</button>
     <button type="submit" name="page" value="1">検索トップ</button>
-    <button type="submit" name="page" value="'.($nowPage+1).'">次へ</button>
+    <button type="submit" name="page" value="'.$nextPage.'">次へ</button>
   </form>
   ';
 }
@@ -47,6 +51,7 @@ function printPageButton(string $viewTag, int $nowPage)
   // メイン処理
   // 閲覧ページの状態を表す変数
   $viewTag = "";
+  $maxPage = 0;
   $isDefaultPage = false;
   if(isset($_GET["tag"]) && $_GET["tag"] != ""){
     $viewTag = $_GET["tag"];
@@ -84,7 +89,7 @@ function printPageButton(string $viewTag, int $nowPage)
     $recent = date('Y/m/d', strtotime('-2 week', time()));
     viewDefaultComment($recent, 5);
   }else{
-    viewTagComment($viewTag, $nowPage);
+    $maxPage = viewTagComment($viewTag, $nowPage);
   }
 
   echo '
@@ -95,7 +100,7 @@ function printPageButton(string $viewTag, int $nowPage)
     <td align="center" colspan="4">
   ';
   if(!$isDefaultPage){ 
-    echo printPageButton($viewTag, $nowPage);
+    echo printPageButton($viewTag, $nowPage, $maxPage);
   }
   echo '
     </td>

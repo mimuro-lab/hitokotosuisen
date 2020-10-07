@@ -72,8 +72,6 @@ function viewTagComment(string $viewTag, int $page)
   // 2週間分、上限10コメント読み込む。
   $viewContents = getTagViewContents($viewTag);
 
-
-
   $numOfContents = count($viewContents);
 
   // 一ページに15個のコメントを表示する。
@@ -96,6 +94,8 @@ function viewTagComment(string $viewTag, int $page)
   $printContent = array_slice($viewContents, $startIND, 15);
   
   printHTMLOfComment($printContent);
+
+  return $maxPage;
 
 }
 

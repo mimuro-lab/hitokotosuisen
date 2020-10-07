@@ -11,6 +11,7 @@ function printButton($canFind, $comment, $ID)
         <td align="right">
     ';
     if($canFind){
+        $comment["comment"] = str_replace("<br>", "\r\n", $comment["comment"]);
         echo '
             <form action="" method="post">
             <input type="hidden" name="scene" value="edit_comment">
@@ -110,7 +111,6 @@ function get_comment_matched(String $ID_and_token){
     
     $savedToken = file_get_contents($pathToInfo);
     $savedToken = explode(",", $savedToken)[0];
-    echo "saved:".$savedToken."<br>".$token_comment;
     
     if($savedToken === $token_comment){
         $retContent = array();
