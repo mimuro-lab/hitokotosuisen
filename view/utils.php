@@ -42,6 +42,8 @@ function read_from_file_all(String $filename){
 function printHTMLOfComment($listOfContents)
 {
   foreach($listOfContents as $comment){
+    $rinkDate = substr($comment["date"], 0, 10);
+    $date = str_replace($rinkDate, "", $comment["date"]);
     echo '
     <table border="0" width="100%">
     <tr>
@@ -49,7 +51,7 @@ function printHTMLOfComment($listOfContents)
     </tr>
     <tr>
       <td style="word-break: break-all;">'.$comment["book"].'</td>
-      <td style="word-break: break-all;"  align="right">'.$comment["date"].'</td>
+      <td style="word-break: break-all;"  align="right"><a href="http://localhost:8080/view/?tag='.$rinkDate.'">'.$rinkDate.'</a>'.$date.'</td>
     </tr>
     <tr>
       <td style="word-break: break-all;"  colspan="2">'.$comment["comment"].'</td>

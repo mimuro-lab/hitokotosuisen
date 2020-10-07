@@ -101,12 +101,12 @@ function make_info($post, $pathToFolder)
     $w = date("w");
     $week_name = array("日", "月", "火", "水", "木", "金", "土");
     $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
-    $dateOfTag =  date("Y/m/d") . "($week_name[$w]) ";
+    $dateOfTag =  date("Y/m/d");
 
     // 検索に使われるファイル（タグと、ほんのタイトル）
     $tag = $post["tag"];
     $book = $post["book"];
-    $tag_content = $book.",".$tag.",".$dateOfMake;
+    $tag_content = $book.",".$tag.",".$dateOfTag;
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
     file_put_contents($tag_filePath, $tag_content);
 
