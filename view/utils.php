@@ -43,7 +43,9 @@ function printHTMLOfComment($listOfContents)
     </tr>
     <tr>
       <td style="word-break: break-all;">'.$comment["book"].'</td>
-      <td style="word-break: break-all;"  align="right"><a href="http://localhost:8080/view/?tag='.$rinkDate.'">'.$rinkDate.'</a>'.$date.'</td>
+      <td style="word-break: break-all;"  align="right"><a href="http://localhost:8080/view/?tag='.$rinkDate.'">'.$rinkDate.'</a>'.$date.'
+      INDEX:<a href="http://localhost:8080/view/?i='.$comment["index"].'">'.$comment["index"].'</a>
+      </td>
     </tr>
 
     <tr>
@@ -53,13 +55,13 @@ function printHTMLOfComment($listOfContents)
     ';
 
     foreach($comment["tag"] as $tag){
-      echo '<a href="http://localhost:8080/view/?tag='.$tag.'">'.$tag.'</a><br>';
+      echo '<a href="http://localhost:8080/view/?tag='.$tag.'">'.$tag.'</a>&nbsp;';
     }
 
     echo '
   </td></tr>
     <tr>
-      <td align="right" colspan="2">INDEX:<a href="http://localhost:8080/view/?i='.$comment["index"].'">'.$comment["index"].'</a></td>
+      <td align="right" colspan="2"></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
