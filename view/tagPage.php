@@ -35,6 +35,9 @@ function getTagViewContents(string $serachTag)
     $contentOfTxt = explode(",", $contentOfTxt);
     $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
     $contentOfTagFix = explode(",", $contentOfTagFix);
+    $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
+    $contentOfTag = explode(",", $contentOfTag);
+    
     $isHit = false;
     
     if($serachTag !== "___time_"){
@@ -57,6 +60,7 @@ function getTagViewContents(string $serachTag)
     $OneViewContents["date"] = $contentOfTxt[1];
     $OneViewContents["comment"] = $contentOfTxt[2];
     $OneViewContents["index"] = $contentOfTagFix[0];
+    $OneViewContents["tag"] = $contentOfTag;
     //print_r($viewContentOfList);
     $viewContentOfList[] = $OneViewContents;
     

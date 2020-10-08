@@ -45,9 +45,19 @@ function printHTMLOfComment($listOfContents)
       <td style="word-break: break-all;">'.$comment["book"].'</td>
       <td style="word-break: break-all;"  align="right"><a href="http://localhost:8080/view/?tag='.$rinkDate.'">'.$rinkDate.'</a>'.$date.'</td>
     </tr>
+
     <tr>
       <td style="word-break: break-all;"  colspan="2">'.getPreviewComment($comment["comment"], 3).'</td>
     </tr>
+    <tr><td colspan="2" align="right">関連するタグ<br>
+    ';
+
+    foreach($comment["tag"] as $tag){
+      echo '<a href="http://localhost:8080/view/?tag='.$tag.'">'.$tag.'</a><br>';
+    }
+
+    echo '
+  </td></tr>
     <tr>
       <td align="right" colspan="2">INDEX:<a href="http://localhost:8080/view/?i='.$comment["index"].'">'.$comment["index"].'</a></td>
     </tr>
