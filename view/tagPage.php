@@ -33,7 +33,8 @@ function getTagViewContents(string $serachTag)
     
     $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
     $contentOfTxt = explode(",", $contentOfTxt);
-
+    $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
+    $contentOfTagFix = explode(",", $contentOfTagFix);
     $isHit = false;
     
     if($serachTag !== "___time_"){
@@ -51,12 +52,11 @@ function getTagViewContents(string $serachTag)
       }
     }
 
-
-
     $OneViewContents = array();
     $OneViewContents["book"] = $contentOfTxt[0];
     $OneViewContents["date"] = $contentOfTxt[1];
     $OneViewContents["comment"] = $contentOfTxt[2];
+    $OneViewContents["index"] = $contentOfTagFix[0];
     //print_r($viewContentOfList);
     $viewContentOfList[] = $OneViewContents;
     

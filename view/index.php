@@ -20,6 +20,7 @@ function printTitleLine(string $inputTag)
 
 function printPageButton(string $viewTag, int $nowPage, int $maxPage)
 {
+  
   if($nowPage < 1){
     $nowPage = 1;
   }
@@ -27,10 +28,14 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   if($maxPage < $nextPage){
     $nextPage = $maxPage;
   }
+  $backPage = $nowPage - 1;
+  if($backPage <= 0){
+    $backPage = 1;
+  }
   return '
   <form action="" method="get">
     <input type="hidden" name="tag" value="'.$viewTag.'">
-    <button type="submit" name="page" value="'.($nowPage-1).'">前へ</button>
+    <button type="submit" name="page" value="'.$backPage.'">前へ</button>
     <button type="submit" name="page" value="1">検索トップ</button>
     <button type="submit" name="page" value="'.$nextPage.'">次へ</button>
   </form>
@@ -52,19 +57,23 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   // 閲覧ページの状態を表す変数
   $viewTag = "";
   $maxPage = 0;
-  $isDefaultPage = false;
+  $scene = "default";
+
   if(isset($_GET["tag"]) && $_GET["tag"] != ""){
+    $scene = "tag";
     $viewTag = $_GET["tag"];
-  }else if(isset($_GET["stag"])){
-    $viewTag = $_GET["stag"];
-  }else{
-    $isDefaultPage = true;
   }
+  
   if(isset($_GET["page"])){
     $nowPage = intval($_GET["page"]);
   }else{
     $nowPage = 0;
   }
+
+  if(isset($_GET["i"])){
+    $scene = "index";
+  }
+
 
   echo '
   <table border="0" width="100%">
@@ -83,13 +92,17 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
     <td align="left" width="50%">
   ';
   
-  // デフォルト（タグが入力されていない）ページなら、
-  // コメントを上から10個表示する。
-  if($isDefaultPage){
-    $recent = date('Y/m/d', strtotime('-2 week', time()));
-    viewDefaultComment($recent, 5);
-  }else{
-    $maxPage = viewTagComment($viewTag, $nowPage);
+  switch($scene){
+    case "default":
+      $recent = date('Y/m/d', strtotime('-2 week', time()));
+      viewDefaultComment($recent, 5);
+      break;
+    case "tag":
+      $maxPage = viewTagComment($viewTag, $nowPage);
+      break;
+    case "index":
+      echo "index";
+      break;
   }
 
   echo '
@@ -99,7 +112,7 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   <tr>
     <td align="center" colspan="4">
   ';
-  if(!$isDefaultPage){ 
+  if($scene != "default"){ 
     echo printPageButton($viewTag, $nowPage, $maxPage);
   }
   echo '

@@ -34,7 +34,6 @@ function getPreviewComment(string $oriComment, int $restLines)
 function printHTMLOfComment($listOfContents)
 {
   foreach($listOfContents as $comment){
-    print_r($comment);
     $rinkDate = substr($comment["date"], 0, 10);
     $date = str_replace($rinkDate, "", $comment["date"]);
     echo '
@@ -48,6 +47,9 @@ function printHTMLOfComment($listOfContents)
     </tr>
     <tr>
       <td style="word-break: break-all;"  colspan="2">'.getPreviewComment($comment["comment"], 3).'</td>
+    </tr>
+    <tr>
+      <td align="right" colspan="2">INDEX:<a href="http://localhost:8080/view/?i='.$comment["index"].'">'.$comment["index"].'</a></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
