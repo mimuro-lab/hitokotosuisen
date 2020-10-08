@@ -98,6 +98,7 @@ function getNextFolder()
 
 function make_info($post, $pathToFolder)
 {
+
     $w = date("w");
     $week_name = array("日", "月", "火", "水", "木", "金", "土");
     $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
@@ -109,6 +110,12 @@ function make_info($post, $pathToFolder)
     $tag_content = $book.",".$tag.",".$dateOfTag;
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
     file_put_contents($tag_filePath, $tag_content);
+
+    // 固定タグを保存するファイル
+    $indexOfComment = basename($pathToFolder);
+    $fixed_tag = $indexOfComment;
+    $fixed_filePath = $pathToFolder."\\search_kwd_fixed.txt";
+    file_put_contents($fixed_filePath, $fixed_tag);
 
     // コメントの表示に使われるファイル
     $comment = $post["comment"];
