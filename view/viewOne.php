@@ -47,7 +47,7 @@ function main_viewOne(int $index)
 		$OneViewContents["tag"] = $contentOfTag;
 		
 		echo '
-    <table border="0" width="100%">
+    <table border="0" width="100%"  bgcolor="#fafafa">
     <tr>
       <td colspan="2"><hr style="height:3px;"></td>
     </tr>
@@ -70,7 +70,9 @@ function main_viewOne(int $index)
     <tr><td colspan="2" align="right"><font style="opacity:0.5" size="-1" face="arial unicode ms">以上</font></td></tr>
     <tr>
     <td colspan="2"><hr style="height:3px;"></td>
-  </tr>
+    </tr>
+    </table>
+    <table width="100%">
     <tr><td colspan="2" align="right">関連するタグ<br>
     ';
 

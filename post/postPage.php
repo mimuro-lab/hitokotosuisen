@@ -2,6 +2,16 @@
 
 date_default_timezone_set('Asia/Tokyo');
 
+function exitIndex(int $index)
+{
+    $posted = scandir(__DIR__.'/../data/posted/');
+    foreach($posted as $exitI){
+        if(intval($exitI) == $index){
+            return true;
+        }
+    }
+    return false;
+}
 
 // tokenを削除する。与えられたtokenの行を削除する。
 function delete_token(String $token){
@@ -44,13 +54,16 @@ function delete_token(String $token){
 
 function delete_cookie()
 {
-    setcookie("email", "", time() - 1800);
-    setcookie("number", "", time() - 1800);
-    setcookie("name", "", time() - 1800);
-    setcookie("book", "", time() - 1800);
-    setcookie("tag", "", time() - 1800);
-    setcookie("comment", "", time() - 1800);
-    setcookie("token", "", time() - 1800);
+    // クッキーを削除
+    if (isset($_SERVER['HTTP_COOKIE'])) {
+        $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+        foreach($cookies as $cookie) {
+            $parts = explode('=', $cookie);
+            $name = trim($parts[0]);
+            setcookie($name, '', time()-1000);
+            setcookie($name, '', time()-1000, '/');
+        }   
+    }
 }
 
 function sendToken($token, $email)
@@ -146,29 +159,22 @@ function make_info($post, $pathToFolder)
 function main_postPage($post)
 {
     
-    session_start();session_destroy();
-
     $success = false;
     $token_comment = "";
 
-    //print_r($_SESSION);
-    if(!isset($_SESSION["isFirst"]))
-    {
-        $_SESSION["isFirst"] = "yes";
-    }
-    if(isset($_SESSION["isFirst"]) && $_SESSION["isFirst"] == "yes"){
+    print_r($_SESSION);
+
+    if(!isset($_SESSION["savedIndex"])){
         if(isset($post["number"]) && isset($post["name"]) && isset($post["email"]) && 
         isset($post["book"]) && isset($post["tag"]) && isset($post["comment"])){
             $success = true;
-            // 一回目の処理
             $pathToFolder = getNextFolder();
             mkdir($pathToFolder);
             $token_comment = basename($pathToFolder).":".make_info($post, $pathToFolder);
-            $_SESSION["isFirst"] = "no";
+            $_SESSION["savedIndex"] = basename($pathToFolder);
         }
 
     }
-
     if($success){
         delete_token($post["token"]);
         echo '
@@ -194,10 +200,9 @@ function main_postPage($post)
         </td></tr>
         </table>
         ';
+        delete_cookie();
         return;
-    }
-
-    if($post["sendToken"] == "true"){
+    }else if(isset($post["sendToken"]) && $post["sendToken"] == "true"){
         sendToken($post["token_comment"], $post["email"]);
         echo '
         コメントIDをてに送信しました。。<br><br>

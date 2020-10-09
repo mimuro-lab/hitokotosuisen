@@ -6,9 +6,10 @@ require_once(".//postPage.php");
 require_once(".//quitPage.php");
 
 // 変数の取得
-//print_r($_GET); echo "<br>";
-//print_r($_POST); echo "<br>";
-//print_r($_COOKIE); echo "<br>";
+echo "get:";print_r($_GET); echo "<br>";
+echo "post:";print_r($_POST); echo "<br>";
+echo "cookie:";print_r($_COOKIE); echo "<br>";
+echo "session:";print_r($_SESSION); echo "<br>";
 $scene = "default";
 $token = "";
 $userMail = "";
@@ -58,6 +59,17 @@ if(isset($_POST["scene"])){
 					echo file_get_contents(__DIR__."\\defaultPage.php");
 					break;
 				case "sended_email":
+					session_unset();
+					// クッキーを削除
+					if (isset($_SERVER['HTTP_COOKIE'])) {
+						$cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+						foreach($cookies as $cookie) {
+							$parts = explode('=', $cookie);
+							$name = trim($parts[0]);
+							setcookie($name, '', time()-1000);
+							setcookie($name, '', time()-1000, '/');
+						}   
+					}
 					main_sendMail($_POST);
 					break;
 				case "input_comment":
@@ -68,9 +80,11 @@ if(isset($_POST["scene"])){
 					main_previewPage($_POST);
 					break;
 				case "post_comment":
+					session_start();
 					main_postPage($_POST);
 					break;
 				case "quit_post":
+					session_destroy();
 					main_quitPage($_POST);
 					break;
 				}
