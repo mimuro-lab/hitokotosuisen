@@ -3,23 +3,60 @@
 require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
 require_once(__DIR__."\\viewOne.php");
+require_once(__DIR__."\\countViewPage.php");
 date_default_timezone_set('Asia/Tokyo');
 
-function printTitleLine(string $inputTag)
+function printTitleLine(string $inputTag, string $viewCount)
 {
-  if($inputTag == ""){
-    return "<h4>最近の投稿</h4>";
+
+  if($viewCount == "descend"){
+    return "<h4>閲覧数が多い順</h4>";
+  }
+
+  if($viewCount == "ascend"){
+    return "<h4>閲覧数が少ない順</h4>";
   }
 
   if($inputTag == "___time_"){
     return "<h4>投稿時刻が早い順</h4>";
   }
   
-  return "<h4>キーワード".$inputTag."を含む投稿</h4>";
+  if($inputTag != ""){
+    return "<h4>キーワード".$inputTag."を含む投稿</h4>";
+  }
 
 }
 
 function printPageButton(string $viewTag, int $nowPage, int $maxPage)
+{
+  
+  if($nowPage < 1){
+    $nowPage = 1;
+  }
+  echo $nowPage."/".$maxPage;
+  $nextPage = $nowPage + 1;
+  if($maxPage < $nextPage){
+    $nextPage = $maxPage;
+  }
+  $backPage = $nowPage - 1;
+  if($backPage <= 0){
+    $backPage = 1;
+  }
+  echo '
+  <form action="" method="get">
+    <input type="hidden" name="tag" value="'.$viewTag.'">';
+    if($nowPage != 1){
+      echo '<button type="submit" name="page" value="'.$backPage.'">前へ</button>';
+    }
+    echo '<button type="submit" name="page" value="1">検索トップ</button>';
+    if($nowPage != $maxPage){
+      echo '<button type="submit" name="page" value="'.$nextPage.'">次へ</button>';
+    }
+  echo '
+  </form>
+  ';
+}
+function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
 {
   
   if($nowPage < 1){
@@ -33,16 +70,20 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   if($backPage <= 0){
     $backPage = 1;
   }
-  return '
+  echo '
   <form action="" method="get">
-    <input type="hidden" name="tag" value="'.$viewTag.'">
-    <button type="submit" name="page" value="'.$backPage.'">前へ</button>
-    <button type="submit" name="page" value="1">検索トップ</button>
-    <button type="submit" name="page" value="'.$nextPage.'">次へ</button>
+    <input type="hidden" name="viewCount" value="'.$UpOrDown.'">';
+    if($nowPage != 1){
+      echo '<button type="submit" name="page" value="'.$backPage.'">前へ</button>';
+    }
+    echo '<button type="submit" name="page" value="1">検索トップ</button>';
+    if($nowPage != $maxPage){
+      echo '<button type="submit" name="page" value="'.$nextPage.'">次へ</button>';
+    }
+  echo '
   </form>
   ';
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +100,7 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   $viewTag = "";
   $maxPage = 0;
   $index = 0;
+  $viewCount = "";
   $scene = "default";
 
   if(isset($_GET["tag"]) && $_GET["tag"] != ""){
@@ -76,23 +118,26 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
     $scene = "index";
     $index = intval($_GET["index"]);
   }
-
+  
+  if(isset($_GET["viewCount"])){
+    $scene = "viewCount";
+    $viewCount = $_GET["viewCount"];
+  }
 
   echo '
   <table border="0" width="100%">
   <tr>
     <td colspan="4" align="center">
     <h1>ひとことすいせん</h1>
-    <h2>閲覧ページ</h2>
+    <a href="http://localhost:8080/view" style="text-decoration: none;"><font size="+2" color="#000000">閲覧ページ</font></a>
     </td>
   </tr>
-  <tr>
-    <td colspan="4" align="center">'.printTitleLine($viewTag).'</td>
-  </tr>
+  
   <tr>
     <td width="5%"></td>
     <td align="left" valign="top"  width="20%">'.file_get_contents(__DIR__."\\leftPage.php").'</td>
-    <td align="left" width="50%">
+    <td align="left" valign="top" width="50%">
+    '.printTitleLine($viewTag, $viewCount).'
   ';
   
   switch($scene){
@@ -106,6 +151,9 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
     case "index":
       main_viewOne($index);
       break;
+    case "viewCount":
+      $maxPage = main_countView($viewCount, $nowPage);
+      break;
   }
 
   echo '
@@ -115,16 +163,17 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   <tr>
     <td align="center" colspan="4">
   ';
-  if($scene != "default" && $scene != "index"){ 
-    echo printPageButton($viewTag, $nowPage, $maxPage);
+  if($scene != "default" && $scene != "index" && $scene != "viewCount"){ 
+    printPageButton($viewTag, $nowPage, $maxPage);
     echo'
     <table width="100%">
     <tr><td align="center" colspan="2">
       <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
     </td></tr>
     </table>';
-  }else if($scene == "default"){
-    echo '<tr><td align="center" colspan="5"><a href="http://localhost:8080/view?tag=___time_"><font color="#4169e1">最新順に全て見る</a></td></tr>';
+  }
+  if($scene == "viewCount"){
+    printPageButtonViewCount($viewCount, $nowPage, $maxPage);
   }
   echo '
     </td>

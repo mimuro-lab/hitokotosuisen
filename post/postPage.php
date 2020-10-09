@@ -137,6 +137,9 @@ function make_info($post, $pathToFolder)
     $info_filePath = $pathToFolder."\\info.txt";
     file_put_contents($info_filePath, $info_content);
 
+    // カウントのファイル
+    file_put_contents($pathToFolder."\\count.txt", 0);
+
     return $token_comment;
 }
 

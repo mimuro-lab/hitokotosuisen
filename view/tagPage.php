@@ -82,7 +82,10 @@ function viewTagComment(string $viewTag, int $page)
 
   // 一ページに15個のコメントを表示する。
   // 最大ページ数を求める
-  $maxPage = ceil($numOfContents / 15);
+  
+  $printViews = 7;
+
+  $maxPage = ceil($numOfContents / $printViews);
 
   // 変数$pageの処理
   if($page > $maxPage){
@@ -95,11 +98,16 @@ function viewTagComment(string $viewTag, int $page)
   // ヒット件数を表示する
   echo count($viewContents).'件のヒット（'.$page.'/'.$maxPage.'）';
 
-  $startIND = ($page - 1) * 15;
+
+  $startIND = ($page - 1) * $printViews;
   
-  $printContent = array_slice($viewContents, $startIND, 15);
+  $printContent = array_slice($viewContents, $startIND, $printViews);
   
   printHTMLOfComment($printContent);
+
+  if($page == $maxPage){
+    echo "投稿は以上です";
+  }
 
   return $maxPage;
 

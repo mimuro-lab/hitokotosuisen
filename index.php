@@ -26,7 +26,13 @@ require_once(".//view//defaultPage.php")
 				<br><br>
 				<a href="./edit">編集ページへ</a>
 			</td>
-			<td align="center" width="50%">最近の投稿<?php viewDefaultComment(7, 5);?></td>
+			<td align="center" width="50%">
+				<table border="0"  bordercolor="#adff2f" width="100%">
+				<tr><td>
+					<?php viewDefaultComment(7, 3);?>	
+				</td></tr>
+				</table>
+			</td>
 			<td width="25%"></td>
 		</tr>
 		</table>

@@ -48,7 +48,7 @@ function printHTMLOfComment($listOfContents)
     $rinkDate = substr($comment["date"], 0, 10);
     $date = str_replace($rinkDate, "", $comment["date"]);
     echo '
-    <table border="0" width="100%">
+    <table border="0" width="100%" bgcolor="#fafafa">
     <tr>
       <td colspan="2"><hr></td>
     </tr>

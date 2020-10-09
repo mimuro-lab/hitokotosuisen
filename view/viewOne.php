@@ -16,7 +16,7 @@ function main_viewOne(int $index)
       }
 		}
 		if(!$isFind){
-			echo 'INDEX:<i>'.$index.'</i>に一致する投稿は見つけられませんでした。';
+			echo '<br>INDEX:<i>'.$index.'</i>に一致する投稿は見つけられませんでした。';
 			return ;
 		}	
     

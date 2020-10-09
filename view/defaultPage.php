@@ -1,5 +1,6 @@
 ﻿<?php
 require_once(__DIR__."\\utils.php");
+require_once(__DIR__."\\countViewPage.php");
 
 function getDefailtViewContents(string $recentDate, int $maxComments)
 {
@@ -89,13 +90,27 @@ function getDefailtViewContents(string $recentDate, int $maxComments)
   return $viewContentOfList;
 }
 
+function getDefailtViewContentsAscend(int $maxComments)
+{
+  $viewContentOfList = getAscendContents();
+  $viewContentOfList = array_reverse($viewContentOfList);
+  $viewContentOfList = array_slice($viewContentOfList, 0, $maxComments);
+  return $viewContentOfList;
+}
+
 function viewDefaultComment(string $recentDate, int $maxComments)
 {
   
   // 2週間分、上限10コメント読み込む。
   $viewContents = getDefailtViewContents($recentDate, $maxComments);
-
+  echo '<a href="http://localhost:8080/view?tag=___time_" style="text-decoration: none;"><font size="+2" color="#696969">最新の投稿</font></a>';
   printHTMLOfComment($viewContents);
+  echo '<br><br><br><br>';
+  // 閲覧数の多い順で、$maxComments分表示する。
+  $viewContentAscend = getDefailtViewContentsAscend($maxComments);
+
+  echo '<a href="http://localhost:8080/view?viewCount=ascend" style="text-decoration: none;"><font size="+2" color="#696969">閲覧数の多い投稿</font></a>';
+  printHTMLOfComment($viewContentAscend);
 
 }
 
