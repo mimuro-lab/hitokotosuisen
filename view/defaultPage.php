@@ -33,15 +33,28 @@ function getDefailtViewContents(string $recentDate, int $maxComments)
     }
     
     $pathToFolder = $pathToCommentPosted."/".$path;
-    
+    if(!file_exists($pathToFolder."/view.txt")){
+      continue;
+    }
     $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
     $contentOfTxt = explode(",", $contentOfTxt);
 
+    if(!file_exists($pathToFolder."/search_kwd_fixed.txt")){
+      continue;
+    }
     $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
     $contentOfTagFix = explode(",", $contentOfTagFix);
 
+    if(!file_exists($pathToFolder."/search_kwd.txt")){
+      continue;
+    }
     $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
     $contentOfTag = explode(",", $contentOfTag);
+
+    if(!file_exists($pathToFolder."/count.txt")){
+      continue;
+    }
+    $contentOfCounter = intVal(file_get_contents($pathToFolder."/count.txt"));
 
     $OneViewContents = array();
     $OneViewContents["book"] = $contentOfTxt[0];
@@ -49,6 +62,7 @@ function getDefailtViewContents(string $recentDate, int $maxComments)
     $OneViewContents["comment"] = $contentOfTxt[2];
     $OneViewContents["index"] = $contentOfTagFix[0];
     $OneViewContents["tag"] = $contentOfTag;
+    $OneViewContents["counter"] = $contentOfCounter;
     //print_r($viewContentOfList);
     $viewContentOfList[] = $OneViewContents;
     

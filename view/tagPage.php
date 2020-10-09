@@ -37,6 +37,7 @@ function getTagViewContents(string $serachTag)
     $contentOfTagFix = explode(",", $contentOfTagFix);
     $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
     $contentOfTag = explode(",", $contentOfTag);
+    $contentOfCount = file_get_contents($pathToFolder."/count.txt");
     
     $isHit = false;
     
@@ -61,6 +62,7 @@ function getTagViewContents(string $serachTag)
     $OneViewContents["comment"] = $contentOfTxt[2];
     $OneViewContents["index"] = $contentOfTagFix[0];
     $OneViewContents["tag"] = $contentOfTag;
+    $OneViewContents["counter"] = $contentOfCount;
     //print_r($viewContentOfList);
     $viewContentOfList[] = $OneViewContents;
     

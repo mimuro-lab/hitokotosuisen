@@ -2,6 +2,7 @@
 
 require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
+require_once(__DIR__."\\viewOne.php");
 date_default_timezone_set('Asia/Tokyo');
 
 function printTitleLine(string $inputTag)
@@ -57,6 +58,7 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   // 閲覧ページの状態を表す変数
   $viewTag = "";
   $maxPage = 0;
+  $index = 0;
   $scene = "default";
 
   if(isset($_GET["tag"]) && $_GET["tag"] != ""){
@@ -70,8 +72,9 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
     $nowPage = 0;
   }
 
-  if(isset($_GET["i"])){
+  if(isset($_GET["index"]) && $_GET["index"] != ""){
     $scene = "index";
+    $index = intval($_GET["index"]);
   }
 
 
@@ -101,7 +104,7 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
       $maxPage = viewTagComment($viewTag, $nowPage);
       break;
     case "index":
-      echo "index";
+      main_viewOne($index);
       break;
   }
 
@@ -112,8 +115,16 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   <tr>
     <td align="center" colspan="4">
   ';
-  if($scene != "default"){ 
+  if($scene != "default" && $scene != "index"){ 
     echo printPageButton($viewTag, $nowPage, $maxPage);
+    echo'
+    <table width="100%">
+    <tr><td align="center" colspan="2">
+      <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
+    </td></tr>
+    </table>';
+  }else if($scene == "default"){
+    echo '<tr><td align="center" colspan="5"><a href="http://localhost:8080/view?tag=___time_"><font color="#4169e1">最新順に全て見る</a></td></tr>';
   }
   echo '
     </td>

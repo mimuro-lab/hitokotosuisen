@@ -7,5 +7,13 @@
 	</p>
 </form>
 
+<form action="/view" method="get">
+	<p>
+		INDEXから探す<br>
+		<input type="number" min="0" name="index" size="20">
+		<input type="submit" value="検索">
+	</p>
+</form>
+
 <a href="http://localhost:8080/view">閲覧ページトップ</a><br><br>
 <a href="http://localhost:8080/view?tag=___time_">最新の投稿順</a><br><br>
