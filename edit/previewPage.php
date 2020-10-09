@@ -17,7 +17,6 @@ function printButton_EditedPreview($next, $post)
     echo '
     <table width="100%">
     <tr>
-    
     <td align="left">
     <form action="" method="post">
         <input type="hidden" name="scene" value="edit_comment">
@@ -71,6 +70,7 @@ function printPreview($post)
     $name = false;
     $book = false;
     $comment = false;
+    $tag = "";
     if(isset($post["number"]) && $post["number"] !==""){
         $number = $post["number"];
     }
@@ -83,15 +83,19 @@ function printPreview($post)
     if(isset($post["comment"]) && $post["comment"] !==""){
         $comment = $post["comment"];
     }
+    if(isset($post["tag"]) && $post["tag"] !==""){
+        $tag = explode(",",$post["tag"]);
+    }
 
     echo '
-    <table width="100%">
+    <br><br>
+    <table width="100%" bgcolor="#fafafa">
     <tr>
         <td colspan="2"><hr></td>
     </tr>
     <tr>
         <td align="center" width="50%">〇学籍番号</td><td align="center" width="50%">';
-    
+        
     if($number !== false){
         echo $number;
     }else{
@@ -100,6 +104,7 @@ function printPreview($post)
     
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td align="center" width="50%">〇名　前　</td><td align="center" width="50%">';
 
@@ -111,6 +116,7 @@ function printPreview($post)
 
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td align="center" width="50%">〇推薦する本の名前</td><td align="center" width="50%">';
 
@@ -121,7 +127,19 @@ function printPreview($post)
     }
 
     echo '</td>
-    </tr>
+    </tr>    
+    <tr><td><br></td></tr>
+    <tr>
+    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center">';
+    foreach($tag as $t){
+        echo $t;
+        if($t !== ""){
+            echo "<br>";
+        }
+    }
+    echo '
+    </td>
+    <tr><td><br></td></tr>
     <tr>
         <td colspan="2"><hr></td>
     </tr>
@@ -157,21 +175,16 @@ function printPreview($post)
 
 function main_previewPage($post){
 
-    setcookie("email", $post["email"], time() + 60 * 15);
-    setcookie("number", $post["number"], time() + 60 * 15);
-    setcookie("name", $post["name"], time() + 60 * 15);
-    setcookie("book", $post["book"], time() + 60 * 15);
-    setcookie("tag", $post["tag"], time() + 60 * 15);
-    setcookie("comment", $post["comment"], time() + 60 * 15);
-
+    echo '<table width="100%"><tr><td align="center">';
     if(!isSetAll($post)){
-        echo '以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。';
+        echo '<font size="+2" color="#696969">以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。</font>';
     }else{
-        echo '
+        echo '<font size="+2" color="#696969">
         入力した内容が正しければ、確定ボタンを押してください。<br>
-        再度入力したければ、戻るボタンを押してください。<br>
+        再度入力したければ、戻るボタンを押してください。<br></font>
         ';
     }
+    echo '</td></tr></table>';
 
     $next = printPreview($post);
     printButton_EditedPreview($next, $post);

@@ -11,7 +11,6 @@ function fix_comment($post)
     // タグの修正。
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
     $tag_content = $post["book"].",".$post["tag"];
-    echo $tag_content;
     file_put_contents($tag_filePath, $tag_content);
     
     // コメントの表示に使われるファイル
@@ -30,10 +29,15 @@ function fix_comment($post)
 
 function main_postPage($post)
 {
-    print_r($post);
+    
     $success = fix_comment($post);
     if($success){
         echo '
+        <br>
+        <table width="100%"><tr><td align="center">
+        <a style="text-decoration: none;" href="http://localhost:8080/view?index='.explode(":", $post["ID"])[0].'">
+        <font size="+2" color="#696969">編集した投稿を見る</font></a></td></tr></table>
+        <br><br>
         <table border="1" width="100%">
         <tr><td align="center">
         この記事の編集は完了しました。<br>

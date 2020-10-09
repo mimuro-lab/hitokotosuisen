@@ -33,7 +33,7 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
   if($nowPage < 1){
     $nowPage = 1;
   }
-  echo $nowPage."/".$maxPage;
+  echo "<br><br>".$nowPage."/".$maxPage."<br><br>";
   $nextPage = $nowPage + 1;
   if($maxPage < $nextPage){
     $nextPage = $maxPage;
@@ -47,8 +47,8 @@ function printPageButton(string $viewTag, int $nowPage, int $maxPage)
     <input type="hidden" name="tag" value="'.$viewTag.'">';
     if($nowPage != 1){
       echo '<button type="submit" name="page" value="'.$backPage.'">前へ</button>';
-    }
     echo '<button type="submit" name="page" value="1">検索トップ</button>';
+    }
     if($nowPage != $maxPage){
       echo '<button type="submit" name="page" value="'.$nextPage.'">次へ</button>';
     }
@@ -62,6 +62,8 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   if($nowPage < 1){
     $nowPage = 1;
   }
+  echo "<br><br>".$nowPage."/".$maxPage."<br><br>";
+
   $nextPage = $nowPage + 1;
   if($maxPage < $nextPage){
     $nextPage = $maxPage;
@@ -75,8 +77,8 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
     <input type="hidden" name="viewCount" value="'.$UpOrDown.'">';
     if($nowPage != 1){
       echo '<button type="submit" name="page" value="'.$backPage.'">前へ</button>';
-    }
     echo '<button type="submit" name="page" value="1">検索トップ</button>';
+    }
     if($nowPage != $maxPage){
       echo '<button type="submit" name="page" value="'.$nextPage.'">次へ</button>';
     }
@@ -163,7 +165,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   <tr>
     <td align="center" colspan="4">
   ';
-  if($scene != "default" && $scene != "index" && $scene != "viewCount"){ 
+  if($scene != "default" && $scene != "index"){ 
     printPageButton($viewTag, $nowPage, $maxPage);
     echo'
     <table width="100%">

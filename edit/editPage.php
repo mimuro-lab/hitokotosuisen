@@ -13,34 +13,40 @@ function printEditFormBack($post)
 {
     $comment = str_replace("<br>", "", $post["comment"]);
     echo '
-    <form action="." method="post">
     <table width="100%">
+    <tr><td align="center"><font size="+2" color="#696969">編集内容を入力してください</font><br>
+    ※名前と学籍番号は変更できません。</td></tr></table>
+    <form action="." method="post">
+    <table width="100%" bgcolor="#fafafa">
     <tr>
-    <td>〇学籍番号　　　　　'.$post["number"].'</td>
+    <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$post["number"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
-    <td>〇名　前　　　　　　'.$post["name"].'</td>
+    <td width="50%" align="center">〇名　前</td><td width="50%" align="center">'.$post["name"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
-    <td>〇タ　グ　　　　　　<input type="text" name="tag" value="'.$post["tag"].'"></input>
+    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$post["tag"].'"></input>
     </td>
+    <tr><td><br></td></tr>
     </tr>
     <tr>
-    <td>
-    〇推薦する本の名前　<input type="text" name="book" value="'.$post["book"].'"></input>
-    </td>
+    <td width="50%" align="center">〇推薦する本の名前</td>
+    <td  width="50%" align="center"><input type="text" name="book" value="'.$post["book"].'"></input></td>
     </tr>
-    <tr><td>&nbsp;</td></tr>
-    <tr><td colspan="2">〇推薦内容</td></tr>
-    <tr><td colspan="2">
-    <textarea name="comment"  rows="20" cols="70">'.$post["comment"].'</textarea>
+    <tr><td><br></td></tr>
+    <tr><td><br></td></tr>
+    <tr><td colspan="2" align="center">〇推薦内容</td></tr>
+    <tr><td colspan="2" align="center">
+    <textarea name="comment"  rows="20" cols="80">'.$post["comment"].'</textarea>
     </td></tr>
-    <tr><td colspan="2" align="center"><input type="submit" value="プレビュー画面へ行く"></td></tr>
+    <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
     <input type="hidden" name="ID" value="'.$post["ID"].'">
     <input type="hidden" name="email" value="'.$post["email"].'">
     <input type="hidden" name="name" value="'.$post["name"].'">
-    <input type="hidden" name="number" value="'.$comment.'">
+    <input type="hidden" name="number" value="'.$post["number"].'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';
@@ -58,15 +64,17 @@ function printEditForm($post)
     
     echo '
     <form action="." method="post">
-    <table width="100%">
+    <table width="100%" bgcolor="#fafafa">
     <tr>
-    <td>〇学籍番号　　　　　'.$post["number"].'</td>
+    <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$post["number"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
-    <td>〇名　前　　　　　　'.$post["name"].'</td>
+    <td width="50%" align="center">〇名　前　</td><td width="50%" align="center">'.$post["name"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
-    <td>〇タ　グ　　　　　　<input type="text" name="tag" value="';
+    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="';
     foreach($tag as $t){
         echo $t;
         if($t !== ""){
@@ -76,17 +84,20 @@ function printEditForm($post)
     echo '"></input>
     </td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
-    <td>
-    〇推薦する本の名前　<input type="text" name="book" value="'.$book.'"></input>
+    <td width="50%" align="center">〇推薦する本の名前</td>
+    <td width="50%" align="center"><input type="text" name="book" value="'.$book.'"></input></td>
     </td>
+    <tr><td><br></td></tr>
+    <tr><td><br></td></tr>
     </tr>
-    <tr><td>&nbsp;</td></tr>
-    <tr><td colspan="2">〇推薦内容</td></tr>
-    <tr><td colspan="2">
-    <textarea name="comment"  rows="20" cols="70">'.$post["comment"].'</textarea>
+    
+    <tr><td colspan="2" align="center">〇推薦内容</td></tr>
+    <tr><td colspan="2" align="center">
+    <textarea name="comment" rows="20" cols="80">'.$post["comment"].'</textarea>
     </td></tr>
-    <tr><td colspan="2" align="center"><input type="submit" value="プレビュー画面へ行く"></td></tr>
+    <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
     <input type="hidden" name="ID" value="'.$post["ID"].'">
     <input type="hidden" name="email" value="'.$post["email"].'">

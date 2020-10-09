@@ -41,31 +41,40 @@ function printButton($canFind, $comment, $ID)
 function printMessage($canFind)
 {
     if($canFind){
-        echo '
-        コメントIDに対する内容が見つかりました。<br>
+        echo '<br>
+        <table width="100%"><tr><td align="center">
+        <font size="+2" color="#696969">コメントIDに対する内容が見つかりました。<br></font>
+        <font color="#696969"><br>以下内容<br></font>
+        </td></tr></table>
         ';
     }else{
-        echo '
+        echo '<br>
+        <table width="100%"><tr><td align="center">
+        <font size="+2" color="#696969">
         無効なコメントIDが入力されました。<br>
         正しいIDを入力して下さい。<br>
-        ';  
+        </font><br>
+        </td></tr></table>';  
     }
 }
 
 function printPreviewFromID($comment)
 {
     echo '
-    <table width="100%">
+    <table width="100%" bgcolor="#fafafa">
     <tr><td colspan="2"><hr></td></tr>
     <tr>
         <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$comment["number"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td width="50%" align="center">〇名　前　</td><td width="50%" align="center">'.$comment["name"].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["tag"][0].'</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td width="50%" align="center">〇タグ</td><td width="50%" align="center">';
     

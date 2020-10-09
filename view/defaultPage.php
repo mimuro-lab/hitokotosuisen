@@ -100,18 +100,16 @@ function getDefailtViewContentsAscend(int $maxComments)
 
 function viewDefaultComment(string $recentDate, int $maxComments)
 {
-  
+  // 閲覧数の多い順で、$maxComments分表示する。
+  $viewContentAscend = getDefailtViewContentsAscend($maxComments);
+  echo '<a href="http://localhost:8080/view?viewCount=descend" style="text-decoration: none;"><font size="+2" color="#696969">閲覧数の多い投稿</font></a>';
+  printHTMLOfComment($viewContentAscend);
+  echo '<br><br><br><br>';
+
   // 2週間分、上限10コメント読み込む。
   $viewContents = getDefailtViewContents($recentDate, $maxComments);
   echo '<a href="http://localhost:8080/view?tag=___time_" style="text-decoration: none;"><font size="+2" color="#696969">最新の投稿</font></a>';
   printHTMLOfComment($viewContents);
-  echo '<br><br><br><br>';
-  // 閲覧数の多い順で、$maxComments分表示する。
-  $viewContentAscend = getDefailtViewContentsAscend($maxComments);
-
-  echo '<a href="http://localhost:8080/view?viewCount=ascend" style="text-decoration: none;"><font size="+2" color="#696969">閲覧数の多い投稿</font></a>';
-  printHTMLOfComment($viewContentAscend);
-
 }
 
 ?>
