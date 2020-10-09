@@ -62,7 +62,6 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   if($nowPage < 1){
     $nowPage = 1;
   }
-  echo "<br><br>".$nowPage."/".$maxPage."<br><br>";
 
   $nextPage = $nowPage + 1;
   if($maxPage < $nextPage){
@@ -130,7 +129,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   <table border="0" width="100%">
   <tr>
     <td colspan="4" align="center">
-    <h1>ひとことすいせん</h1>
+    <img src="./../title_1.gif"><br>
     <a href="http://localhost:8080/view" style="text-decoration: none;"><font size="+2" color="#000000">閲覧ページ</font></a>
     </td>
   </tr>

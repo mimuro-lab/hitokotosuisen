@@ -26,8 +26,8 @@ if(!isset($_POST["scene"])){
 		<table border="0" width="100%">
 		<tr>
 			<td colspan="4" align="center">
-            <h1>ひとことすいせん</h1>
-            <h2>編集ページ</h2>
+		    <img src="./../title_1.gif"><br>
+			<font size="+2" color="#000000">編集ページ</font>
 			</td>
 		</tr>
 		<tr>
