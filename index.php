@@ -12,8 +12,8 @@ require_once(".//view//defaultPage.php")
 		<table border="0" width="100%">
 		<tr>
 			<td colspan="4" align="center">
-            <h1>ひとことすいせん</h1>
-            <h2>トップページ</h2>
+			<img src="./title_1.gif"><br>
+            <font size="+2" color="#000000">トップページ</font>
 			</td>
 		</tr>
 		<tr>
