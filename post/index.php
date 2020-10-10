@@ -84,7 +84,7 @@ if(isset($_POST["scene"])){
 					main_postPage($_POST);
 					break;
 				case "quit_post":
-					session_destroy();
+					session_unset();
 					main_quitPage($_POST);
 					break;
 				}

@@ -19,12 +19,12 @@ function delete_token(String $token){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。";
+        //echo "token.csvが見つかりません。";
         return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "r")){
-        echo "token.csvを開けませんでした。";
+        //echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -162,8 +162,6 @@ function main_postPage($post)
     $success = false;
     $token_comment = "";
 
-    print_r($_SESSION);
-
     if(!isset($_SESSION["savedIndex"])){
         if(isset($post["number"]) && isset($post["name"]) && isset($post["email"]) && 
         isset($post["book"]) && isset($post["tag"]) && isset($post["comment"])){
@@ -177,12 +175,17 @@ function main_postPage($post)
     }
     if($success){
         delete_token($post["token"]);
-        echo '
-        コメントIDを発行しました。<br><br>
-        <h3>'.$token_comment.'</h3><br><br>
+        echo '<table width="100%"><tr><td align="center"><font size="+1" color="#000000">
+        投稿が終了しました。INDEXは'.explode(":",$token_comment)[0].'です。<br><br>
+        <a style="text-decoration: none;" href="http://localhost:8080/view?index='.explode(":",$token_comment)[0].'">
+        <font size="+2" color="#696969">投稿した内容を見る</font></a><br><br>
+        また、コメントIDを発行しました。<br><br>
+        <font color="red">'.$token_comment.'<br><br><br>
         ※コメントを編集・削除するのに必要なIDです。メモしておいてください。<br><br>
 
-        '.$post["email"].' 宛てにこのコメントIDを送信しますか？<br><br>
+        '.$post["email"].' 宛てにこのコメントIDを送信しますか？</font><br><br>        
+        </font></td></tr>
+        <tr><td align="center">
         <form action="" method="post">
         <input type="hidden" name="scene" value="post_comment">
         <input type="hidden" name="sendToken" value="true">
@@ -190,6 +193,8 @@ function main_postPage($post)
         <input type="hidden" name="email" value="'.$post["email"].'">
         <input type="submit" value="送信する">
         </form>
+        </td></tr></table>
+
         ';
         // 「トップページへ戻る」を表示する。
         echo '

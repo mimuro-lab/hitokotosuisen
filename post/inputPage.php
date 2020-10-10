@@ -7,12 +7,12 @@ function get_email(String $token){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。";
+        //echo "token.csvが見つかりません。";
         return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "a")){
-        echo "token.csvを開けませんでした。";
+        //echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -33,7 +33,7 @@ function get_email(String $token){
         }
     }
 
-    echo "tokenに対するメールアカウントを見つけられませんでした。";
+    //echo "tokenに対するメールアカウントを見つけられませんでした。";
     return false;
 }
 
@@ -62,29 +62,35 @@ function showForm(string $token, string $email){
     }
     echo '
     <form action="." method="post">
-    <table width="100%">
+    <table border="0" width="100%" bgcolor="#fafafa">
+
     <tr>
-    <td>
-        <label for="number">〇学籍番号　　　　</label>
-        <input type="text" id="number" name="number" value="'.$pre_number.'">
-        <label for="name"><br>〇名　前　　　　　</label>
-        <input type="text" id="name" name="name" value="'.$pre_name.'">
-        <label for="book"><br>〇推薦する本の名前</label>
-        <input type="mail" id="book" name="book" value="'.$pre_book.'">
-        <label for="tag"><br>〇タ　グ　　　　　</label>
-        <input type="text" id="tag" name="tag" value="'.$pre_tag.'">
-        <label for="comment"><br><br>〇推薦内容<br></label>
-        <textarea id="comment" name="comment"  rows="20" cols="100">'.$pre_comment.'</textarea>
-        <br>
+    <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center"><input type="text" id="number" name="number" value="'.$pre_number.'"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td width="50%" align="center">〇名　前　</td><td width="50%" align="center"><input type="text" id="name" name="name" value="'.$pre_name.'"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$pre_tag.'"></input>
     </td>
     </tr>
-    </table>
-    <table width="100%">
+    <tr><td><br></td></tr>
+    <tr>
+    <td width="50%" align="center">〇推薦する本の名前</td>
+    <td width="50%" align="center"><input type="text" name="book" value="'.$pre_book.'"></input></td>
+    </td>
+    <tr><td><br></td></tr>
+    <tr><td><br></td></tr>
+    </tr>
+    <tr><td colspan="2" align="center">〇推薦内容</td></tr>
+    <tr><td colspan="2" align="center">
+    <textarea name="comment" rows="20" cols="80">'.$pre_comment.'</textarea>
+    </td></tr>
         <tr>
-            <td align="left">
-
-            </td>
-            <td align="right">
+            <td colspan="2" align="center">
+                <br>
                 <input type="hidden" name="email" value="'.$email.'">
                 <input type="hidden" name="token" value="'.$token.'">
                 <input type="hidden" name="scene" value="preview_comment">
@@ -100,12 +106,15 @@ function showForm(string $token, string $email){
 function main_inputPage($token){
     setcookie("token", $token);
     if(get_email($token) != false){
-        echo "ようこそ、".get_email($token)."さん。<br>以下の項目を全て入力してください。<br><br>";
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">
+        ようこそ、'.get_email($token).'さん。<br>以下の項目を全て入力してください。<br><br></font>
+        </tr></td></table>';
         showForm($token, get_email($token));
     }else{
-        echo '
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">
         無効なURLを受け取りました。<br>
         もう一度最初からやり直してください。<br>
+        </font></tr></td></table>
         ';
     }
 }

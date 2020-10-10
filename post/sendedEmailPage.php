@@ -51,7 +51,7 @@ function make_token_table(String $email){
 
     // 以前このメールアドレスに対してのtokenを作成したか？
     if(read_token($email) != false){
-        echo "同じメールアカウントに対して、複数のtokenは作りません。";
+        //echo "同じメールアカウントに対して、複数のtokenは作りません。";
         return false;
     }
     $tokenAndEmail = $email.",".random(10)."\n";
@@ -60,7 +60,7 @@ function make_token_table(String $email){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。(make_token_table)";
+        //echo "token.csvが見つかりません。(make_token_table)";
         return false;
     }
     // ファイルを開けなかったらリターンする。
@@ -126,7 +126,9 @@ function main_sendMail($post)
     $userMail = $post["email"];
 
 	if(sendPostMail($userMail)){
-		echo $userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。<br><br>';
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#696969"><br>'
+        .$userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。</font>
+        </td></tr></table><br>';
 	}else{
 		echo sendPostMail($userMail);
 	}
@@ -135,18 +137,21 @@ function main_sendMail($post)
     
 	if(isset($post["isResend"]) && $post["isResend"] == "true"){
 		sendmailToUser($userMail);
-		echo "再送信しました。<br>";
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#696969">再送信しました。
+        </tr></td></table><br>';
     }
     
 
 	echo '
-	<br>
+    <br>
+    <table width="100%"><tr><td align="center">
 	<form action="" method="post">
     <input type="hidden" name="isResend" value="true">
     <input type="hidden" name="scene" value="sended_email">
 	<input type="hidden" name="email" value="'.$userMail.'">
 	<button type="submit">メールを再送信する</button>
-	</form>
+    </form>
+    </td></tr></table>
 	';
 }
 ?>

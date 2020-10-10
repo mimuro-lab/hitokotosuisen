@@ -69,6 +69,7 @@ function printPreview($post)
     $number = false;
     $name = false;
     $book = false;
+    $tag = false;
     $comment = false;
     if(isset($post["number"]) && $post["number"] !==""){
         $number = $post["number"];
@@ -79,12 +80,15 @@ function printPreview($post)
     if(isset($post["book"]) && $post["book"] !==""){
         $book = $post["book"];
     }    
+    if(isset($post["tag"]) && $post["tag"] !==""){
+        $tag = explode(",", $post["tag"]);
+    }    
     if(isset($post["comment"]) && $post["comment"] !==""){
         $comment = $post["comment"];
     }
 
     echo '
-    <table width="100%">
+    <table border="0" width="100%" bgcolor="#fafafa">
     <tr>
         <td colspan="2"><hr></td>
     </tr>
@@ -99,6 +103,7 @@ function printPreview($post)
     
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td align="center" width="50%">〇名　前　</td><td align="center" width="50%">';
 
@@ -110,6 +115,24 @@ function printPreview($post)
 
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td align="center" width="50%">〇タグ</td><td align="center" width="50%">';
+
+    if($tag !== false){
+        foreach($tag as $t){
+            echo $t;
+            if($t !== ""){
+                echo "<br>";
+            }
+        }
+    }else{
+        echo 'なし';
+    }
+
+    echo '</td>
+    </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td align="center" width="50%">〇推薦する本の名前</td><td align="center" width="50%">';
 
@@ -121,6 +144,8 @@ function printPreview($post)
 
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
+
     <tr>
         <td colspan="2"><hr></td>
     </tr>
@@ -164,12 +189,14 @@ function main_previewPage($post){
     setcookie("comment", $post["comment"], time() + 60 * 15);
 
     if(!isSetAll($post)){
-        echo '以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。';
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">
+        以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。
+        </font></td></tr></table>';
     }else{
-        echo '
+        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">
         入力した内容が正しければ、確定ボタンを押してください。<br>
         再度入力したければ、戻るボタンを押してください。<br>
-        ';
+        </font></td></tr></table>';
     }
 
     $next = printPreview($post);
