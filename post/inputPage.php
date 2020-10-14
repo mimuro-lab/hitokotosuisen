@@ -42,6 +42,7 @@ function showForm(string $token, string $email){
     // cookieに値が保存されている場合は、その値を使う。
     $pre_name = "";
     $pre_number = "";
+    $pre_level = "";
     $pre_book = "";
     $pre_tag = "";
     $pre_comment = "";
@@ -50,6 +51,9 @@ function showForm(string $token, string $email){
     }
     if(isset($_COOKIE["number"])){
         $pre_number = $_COOKIE["number"];
+    }
+    if(isset($_COOKIE["level"])){
+        $pre_level = $_COOKIE["level"];
     }
     if(isset($_COOKIE["book"])){
         $pre_book = $_COOKIE["book"];
@@ -69,11 +73,35 @@ function showForm(string $token, string $email){
     </tr>
     <tr><td><br></td></tr>
     <tr>
+    <td width="50%" align="center">〇学　年　</td><td width="50%" align="center"><input type="number" min="1" max="5" id="name" name="level" value="'.$pre_level.'"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
     <td width="50%" align="center">〇名　前　</td><td width="50%" align="center"><input type="text" id="name" name="name" value="'.$pre_name.'"></td>
     </tr>
     <tr><td><br></td></tr>
     <tr>
-    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$pre_tag.'"></input>
+    <td width="50%" align="center">〇固定タグ</td>
+    <td width="50%" align="center">
+    ';
+    echo '
+    <input type="checkbox" name="fix_date" value="checked_fix_date" checked>投稿日時</input> &nbsp;<input type="checkbox" name="fix_book" value="checked_fix_book" checked>本の名前</input><br>';
+    //固定タグを表示する
+    $fixedTags = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
+    for($i = 0; $i < count($fixedTags); $i++){
+        if($fixedTags[$i] == "?newl?"){
+            echo '<br>';
+            continue;
+        }
+        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'">'.$fixedTags[$i]."&nbsp;";
+    }
+    
+    echo '
+    </td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" name="tag" value="'.$pre_tag.'"></input>
     </td>
     </tr>
     <tr><td><br></td></tr>

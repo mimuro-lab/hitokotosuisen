@@ -3,6 +3,7 @@ require_once(".//..//utils.php");
 require_once(".//utils.php");
 require_once(".//allView.php");
 require_once(".//view.php");
+require_once(".//leftPage.php");
 print_r($_GET); echo "<br>";
 print_r($_POST); echo "<br>";
 print_r($_COOKIE); echo "<br>";
@@ -33,7 +34,9 @@ function main(string $_scene)
     echo '
     <table width="100%">
     <tr>
-    <td width="25%"></td>
+    <td width="5%"></td><td width="20%">';
+    printLeftPage();
+    echo '</td>
     <td width="50%">
     ';
     switch($_scene){

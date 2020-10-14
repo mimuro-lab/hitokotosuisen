@@ -146,7 +146,7 @@ function make_info($post, $pathToFolder)
     $name = $post["name"];
     $number = $post["number"];
     $email = $post["email"];
-    $info_content = $token_comment.','.$name.','.$number.','.$email.','.$dateOfMake;
+    $info_content = $token_comment.','.$name.','.$number.','.$email.','.$dateOfMake.',public';
     $info_filePath = $pathToFolder."\\info.txt";
     file_put_contents($info_filePath, $info_content);
 

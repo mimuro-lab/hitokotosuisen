@@ -1,4 +1,35 @@
 ﻿<?php
+date_default_timezone_set('Asia/Tokyo');
+
+function getFixedTagFromTable($key)
+{
+    if($key == "date"){
+        $w = date("w");
+        $week_name = array("日", "月", "火", "水", "木", "金", "土");
+        $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
+        $dateOfTag =  date("Y/m/d");
+        return $dateOfTag;
+    }
+    if($key == "book"){
+        return $_POST["book"];
+    }
+    $fixedTagsFromTable = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
+    return $fixedTagsFromTable[(int)$key];
+}
+
+function getFixedTags()
+{
+    // 固定タグのプレビュー
+    $fixed_tags = array();
+    foreach($_POST as $p){
+        if(substr($p, 0, 11) == "checked_fix"){
+            $tagKey = str_replace("checked_fix_", "", $p);
+            $fixedTag = getFixedTagFromTable($tagKey);
+            array_push($fixed_tags, $fixedTag);
+        }
+    }
+    return $fixed_tags;
+}
 
 function isSetAll($post)
 {
@@ -44,7 +75,14 @@ function printButton($next, $post)
             <input type="hidden" name="tag" value="'.$post["tag"].'">
             <input type="hidden" name="comment" value="'.$send_comment.'">
             <input type="hidden" name="token" value="'.$post["token"].'">
-            　
+        ';
+        // 固定タグ
+        $fixed = "";
+        foreach(getFixedTags() as $f){
+            $fixed .=$f.",";
+        }
+        echo '
+            <input type="hidden" name="fixedTag" value="'.$fixed.'">
             <button type="submit">投稿する</button>
         </form>
         ';
@@ -117,7 +155,16 @@ function printPreview($post)
     </tr>
     <tr><td><br></td></tr>
     <tr>
-    <td align="center" width="50%">〇タグ</td><td align="center" width="50%">';
+        <td align="center" width="50%">〇固定タグ</td><td align="center" width="50%">';
+    $fixed_tags = getFixedTags();
+    foreach($fixed_tags as $f){
+        echo $f."<br>";
+    }
+    echo '
+    </td></tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td align="center" width="50%">〇自由タグ</td><td align="center" width="50%">';
 
     if($tag !== false){
         foreach($tag as $t){
