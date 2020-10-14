@@ -28,8 +28,11 @@ function getAscendContents()
       if($path == "none"){
         continue;
       }
-      
       $pathToFolder = $pathToCommentPosted."/".$path;
+      $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
+      if($isPublic != "public"){
+        continue;
+      }
       
       $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
       $contentOfTxt = explode(",", $contentOfTxt);

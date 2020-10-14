@@ -21,7 +21,12 @@ function main_viewOne(int $index)
 		}	
     
     $pathToFolder = $pathToCommentPosted."/".$index;
-
+    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
+    
+    if($isPublic != "public"){
+			echo '<br>INDEX:<i>'.$index.'</i>は現在非公開です。';
+      return;
+    }
     // 閲覧数を記録する
     $pathToCount = $pathToFolder."/count.txt";
     if(!isset($_COOKIE["visit"]) || intval($_COOKIE["visit"]) != $index){  

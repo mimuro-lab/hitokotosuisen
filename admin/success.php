@@ -1,10 +1,15 @@
 ﻿<?php
 require_once(__DIR__."\\utils.php");
-print_r($_POST);
+print_r($_GET);echo "<br>";
+print_r($_POST);echo "<br>";
+print_r($_COOKIE);echo "<br>";
 
-if(!isOk($_POST["username"], $_POST["password"])){
+if(!isOkUserInfo($_POST["username"], $_POST["password"])){
     echo '一致しないユーザー名とパスワードが入力されました。';
     exit();
+}else{
+    setcookie("username", $_POST["username"], time() + 60 * 60 * 24);
+    setcookie("password", $_POST["password"], time() + 60 * 60 * 24);
 }
 
 $scene = "default";
@@ -12,7 +17,7 @@ $scene = "default";
 function main($_scene){
     switch($_scene){
         case "default":
-            
+            echo '<table width="100%"><tr><td>認証に成功しました。<a href=".//success/">管理者画面へ行く</a></td></tr></table>';
         break;
     }
 }

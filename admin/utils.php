@@ -1,5 +1,5 @@
 ﻿<?php
-function isOk($username, $password)
+function isOkUserInfo($username, $password)
 {
 	$pathToInfo = __DIR__.'\\..\\data\\admin_userInfo.txt';
 	$fp = fopen($pathToInfo, "r");
@@ -20,5 +20,17 @@ function isOk($username, $password)
 		}
 	}
 	return False;
+}
+
+function isOkToken($token)
+{
+    $true = file_get_contents(__DIR__."\\..\\data\\token_admin.csv");
+	$true = preg_replace('/[^0-9a-zA-Z]/', '', $true);
+	$getToken = preg_replace('/[^0-9a-zA-Z]/', '', $token);
+	if($getToken === $true){
+        return true;
+	}else{
+        return false;
+	}
 }
 ?>

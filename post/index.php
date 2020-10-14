@@ -26,7 +26,6 @@ if(isset($_POST["scene"])){
 	$scene = $_POST["scene"];
 }
 
-
 ?>
 
 <!DOCTYPE html>

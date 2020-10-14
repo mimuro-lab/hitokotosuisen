@@ -34,6 +34,12 @@ function getDefailtViewContents(string $recentDate, int $maxComments)
     }
     
     $pathToFolder = $pathToCommentPosted."/".$path;
+    //公開状態でないのなら取得しない。
+    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
+    if($isPublic != "public"){
+      continue;
+    }
+
     if(!file_exists($pathToFolder."/view.txt")){
       continue;
     }

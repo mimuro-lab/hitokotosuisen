@@ -2,18 +2,17 @@
 
 require_once(__DIR__."\\utils.php");
 
-print_r($_POST);echo "<br>";
-print_r($_GET);echo "<br>";
+#print_r($_POST);echo "<br>";
+#print_r($_GET);echo "<br>";
+#print_r($_COOKIE);echo "<br>";
 
 $scene = "default";
 if(isset($_POST["scene"])){
 	$scene = $_POST["scene"];
 }
 if(isset($_GET["token"])){
-	$true = file_get_contents(__DIR__."\\..\\data\\token_admin.csv");
-	$true = preg_replace('/[^0-9a-zA-Z]/', '', $true);
-	$getToken = preg_replace('/[^0-9a-zA-Z]/', '', $_GET["token"]);
-	if($getToken === $true){
+	if(isOkToken($_GET["token"])){
+		setcookie("token_admin", $_GET["token"], time() + 60*60*24);
 		$scene = "success";
 	}else{
 		$scene = "failed";
@@ -119,7 +118,7 @@ function main($_scene){
 			printDefaultPage();
 		break;
 		case "verificate":
-			$ok = isOk($_POST["username"], $_POST["password"]);
+			$ok = isOkUserInfo($_POST["username"], $_POST["password"]);
 			printAdminedPage($ok);
 		break;
 		case "success":

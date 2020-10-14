@@ -30,7 +30,11 @@ function getTagViewContents(string $serachTag)
     }
     
     $pathToFolder = $pathToCommentPosted."/".$path;
+    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
     
+    if($isPublic != "public"){
+      continue;
+    }
     $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
     $contentOfTxt = explode(",", $contentOfTxt);
     $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
