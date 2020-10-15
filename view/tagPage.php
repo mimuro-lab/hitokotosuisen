@@ -30,45 +30,10 @@ function getTagViewContents(string $serachTag)
     }
     
     $pathToFolder = $pathToCommentPosted."/".$path;
-    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
-    
-    if($isPublic != "public"){
-      continue;
-    }
-    $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
-    $contentOfTxt = explode(",", $contentOfTxt);
-    $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
-    $contentOfTagFix = explode(",", $contentOfTagFix);
-    $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
-    $contentOfTag = explode(",", $contentOfTag);
-    $contentOfCount = file_get_contents($pathToFolder."/count.txt");
-    
-    $isHit = false;
-    
-    if($serachTag !== "___time_"){
-      
-      //tagと一致するか
-      $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
-      $contentOfTag = explode(",", $contentOfTag);
-      foreach($contentOfTag as $tag){
-        if($tag === $serachTag){
-          $isHit = true;
-        }
-      }
-      if(!$isHit){
-        continue;
-      }
-    }
 
-    $OneViewContents = array();
-    $OneViewContents["book"] = $contentOfTxt[0];
-    $OneViewContents["date"] = $contentOfTxt[1];
-    $OneViewContents["comment"] = $contentOfTxt[2];
-    $OneViewContents["index"] = $contentOfTagFix[0];
-    $OneViewContents["tag"] = $contentOfTag;
-    $OneViewContents["counter"] = $contentOfCount;
+    
     //print_r($viewContentOfList);
-    $viewContentOfList[] = $OneViewContents;
+    $viewContentOfList[] = getContentsFromFolder($pathToFolder);
     
   }
   

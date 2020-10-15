@@ -29,33 +29,15 @@ function getAscendContents()
         continue;
       }
       $pathToFolder = $pathToCommentPosted."/".$path;
-      $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
-      if($isPublic != "public"){
+      
+      if(!getContentsFromFolder($pathToFolder)){
         continue;
       }
-      
-      $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
-      $contentOfTxt = explode(",", $contentOfTxt);
-      $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
-      $contentOfTagFix = explode(",", $contentOfTagFix);
-      $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
-      $contentOfTag = explode(",", $contentOfTag);
-      $contentOfCount = file_get_contents($pathToFolder."/count.txt");
-      
-      $isHit = false;
-  
-      $OneViewContents = array();
-      $OneViewContents["book"] = $contentOfTxt[0];
-      $OneViewContents["date"] = $contentOfTxt[1];
-      $OneViewContents["comment"] = $contentOfTxt[2];
-      $OneViewContents["index"] = $contentOfTagFix[0];
-      $OneViewContents["tag"] = $contentOfTag;
-      $OneViewContents["counter"] = $contentOfCount;
-      $viewContentOfList[] = $OneViewContents;
+      $viewContentOfList[] = getContentsFromFolder($pathToFolder);
       
     }
     foreach ((array) $viewContentOfList as $key => $value) {
-        $sort[$key] = $value['counter'];
+      $sort[$key] = $value['counter'];
     }
     
     array_multisort($sort, SORT_ASC, $viewContentOfList);

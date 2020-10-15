@@ -46,6 +46,7 @@ function showForm(string $token, string $email){
     $pre_book = "";
     $pre_tag = "";
     $pre_comment = "";
+    $preFixed = array();
     if(isset($_COOKIE["name"])){
         $pre_name = $_COOKIE["name"];
     }
@@ -64,6 +65,17 @@ function showForm(string $token, string $email){
     if(isset($_COOKIE["comment"])){
         $pre_comment = $_COOKIE["comment"];
     }
+    if(isset($_COOKIE["fixed_tag"])){
+        $preFixed = explode(",", $_COOKIE["fixed_tag"]);
+        $tmp = array();
+        foreach($preFixed as $f){
+            if($f !== "date" && $f !== "book" && $f !== ""){
+                array_push($tmp, (int)$f);
+            }
+        }
+        $preFixed = $tmp;
+    }
+    print_r($preFixed);
     echo '
     <form action="." method="post">
     <table border="0" width="100%" bgcolor="#fafafa">
@@ -93,7 +105,13 @@ function showForm(string $token, string $email){
             echo '<br>';
             continue;
         }
-        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'">'.$fixedTags[$i]."&nbsp;";
+        $checked = "";
+        foreach($preFixed as $pre){
+            if($pre == $i){
+                $checked = "checked";
+            }
+        }
+        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'" '.$checked.'>'.$fixedTags[$i]."&nbsp;";
     }
     
     echo '

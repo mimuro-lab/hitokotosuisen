@@ -116,17 +116,15 @@ function make_info($post, $pathToFolder)
     $week_name = array("日", "月", "火", "水", "木", "金", "土");
     $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
     $dateOfTag =  date("Y/m/d");
+    $book = $post["book"];
 
     // 検索に使われるファイル（タグと、ほんのタイトル）
     $tag = $post["tag"];
-    $book = $post["book"];
-    $tag_content = $book.",".$tag.",".$dateOfTag;
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
-    file_put_contents($tag_filePath, $tag_content);
+    file_put_contents($tag_filePath, $tag);
 
     // 固定タグを保存するファイル
-    $indexOfComment = basename($pathToFolder);
-    $fixed_tag = $indexOfComment;
+    $fixed_tag = $post["fixedTag"];
     $fixed_filePath = $pathToFolder."\\search_kwd_fixed.txt";
     file_put_contents($fixed_filePath, $fixed_tag);
 
@@ -152,6 +150,9 @@ function make_info($post, $pathToFolder)
 
     // カウントのファイル
     file_put_contents($pathToFolder."\\count.txt", 0);
+
+    // インデックスのファイル
+    file_put_contents($pathToFolder."\\index.txt", basename($pathToFolder));
 
     return $token_comment;
 }

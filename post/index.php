@@ -8,7 +8,7 @@ require_once(".//quitPage.php");
 // 変数の取得
 //echo "get:";print_r($_GET); echo "<br>";
 echo "post:";print_r($_POST); echo "<br>";
-//echo "cookie:";print_r($_COOKIE); echo "<br>";
+echo "cookie:";print_r($_COOKIE); echo "<br>";
 //echo "session:";print_r($_SESSION); echo "<br>";
 $scene = "default";
 $token = "";

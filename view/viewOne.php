@@ -21,6 +21,7 @@ function main_viewOne(int $index)
 		}	
     
     $pathToFolder = $pathToCommentPosted."/".$index;
+
     $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
     
     if($isPublic != "public"){
@@ -36,21 +37,9 @@ function main_viewOne(int $index)
     $counter = file_get_contents($pathToCount);
 
     setcookie("visit", $index, time() + 60 * 10);
-
-    $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
-    $contentOfTxt = explode(",", $contentOfTxt);
-    $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
-    $contentOfTagFix = explode(",", $contentOfTagFix);
-    $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
-		$contentOfTag = explode(",", $contentOfTag);
-		
-		$OneViewContents = array();
-    $OneViewContents["book"] = $contentOfTxt[0];
-    $OneViewContents["date"] = $contentOfTxt[1];
-    $OneViewContents["comment"] = $contentOfTxt[2];
-    $OneViewContents["index"] = $contentOfTagFix[0];
-		$OneViewContents["tag"] = $contentOfTag;
-		
+    
+    // 内容を表示する
+    $content = getContentsFromFolder($pathToFolder);
 		echo '
     <table border="0" width="100%"  bgcolor="#fafafa">
     <tr>
@@ -58,18 +47,18 @@ function main_viewOne(int $index)
     </tr>
     <tr>
       <td style="word-break: break-all;">
-      <font size="+2" face="arial black">'.$OneViewContents["book"].'</font>
+      <font size="+2" face="arial black">'.$content["book"].'</font>
       </td>
-      <td style="word-break: break-all;"  align="right">'.$OneViewContents["date"].'
-      INDEX:'.$OneViewContents["index"].'
+      <td style="word-break: break-all;"  align="right">'.$content["date"].'
+      INDEX:'.$content["index"].'
       </td>
     </tr>
     <tr>
-      <td colspan="2" align="right"><font style="opacity:0.7" face="arial unicode ms">'.$counter.'&nbsp;回閲覧</font></td>
+      <td colspan="2" align="right"><font style="opacity:0.7" face="arial unicode ms">'.$content["counter"].'&nbsp;回閲覧</font></td>
     </tr>
     <tr><td colspan="2" align="center"><font style="opacity:0.5" size="-1" face="arial unicode ms">推薦内容</font></td></tr>
     <tr>
-      <td style="word-break: break-all;"  colspan="2">'.$OneViewContents["comment"].'</td>
+      <td style="word-break: break-all;"  colspan="2">'.$content["comment"].'</td>
     </tr>
     <tr><td><br></td></tr>
     <tr><td colspan="2" align="right"><font style="opacity:0.5" size="-1" face="arial unicode ms">以上</font></td></tr>
@@ -78,15 +67,20 @@ function main_viewOne(int $index)
     </tr>
     </table>
     <table width="100%">
-    <tr><td colspan="2" align="right">関連するタグ<br>
+    <tr><td colspan="2" align="right">タグ<br>
     ';
-
-    foreach($OneViewContents["tag"] as $tag){
+    foreach($content["tag"] as $tag){
       if($tag != ""){
-        echo '&nbsp;&nbsp;<a href="http://localhost:8080/view/?tag='.$tag.'">'.$tag.'</a>';
+        echo '&nbsp;&nbsp;<a href="./?tag='.$tag.'">'.$tag.'</a>';
       }
     }
 
+    echo '<br>';
+    foreach($content["tagFixed"] as $tag){
+      if($tag != ""){
+        echo '&nbsp;&nbsp;<a href="./?tag='.$tag.'">'.$tag.'</a>';
+      }
+    }
     echo '
   </td></tr>
   <tr><td align="center" colspan="2">

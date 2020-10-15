@@ -31,9 +31,23 @@ function getFixedTags()
     return $fixed_tags;
 }
 
+function getFixedTagsIndex()
+{
+    // 固定タグのプレビュー
+    $fixed_tags = array();
+    foreach($_POST as $p){
+        if(substr($p, 0, 11) == "checked_fix"){
+            $tagKey = str_replace("checked_fix_", "", $p);
+            array_push($fixed_tags, $tagKey);
+        }
+    }
+    return $fixed_tags;
+}
+
 function isSetAll($post)
 {
     if(isset($post["number"]) && $post["number"] !== "" &&  
+        isset($post["level"]) && $post["level"] !== "" &&  
        isset($post["name"]) && $post["name"] !== "" &&  
        isset($post["book"]) &&  $post["book"] !== "" &&  
        isset($post["comment"]) && $post["comment"] !== "" ){
@@ -105,12 +119,16 @@ function printPreview($post)
     $post["comment"] = str_replace("?newl?", "<br>", $post["comment"]);
 
     $number = false;
+    $level = false;
     $name = false;
     $book = false;
     $tag = false;
     $comment = false;
     if(isset($post["number"]) && $post["number"] !==""){
         $number = $post["number"];
+    }
+    if(isset($post["level"]) && $post["level"] !== ""){
+        $level = $post["level"];
     }
     if(isset($post["name"]) && $post["name"] !==""){
         $name = $post["name"];
@@ -141,6 +159,15 @@ function printPreview($post)
     
     echo '</td>
     </tr>
+    <tr><td><br></td></tr>
+    <tr><td align="center" width="50%">〇学　年　</td><td align="center" width="50%">';
+    if($level !== false){
+        echo $level."学年";
+    }else{
+        echo '<font color="red">未入力</font>';
+    }
+    echo '</td></tr>
+    
     <tr><td><br></td></tr>
     <tr>
         <td align="center" width="50%">〇名　前　</td><td align="center" width="50%">';
@@ -230,10 +257,16 @@ function main_previewPage($post){
 
     setcookie("email", $post["email"], time() + 60 * 15);
     setcookie("number", $post["number"], time() + 60 * 15);
+    setcookie("level", $post["level"], time() + 60 * 15);
     setcookie("name", $post["name"], time() + 60 * 15);
     setcookie("book", $post["book"], time() + 60 * 15);
     setcookie("tag", $post["tag"], time() + 60 * 15);
     setcookie("comment", $post["comment"], time() + 60 * 15);
+    $fixed = "";
+    foreach(getFixedTagsIndex() as $i){
+        $fixed .= $i.",";
+    }
+    setcookie("fixed_tag", $fixed, time() + 60 * 15);
 
     if(!isSetAll($post)){
         echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">

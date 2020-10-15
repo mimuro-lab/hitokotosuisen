@@ -70,11 +70,16 @@ function printHTMLOfComment($listOfContents)
       <td style="opacity:0.8" colspan="2" align="center"><a href="http://localhost:8080/view/?index='.$comment["index"].'"><font color="#696969">この投稿を全部見る</td>
     </tr>
     
-    <tr><td colspan="2" align="right">関連するタグ<br>
+    <tr><td colspan="2" align="right">タグ<br>
     ';
 
     foreach($comment["tag"] as $tag){
-      echo '<a href="http://localhost:8080/view/?tag='.$tag.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+      echo '<a href="./?tag='.$tag.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+    }
+    echo '<br>';
+
+    foreach($comment["tagFixed"] as $tag){
+      echo '<a href="./?tag='.$tag.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
     }
 
     echo '
@@ -90,4 +95,53 @@ function printHTMLOfComment($listOfContents)
   }  
 
 }
+
+function getContentsFromFolder($pathToFolder)
+{
+  //公開状態でないのなら取得しない。
+  $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
+  if($isPublic != "public"){
+    return false;
+  }
+  
+  if(!file_exists($pathToFolder."/index.txt")){
+    return false;
+  }
+  $contentOfIndex = file_get_contents($pathToFolder."/index.txt");
+
+  if(!file_exists($pathToFolder."/view.txt")){
+    return false;
+  }
+  $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
+  $contentOfTxt = explode(",", $contentOfTxt);
+
+  if(!file_exists($pathToFolder."/search_kwd_fixed.txt")){
+    return false;
+  }
+  $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
+  $contentOfTagFix = explode(",", $contentOfTagFix);
+
+  if(!file_exists($pathToFolder."/search_kwd.txt")){
+    return false;
+  }
+  $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
+  $contentOfTag = explode(",", $contentOfTag);
+
+  if(!file_exists($pathToFolder."/count.txt")){
+    return false;
+  }
+  $contentOfCounter = intVal(file_get_contents($pathToFolder."/count.txt"));
+
+  $OneViewContents = array();
+  $OneViewContents["book"] = $contentOfTxt[0];
+  $OneViewContents["date"] = $contentOfTxt[1];
+  $OneViewContents["comment"] = $contentOfTxt[2];
+  $OneViewContents["index"] = $contentOfIndex;
+  $OneViewContents["tag"] = $contentOfTag;
+  $OneViewContents["tagFixed"] = $contentOfTagFix;
+  $OneViewContents["counter"] = $contentOfCounter;
+
+  return $OneViewContents;
+}
+
 ?>
