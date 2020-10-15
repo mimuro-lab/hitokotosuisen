@@ -1,6 +1,5 @@
 ﻿<?php
 
-
 function get_email(String $token){
     $pathToToken = __DIR__."//../data/token.csv";
 
@@ -35,6 +34,7 @@ function get_email(String $token){
     //echo "tokenに対するメールアカウントを見つけられませんでした。";
     return false;
 }
+
 
 
 ?>

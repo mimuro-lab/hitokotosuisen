@@ -22,7 +22,7 @@ function main_viewOne(int $index)
     
     $pathToFolder = $pathToCommentPosted."/".$index;
 
-    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[5];
+    $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[6];
     
     if($isPublic != "public"){
 			echo '<br>INDEX:<i>'.$index.'</i>は現在非公開です。';

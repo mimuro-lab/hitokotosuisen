@@ -16,16 +16,16 @@ function printButton($canFind, $comment, $ID)
             <form action="" method="post">
             <input type="hidden" name="scene" value="edit_comment">
             <input type="hidden" name="ID" value="'.$ID.'">
-            <input type="hidden" name="number" value="'.$comment["number"].'">
-            <input type="hidden" name="name" value="'.$comment["name"].'">
-            <input type="hidden" name="email" value="'.$comment["email"].'">
             <input type="hidden" name="tag" value="';
         
         foreach($comment["tag"] as $tag){
             echo $tag.":";
         }
-
-        echo '">
+        echo '"><input type="hidden" name="tagFixed" value="';
+        foreach($comment["tagFixed"] as $tag){
+          echo $tag.":";
+      }
+        echo '>
             <input type="hidden" name="comment" value="'.$comment["comment"].'">
             <button type="submit">このコメントを編集する</button>
             </form>
@@ -64,31 +64,26 @@ function printPreviewFromID($comment)
     <table width="100%" bgcolor="#fafafa">
     <tr><td colspan="2"><hr></td></tr>
     <tr>
-        <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$comment["number"].'</td>
+        <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["book"].'</td>
     </tr>
     <tr><td><br></td></tr>
     <tr>
-        <td width="50%" align="center">〇名　前　</td><td width="50%" align="center">'.$comment["name"].'</td>
-    </tr>
-    <tr><td><br></td></tr>
-    <tr>
-        <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["tag"][0].'</td>
-    </tr>
-    <tr><td><br></td></tr>
-    <tr>
-        <td width="50%" align="center">〇タグ</td><td width="50%" align="center">';
-    
+        <td width="50%" align="center">〇固定タグ</td><td width="50%" align="center">';
     // タグを全て表示する
-    if(count($comment["tag"])===1){
-        echo "なし";
-    }
-    for($i = 1; $i < count($comment["tag"]); $i++){
-        echo $comment["tag"][$i]."<br>";
+    foreach($comment["tagFixed"] as $t){
+      echo $t."<br>";
     }
     
     echo '</td>
     </tr>
-    <tr><td colspan="2"><hr></td></tr>
+    
+    <tr>
+      <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center">';
+    // タグを全て表示する
+    foreach($comment["tag"] as $t){
+      echo $t."<br>";
+    }
+    echo '</td></tr>
     <tr>
         <td align="center" colspan="2">〇推薦内容</td>
     </tr>
@@ -98,6 +93,48 @@ function printPreviewFromID($comment)
     <tr><td colspan="2"><hr></td></tr>
     </table>
     ';
+}
+
+function getContentsFromFolder_inFix($pathToFolder)
+{
+  if(!file_exists($pathToFolder."/index.txt")){
+    return false;
+  }
+  $contentOfIndex = file_get_contents($pathToFolder."/index.txt");
+
+  if(!file_exists($pathToFolder."/view.txt")){
+    return false;
+  }
+  $contentOfTxt = file_get_contents($pathToFolder."/view.txt");
+  $contentOfTxt = explode(",", $contentOfTxt);
+
+  if(!file_exists($pathToFolder."/search_kwd_fixed.txt")){
+    return false;
+  }
+  $contentOfTagFix = file_get_contents($pathToFolder."/search_kwd_fixed.txt");
+  $contentOfTagFix = explode(",", $contentOfTagFix);
+
+  if(!file_exists($pathToFolder."/search_kwd.txt")){
+    return false;
+  }
+  $contentOfTag = file_get_contents($pathToFolder."/search_kwd.txt");
+  $contentOfTag = explode(",", $contentOfTag);
+
+  if(!file_exists($pathToFolder."/count.txt")){
+    return false;
+  }
+  $contentOfCounter = intVal(file_get_contents($pathToFolder."/count.txt"));
+
+  $OneViewContents = array();
+  $OneViewContents["book"] = $contentOfTxt[0];
+  $OneViewContents["date"] = $contentOfTxt[1];
+  $OneViewContents["comment"] = $contentOfTxt[2];
+  $OneViewContents["index"] = $contentOfIndex;
+  $OneViewContents["tag"] = $contentOfTag;
+  $OneViewContents["tagFixed"] = $contentOfTagFix;
+  $OneViewContents["counter"] = $contentOfCounter;
+
+  return $OneViewContents;
 }
 
 // コメント内容に関するidとtokenのチェックを行う。
@@ -120,21 +157,12 @@ function get_comment_matched(String $ID_and_token){
     
     $savedToken = file_get_contents($pathToInfo);
     $savedToken = explode(",", $savedToken)[0];
-    
-    if($savedToken === $token_comment){
-        $retContent = array();
-        $infoContent = explode(",", file_get_contents($pathToInfo));
-        $retContent["name"] = $infoContent[1];
-        $retContent["number"] = $infoContent[2];
-        $retContent["email"] = $infoContent[3];
-        $pathToTag = __DIR__."\\..\\data\\posted\\".$folderIND."\\search_kwd.txt";
-        $retContent["tag"] = explode(",", file_get_contents($pathToTag));
-        $pathToView = __DIR__."\\..\\data\\posted\\".$folderIND."\\view.txt";
-        $retContent["comment"] = explode(",", file_get_contents($pathToView))[2];
-        return $retContent;
+
+    if($savedToken !== $token_comment){
+        return false;
     }
-    
-    return false;
+    $pathToFolder = __DIR__."\\..\\data\\posted\\".$folderIND;
+    return getContentsFromFolder_inFix($pathToFolder);    
 }
 
 function main_inputID($ID)
@@ -144,6 +172,8 @@ function main_inputID($ID)
     if($comment !== false){
         $canFind = true;
     }
+
+    print_r($comment);
 
     printMessage($canFind);
 

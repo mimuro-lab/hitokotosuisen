@@ -143,8 +143,9 @@ function make_info($post, $pathToFolder)
     $token_comment = base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
     $name = $post["name"];
     $number = $post["number"];
+    $level = $post["level"];
     $email = $post["email"];
-    $info_content = $token_comment.','.$name.','.$number.','.$email.','.$dateOfMake.',public';
+    $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake.',public';
     $info_filePath = $pathToFolder."\\info.txt";
     file_put_contents($info_filePath, $info_content);
 

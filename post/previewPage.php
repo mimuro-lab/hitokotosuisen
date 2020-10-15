@@ -87,6 +87,7 @@ function printButton($next, $post)
             <input type="hidden" name="name" value="'.$post["name"].'">
             <input type="hidden" name="book" value="'.$post["book"].'">
             <input type="hidden" name="tag" value="'.$post["tag"].'">
+            <input type="hidden" name="level" value="'.$post["level"].'">
             <input type="hidden" name="comment" value="'.$send_comment.'">
             <input type="hidden" name="token" value="'.$post["token"].'">
         ';
