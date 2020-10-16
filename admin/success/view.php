@@ -9,7 +9,7 @@ function update_status($nextStatus)
     $contentInfo = file_get_contents($pathToInfo);
     $contentInfo = explode(",", $contentInfo);
     $putContent = "";
-    for($i = 0; $i < 5;$i++){
+    for($i = 0; $i < 6;$i++){
         $putContent .= $contentInfo[$i].",";
     }
     $putContent .= $nextStatus;
@@ -29,11 +29,11 @@ function main_view()
 
     $status = "none";
     $color = "#C0C0C0";
-    if(isset($content["info"][5])){
-        if($content["info"][5] === "public"){
+    if(isset($content["info"][6])){
+        if($content["info"][6] === "public"){
             $status = "公開状態";
             $color = "#78FF94";
-        }else if($content["info"][5] === "private"){
+        }else if($content["info"][6] === "private"){
             $status = "非公開状態";
             $color = "#FF367F";
         }
@@ -58,7 +58,7 @@ function main_view()
     <td colspan="2" width="100%" align="center"><font size="+1" color="'.$color.'">'.$status.'</font></td>
     </tr>
     <tr>
-    <td width="50%">INDEX</td><td width="50%">'.$content["serch_kwd_fixed"][0].'</td>
+    <td width="50%">INDEX</td><td width="50%">'.$content["index"].'</td>
     </tr>
     <tr>
     <td width="50%">氏名</td><td width="50%">'.$content["info"][1].'</td>
@@ -67,13 +67,13 @@ function main_view()
     <td width="50%">学籍番号</td><td width="50%">'.$content["info"][2].'</td>
     </tr>
     <tr>
-    <td width="50%">メールアドレス</td><td width="50%">'.$content["info"][3].'</td>
+    <td width="50%">メールアドレス</td><td width="50%">'.$content["info"][4].'</td>
     </tr>
     <tr>
     <td width="50%">コメントID</td><td width="50%">'.$content["info"][0].'</td>
     </tr>
     <tr>
-    <td width="50%">投稿日時</td><td width="50%">'.$content["info"][4].'</td>
+    <td width="50%">投稿日時</td><td width="50%">'.$content["info"][5].'</td>
     </tr>
     </table>
     <br>
@@ -87,8 +87,8 @@ function main_view()
       <td style="word-break: break-all;">
       <font size="+2" face="arial black">'.$content["view"][0].'</font>
       </td>
-      <td style="word-break: break-all;"  align="right">'.$content["info"][4].'
-      INDEX:'.$content["serch_kwd_fixed"][0].'
+      <td style="word-break: break-all;"  align="right">'.$content["info"][5].'
+      INDEX:'.$content["index"].'
       </td>
     </tr>
     <tr>
@@ -108,6 +108,10 @@ function main_view()
     <tr><td width="30%">タグ</td><td align="right"> 
     ';
     foreach($content["serch_kwd"] as $tag){
+        echo "&nbsp;".$tag;
+    }
+    echo '<br>';
+    foreach($content["serch_kwd_fixed"] as $tag){
         echo "&nbsp;".$tag;
     }
     echo '

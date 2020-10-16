@@ -27,6 +27,7 @@ function getPostedAll()
         $pathToDir = $pathToPostdFolder."\\".$path;
         $oneContent = array();
         $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
+        $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
         $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
         $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
         $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
@@ -65,6 +66,7 @@ function getPostedFromIndex(int $index)
     
     $oneContent = array();
     $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
+    $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
     $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
     $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
     $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
@@ -88,9 +90,9 @@ function printContentPre($content, $maxContent, $starNumber)
     </table>';
     foreach($trimedContent as $content){
         $status = "none";
-        if($content["info"][5] == "public"){
+        if($content["info"][6] == "public"){
             $status = '<font color="#78FF94">公開状態</font>';
-        }else if($content["info"][5] == "private"){
+        }else if($content["info"][6] == "private"){
             $status = '<font color="#FF367F">非公開状態</font>';
         }
         echo '
@@ -98,14 +100,14 @@ function printContentPre($content, $maxContent, $starNumber)
         <tr><td colspan="3"><hr></td></tr>
         <tr>
         <td width="30%" align="left">
-        INDEX:'.$content["serch_kwd_fixed"][0].'<br>
+        INDEX:'.$content["index"].'<br>
         '.$content["info"][2].'<br>
         '.$content["info"][1].'<br>
         </td>
         <td width="40%">
         Title:'.$content["view"][0].'<br>
         '.$content["info"][4].'<br>
-        <a style="text-decoration: none;" href="./?scene=view&index='.$content["serch_kwd_fixed"][0].'">
+        <a style="text-decoration: none;" href="./?scene=view&index='.$content["index"].'">
         <font color="#2C7CFF">詳細を設定する</font></a>
         </td>
         <td width="30%">
