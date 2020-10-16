@@ -1,13 +1,6 @@
 ﻿<?php
 
-function savePostToCookie($post)
-{
-    setcookie("ID", $post["ID"], time() + 60 * 20);
-    setcookie("number", $post["number"], time() + 60 * 20);
-    setcookie("name", $post["name"], time() + 60 * 20);
-    setcookie("tag", $post["tag"], time() + 60 * 20);
-    setcookie("comment", $post["comment"], time() + 60 * 20);
-}
+require_once(".//utils.php");
 
 function printEditFormBack($post)
 {
@@ -18,16 +11,35 @@ function printEditFormBack($post)
     ※名前と学籍番号は変更できません。</td></tr></table>
     <form action="." method="post">
     <table width="100%" bgcolor="#fafafa">
-    <tr>
-    <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$post["number"].'</td>
+    <td width="50%" align="center">〇固定タグ</td>
+    <td width="50%" align="center">
+    ';
+    echo '
+    <input type="checkbox" name="fix_date" value="checked_fix_date" checked>投稿日時</input> &nbsp;<input type="checkbox" name="fix_book" value="checked_fix_book" checked>本の名前</input><br>';
+    //固定タグを表示する
+    $tagFixed = explode(":", $post["tagFixed"]);
+    $tagFixedInd = getFixedInd($tagFixed);
+    $fixedTags = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
+    for($i = 0; $i < count($fixedTags); $i++){
+        if($fixedTags[$i] == "?newl?"){
+            echo '<br>';
+            continue;
+        }
+        $checked = "";
+        foreach($tagFixedInd as $pre){
+            if($pre == $i){
+                $checked = "checked";
+            }
+        }
+        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'" '.$checked.'>'.$fixedTags[$i]."&nbsp;";
+    }
+    
+    echo '
+    </td>
     </tr>
     <tr><td><br></td></tr>
     <tr>
-    <td width="50%" align="center">〇名　前</td><td width="50%" align="center">'.$post["name"].'</td>
-    </tr>
-    <tr><td><br></td></tr>
-    <tr>
-    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$post["tag"].'"></input>
+    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$post["tag"].'"></input>
     </td>
     <tr><td><br></td></tr>
     </tr>
@@ -44,9 +56,6 @@ function printEditFormBack($post)
     <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
     <input type="hidden" name="ID" value="'.$post["ID"].'">
-    <input type="hidden" name="email" value="'.$post["email"].'">
-    <input type="hidden" name="name" value="'.$post["name"].'">
-    <input type="hidden" name="number" value="'.$post["number"].'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';
@@ -55,26 +64,44 @@ function printEditFormBack($post)
 function printEditForm($post)
 {
     
-    $book = explode(":",$post["tag"])[0];
     $tag = array();
+    $tagFixed = explode(":", $post["tagFixed"]);
+    $tagFixedInd = getFixedInd($tagFixed);
     
-    for($i = 1; $i < count(explode(":",$post["tag"]));$i++){
+    for($i = 0; $i < count(explode(":",$post["tag"]));$i++){
         array_push($tag, explode(":",$post["tag"])[$i]);
     }
     
     echo '
     <form action="." method="post">
     <table width="100%" bgcolor="#fafafa">
-    <tr>
-    <td width="50%" align="center">〇学籍番号</td><td width="50%" align="center">'.$post["number"].'</td>
+    <td width="50%" align="center">〇固定タグ</td>
+    <td width="50%" align="center">
+    ';
+    echo '
+    <input type="checkbox" name="fix_date" value="checked_fix_date" checked>投稿日時</input> &nbsp;<input type="checkbox" name="fix_book" value="checked_fix_book" checked>本の名前</input><br>';
+    //固定タグを表示する
+    $fixedTags = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
+    for($i = 0; $i < count($fixedTags); $i++){
+        if($fixedTags[$i] == "?newl?"){
+            echo '<br>';
+            continue;
+        }
+        $checked = "";
+        foreach($tagFixedInd as $pre){
+            if($pre == $i){
+                $checked = "checked";
+            }
+        }
+        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'" '.$checked.'>'.$fixedTags[$i]."&nbsp;";
+    }
+    
+    echo '
+    </td>
     </tr>
     <tr><td><br></td></tr>
     <tr>
-    <td width="50%" align="center">〇名　前　</td><td width="50%" align="center">'.$post["name"].'</td>
-    </tr>
-    <tr><td><br></td></tr>
-    <tr>
-    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="';
+    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="';
     foreach($tag as $t){
         echo $t;
         if($t !== ""){
@@ -87,7 +114,7 @@ function printEditForm($post)
     <tr><td><br></td></tr>
     <tr>
     <td width="50%" align="center">〇推薦する本の名前</td>
-    <td width="50%" align="center"><input type="text" name="book" value="'.$book.'"></input></td>
+    <td width="50%" align="center"><input type="text" name="book" value="'.$post["book"].'"></input></td>
     </td>
     <tr><td><br></td></tr>
     <tr><td><br></td></tr>
@@ -100,9 +127,6 @@ function printEditForm($post)
     <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
     <input type="hidden" name="ID" value="'.$post["ID"].'">
-    <input type="hidden" name="email" value="'.$post["email"].'">
-    <input type="hidden" name="name" value="'.$post["name"].'">
-    <input type="hidden" name="number" value="'.$post["number"].'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';

@@ -10,7 +10,11 @@ function fix_comment($post)
     $pathToFolder = __DIR__."\\..\\data\\posted\\".$folderIND;
     // タグの修正。
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
-    $tag_content = $post["book"].",".$post["tag"];
+    $tag_content = $post["tag"];
+    file_put_contents($tag_filePath, $tag_content);
+    // 固定タグの修正。
+    $tag_filePath = $pathToFolder."\\search_kwd_fixed.txt";
+    $tag_content = str_replace(":", ",", $post["tagFixed"]);
     file_put_contents($tag_filePath, $tag_content);
     
     // コメントの表示に使われるファイル

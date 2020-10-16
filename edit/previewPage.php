@@ -2,18 +2,50 @@
 
 function isSetAll($post)
 {
-    if(isset($post["number"]) && $post["number"] !== "" &&  
-       isset($post["name"]) && $post["name"] !== "" &&  
-       isset($post["book"]) &&  $post["book"] !== "" &&  
+    if(isset($post["book"]) &&  $post["book"] !== "" &&  
        isset($post["comment"]) && $post["comment"] !== "" ){
            return true;
     }
     return false;
 }
 
+function getFixedTagFromTable($key)
+{
+    if($key == "date"){
+        $w = date("w");
+        $week_name = array("日", "月", "火", "水", "木", "金", "土");
+        $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
+        $dateOfTag =  date("Y/m/d");
+        return $dateOfTag;
+    }
+    if($key == "book"){
+        return $_POST["book"];
+    }
+    $fixedTagsFromTable = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
+    return $fixedTagsFromTable[(int)$key];
+}
+
+function getFixedTags()
+{
+    // 固定タグのプレビュー
+    $fixed_tags = array();
+    foreach($_POST as $p){
+        if(substr($p, 0, 11) == "checked_fix"){
+            $tagKey = str_replace("checked_fix_", "", $p);
+            $fixedTag = getFixedTagFromTable($tagKey);
+            array_push($fixed_tags, $fixedTag);
+        }
+    }
+    return $fixed_tags;
+}
+
 function printButton_EditedPreview($next, $post)
 {
     //入力画面へ戻るボタンと、確定ボタン
+    $fixedTag = "";
+    foreach(getFixedTags() as $f){
+        $fixedTag .= ":".$f;
+    }
     echo '
     <table width="100%">
     <tr>
@@ -22,11 +54,9 @@ function printButton_EditedPreview($next, $post)
         <input type="hidden" name="scene" value="edit_comment">
         <input type="hidden" name="back" value="backed">
         <input type="hidden" name="ID" value="'.$post["ID"].'">
-        <input type="hidden" name="number" value="'.$post["number"].'">
-        <input type="hidden" name="email" value="'.$post["email"].'">
-        <input type="hidden" name="name" value="'.$post["name"].'">
         <input type="hidden" name="book" value="'.$post["book"].'">
         <input type="hidden" name="tag" value="'.$post["tag"].'">
+        <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$post["comment"].'">
         <button type="submit">　戻る　</button>
     </form>
@@ -39,11 +69,9 @@ function printButton_EditedPreview($next, $post)
     <form action="" method="post">
         <input type="hidden" name="scene" value="post_comment">　
         <input type="hidden" name="ID" value="'.$post["ID"].'">
-        <input type="hidden" name="email" value="'.$post["email"].'">
-        <input type="hidden" name="number" value="'.$post["number"].'">
-        <input type="hidden" name="name" value="'.$post["name"].'">
         <input type="hidden" name="book" value="'.$post["book"].'">
         <input type="hidden" name="tag" value="'.$post["tag"].'">
+        <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$post["comment"].'">
         <button type="submit">確定する</button>
     </form>
@@ -66,17 +94,10 @@ function printPreview($post)
     $post["comment"] = htmlspecialchars($post["comment"]);
     $post["comment"] = str_replace("?newl?", "<br>", $post["comment"]);
 
-    $number = false;
-    $name = false;
     $book = false;
     $comment = false;
     $tag = "";
-    if(isset($post["number"]) && $post["number"] !==""){
-        $number = $post["number"];
-    }
-    if(isset($post["name"]) && $post["name"] !==""){
-        $name = $post["name"];
-    }    
+    
     if(isset($post["book"]) && $post["book"] !==""){
         $book = $post["book"];
     }    
@@ -90,35 +111,32 @@ function printPreview($post)
     echo '
     <br><br>
     <table width="100%" bgcolor="#fafafa">
-    <tr>
-        <td colspan="2"><hr></td>
-    </tr>
-    <tr>
-        <td align="center" width="50%">〇学籍番号</td><td align="center" width="50%">';
-        
-    if($number !== false){
-        echo $number;
-    }else{
-        echo '<font color="red">未入力</font>';
-    }
-    
-    echo '</td>
-    </tr>
+
     <tr><td><br></td></tr>
     <tr>
-        <td align="center" width="50%">〇名　前　</td><td align="center" width="50%">';
-
-    if($name !== false){
-        echo $name;
-    }else{
-        echo '<font color="red">未入力</font>';
+    <td align="center" width="50%">〇固定タグ</td><td align="center" width="50%">';
+    $fixed_tags = getFixedTags();
+    foreach($fixed_tags as $f){
+        echo $f."<br>";
     }
-
-    echo '</td>
-    </tr>
+    echo '
+    </td></tr>
     <tr><td><br></td></tr>
     <tr>
-        <td align="center" width="50%">〇推薦する本の名前</td><td align="center" width="50%">';
+    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center">';
+    if($tag !== ""){
+        foreach($tag as $t){
+            echo $t;
+            if($t !== ""){
+                echo "<br>";
+            }
+        }
+    }
+    echo '
+    </td>
+    <tr><td><br></td></tr>
+    <tr>
+    <td align="center" width="50%">〇推薦する本の名前</td><td align="center" width="50%">';
 
     if($book !== false){
         echo $book;
@@ -128,18 +146,6 @@ function printPreview($post)
 
     echo '</td>
     </tr>    
-    <tr><td><br></td></tr>
-    <tr>
-    <td width="50%" align="center">〇タ　グ　</td><td width="50%" align="center">';
-    foreach($tag as $t){
-        echo $t;
-        if($t !== ""){
-            echo "<br>";
-        }
-    }
-    echo '
-    </td>
-    <tr><td><br></td></tr>
     <tr>
         <td colspan="2"><hr></td>
     </tr>
@@ -165,7 +171,7 @@ function printPreview($post)
     ';
 
     // 確定ボタンを押しても良いかどうか？
-    if($number !== false && $name !== false && $book !== false && $comment !== false){
+    if($book !== false && $comment !== false){
         return true;
     }else{
         return false;

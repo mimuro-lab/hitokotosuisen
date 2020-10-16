@@ -35,6 +35,18 @@ function get_email(String $token){
     return false;
 }
 
-
+function getFixedInd(array $fixeTags)
+{
+    $fixed_table = explode(",", file_get_contents(__DIR__."/../data/tagTable.txt"));
+    $indexArray = array();
+    for($i = 0; $i < count($fixed_table); $i++){
+        foreach($fixeTags as $pre){
+            if($pre === $fixed_table[$i]){
+                array_push($indexArray, $i);
+            }
+        }
+    }
+    return $indexArray;
+}
 
 ?>

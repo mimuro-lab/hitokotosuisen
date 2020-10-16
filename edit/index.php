@@ -10,9 +10,9 @@ if(!isset($_POST["scene"])){
 	$_POST["scene"] = "default";
 }
 
-//print_r($_GET); echo "<br>";
-//print_r($_POST);echo "<br>";
-//print_r($_COOKIE);
+#print_r($_GET); echo "<br>";
+#print_r($_POST);echo "<br>";
+#print_r($_COOKIE);
 
 ?>
 

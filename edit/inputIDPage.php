@@ -25,8 +25,9 @@ function printButton($canFind, $comment, $ID)
         foreach($comment["tagFixed"] as $tag){
           echo $tag.":";
       }
-        echo '>
+        echo '">
             <input type="hidden" name="comment" value="'.$comment["comment"].'">
+            <input type="hidden" name="book" value="'.$comment["book"].'">
             <button type="submit">このコメントを編集する</button>
             </form>
         ';
@@ -172,8 +173,6 @@ function main_inputID($ID)
     if($comment !== false){
         $canFind = true;
     }
-
-    print_r($comment);
 
     printMessage($canFind);
 
