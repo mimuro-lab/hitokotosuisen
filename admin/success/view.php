@@ -8,8 +8,9 @@ function update_status($nextStatus)
     $pathToInfo = __DIR__."\\..\\..\\data\\posted\\".$_GET["index"]."\\info.txt";
     $contentInfo = file_get_contents($pathToInfo);
     $contentInfo = explode(",", $contentInfo);
+    $contentInfo[6] = $nextStatus;
     $putContent = "";
-    for($i = 0; $i < 6;$i++){
+    for($i = 0; $i < count($contentInfo) - 1; $i++){
         $putContent .= $contentInfo[$i].",";
     }
     $putContent .= $nextStatus;
