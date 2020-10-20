@@ -145,7 +145,8 @@ function make_info($post, $pathToFolder)
     $number = $post["number"];
     $level = $post["level"];
     $email = $post["email"];
-    $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake.',public';
+    $initStatus = file_get_contents("./../data/initStatus.txt");
+    $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake.','.$initStatus;
     $info_filePath = $pathToFolder."\\info.txt";
     file_put_contents($info_filePath, $info_content);
 

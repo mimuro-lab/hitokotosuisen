@@ -4,6 +4,7 @@ require_once(".//utils.php");
 require_once(".//allView.php");
 require_once(".//view.php");
 require_once(".//leftPage.php");
+require_once(".//initStatus.php");
 print_r($_GET); echo "<br>";
 print_r($_POST); echo "<br>";
 print_r($_COOKIE); echo "<br>";
@@ -24,6 +25,9 @@ function printDefault()
     <table width="100%">
     <tr><td align="center">
     <a href="./?scene=allView">投稿内容の管理</a>
+    </td></tr>
+    <tr><td align="center">
+    <a href="./?scene=initStatus">投稿初期状態の管理</a>
     </td></tr>
     </table>
     ';
@@ -48,6 +52,9 @@ function main(string $_scene)
         break;
         case "view":
             main_view();
+        break;
+        case "initStatus":
+            main_initStatus();
         break;
     }
     echo '

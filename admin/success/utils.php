@@ -94,6 +94,8 @@ function printContentPre($content, $maxContent, $starNumber)
             $status = '<font color="#78FF94">公開状態</font>';
         }else if($content["info"][6] == "private"){
             $status = '<font color="#FF367F">非公開状態</font>';
+        }else if($content["info"][6] == "wait"){
+            $status = '<font color="#C0C0C0">認証待ち状態</font>';
         }
         echo '
         <table width="100%" border="0">

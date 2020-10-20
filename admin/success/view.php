@@ -37,6 +37,8 @@ function main_view()
         }else if($content["info"][6] === "private"){
             $status = "非公開状態";
             $color = "#FF367F";
+        }else if($content["info"][6] === "wait"){
+            $status = "認証待ち状態";
         }
     }
     
