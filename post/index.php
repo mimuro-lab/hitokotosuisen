@@ -5,6 +5,14 @@ require_once(".//previewPage.php");
 require_once(".//postPage.php");
 require_once(".//quitPage.php");
 
+// 投稿ページが有効かどうか？
+$status = explode(",", file_get_contents("./../data/siteStatus.txt"))[1];
+
+if($status !== "public"){
+	echo '申し訳ありません。ただいまメンテナンス中です。';
+	exit();
+}
+
 // 変数の取得
 //echo "get:";print_r($_GET); echo "<br>";
 echo "post:";print_r($_POST); echo "<br>";

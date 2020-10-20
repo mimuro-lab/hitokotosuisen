@@ -5,6 +5,14 @@ require_once(".//editPage.php");
 require_once(".//previewPage.php");
 require_once(".//repostPage.php");
 
+// 編集ページが有効かどうか？
+$status = explode(",", file_get_contents("./../data/siteStatus.txt"))[2];
+
+if($status !== "public"){
+	echo '申し訳ありません。ただいまメンテナンス中です。';
+	exit();
+}
+
 // 変数の取得
 if(!isset($_POST["scene"])){
 	$_POST["scene"] = "default";

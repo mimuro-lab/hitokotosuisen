@@ -4,6 +4,15 @@ require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
 require_once(__DIR__."\\viewOne.php");
 require_once(__DIR__."\\countViewPage.php");
+
+// 閲覧ページが有効かどうか？
+$status = explode(",", file_get_contents("./../data/siteStatus.txt"))[0];
+
+if($status !== "public"){
+	echo '申し訳ありません。ただいまメンテナンス中です。';
+	exit();
+}
+
 date_default_timezone_set('Asia/Tokyo');
 
 function printTitleLine(string $inputTag, string $viewCount)

@@ -29,7 +29,14 @@ require_once(".//view//defaultPage.php")
 			<td align="center" width="50%">
 				<table border="0"  bordercolor="#adff2f" width="100%">
 				<tr><td>
-					<?php viewDefaultComment(7, 3);?>	
+					<?php 
+					
+					$status = explode(",", file_get_contents("./data/siteStatus.txt"))[0];
+					if($status === "public"){
+						viewDefaultComment(7, 3);
+					}
+					
+					?>	
 				</td></tr>
 				</table>
 			</td>
