@@ -5,6 +5,7 @@ require_once(__DIR__."\\utils.php");
 print_r($_POST);echo "<br>";
 print_r($_GET);echo "<br>";
 print_r($_COOKIE);echo "<br>";
+date_default_timezone_set('Asia/Tokyo');
 
 $scene = "default";
 if(isset($_POST["scene"])){
@@ -71,7 +72,9 @@ function printAdminedPage(bool $isOk)
 
 		$length = 20;
 		$token = substr(bin2hex(random_bytes($length)), 0, $length);
-		file_put_contents(__DIR__."\\..\\data\\token_admin.csv", $token);
+		# 有効な時刻
+		$limitDate = date("Y-m-d H:i:s",strtotime("+3 hour"));
+		file_put_contents(__DIR__."\\..\\data\\token_admin.csv", $token.",".$limitDate);
 
 		$to = "hitokotosuisen@gmail.com";
 		$subject = "管理画面へのログイン";
