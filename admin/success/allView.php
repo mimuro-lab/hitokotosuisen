@@ -24,6 +24,19 @@ function printContent_allView($nowPage)
     return $maxPage;
 }
 
+function printInputIndex(){
+    echo '
+    <form action="." method="get">
+    <p>
+        INDEXから探す<br>
+        <input type="number" min="0" name="index" size="20">
+        <input type="hidden" name="scene" value="view">
+        <input type="submit" value="検索">
+    </p>
+    </form>
+    ';
+}
+
 function main_allView()
 {
     echo '

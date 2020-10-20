@@ -25,13 +25,13 @@ function printDefault()
     echo '
     <table width="100%">
     <tr><td align="center">
-    <a href="./?scene=allView">投稿内容の管理</a>
+    <a href="./?scene=allView">投稿内容の管理<br><br></a>
     </td></tr>
     <tr><td align="center">
-    <a href="./?scene=initStatus">投稿初期状態の管理</a>
+    <a href="./?scene=initStatus">投稿初期状態の管理<br><br></a>
     </td></tr>
     <td align="center">
-    <a href="./?scene=siteStatus">サイトの状態管理</a>
+    <a href="./?scene=siteStatus">サイトの状態管理<br><br></a>
     </td></tr>
     </table>
     ';
@@ -66,7 +66,13 @@ function main(string $_scene)
     }
     echo '
     </td>
-    <td witdth="25%"></td>
+    <td witdth="5%"></td><td width="20%">';
+    
+    if($_scene === "allView"){
+        printInputIndex();
+    }
+
+    echo '</td>
     </tr>
     </table>
     ';

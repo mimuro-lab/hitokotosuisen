@@ -23,6 +23,21 @@ function main_view()
         echo 'INDEXが選択されていません。';
         return;
     }
+
+    $exitDirs = scandir("./../../data/posted");
+    $isExit = false;
+    foreach($exitDirs as $d){
+        if($d !== "." && $d !== ".."){
+            if($d === $_GET["index"]){
+                $isExit = true;
+            }
+        }
+    }
+    if(!$isExit){
+        echo "有効なINDEXが入力されませんでした。";
+        return;
+    }
+
     if(isset($_POST["status"])){
         update_status(($_POST["status"]));
     }
