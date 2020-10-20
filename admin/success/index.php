@@ -6,9 +6,9 @@ require_once(".//view.php");
 require_once(".//leftPage.php");
 require_once(".//initStatus.php");
 require_once(".//siteStatus.php");
-print_r($_GET); echo "<br>";
-print_r($_POST); echo "<br>";
-print_r($_COOKIE); echo "<br>";
+#print_r($_GET); echo "<br>";
+#print_r($_POST); echo "<br>";
+#print_r($_COOKIE); echo "<br>";
 
 // ここでは、cookieに保存された token_admin, username, password がすべて一致しない限り、exit()を実行する。
 if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COOKIE["token_admin"])){

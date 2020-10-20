@@ -56,11 +56,15 @@ function main_view()
             $status = "認証待ち状態";
         }
     }
+    $preMode = "default";
+    if(isset($_GET["mode"])){
+        $preMode = $_GET["mode"];
+    }
     
     echo '
     <table width="100%">
     <tr><td colspan="2" align="center">
-    <form action="./?scene=view&index='.$_GET["index"].'" method="post">
+    <form action="./?scene=view&index='.$_GET["index"].'&mode='.$preMode.'" method="post">
     <li>状態を変更する
     <select name="status">
     <option value="public">公開状態</option>
@@ -132,9 +136,10 @@ function main_view()
     foreach($content["serch_kwd_fixed"] as $tag){
         echo "&nbsp;".$tag;
     }
+    
     echo '
     </td></tr>
-    <tr><td colspan="2"s align="center"><br><br><a href="./?scene=allView">[一覧に戻る]</a></td></tr>
+    <tr><td colspan="2"s align="center"><br><br><a href="./?scene=allView&mode='.$preMode.'">[一覧に戻る]</a></td></tr>
     </table>';
 
 }

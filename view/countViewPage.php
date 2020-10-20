@@ -69,6 +69,7 @@ function main_countView(string $upOrDown, int $page)
     $maxPage = ceil($numOfContents / $printViews);
 
     // ヒット件数を表示する
+    if($page == 0){ $page = 1;}
     echo count($viewContents).'件のヒット（'.$page.'/'.$maxPage.'）';
 
     $startIND = ($page - 1) * $printViews;

@@ -139,7 +139,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   <tr>
     <td colspan="4" align="center">
     <img src="./../title_1.gif"><br>
-    <a href="http://localhost:8080/view" style="text-decoration: none;"><font size="+2" color="#000000">閲覧ページ</font></a>
+    <a href="." style="text-decoration: none;"><font size="+2" color="#000000">閲覧ページ</font></a>
     </td>
   </tr>
   
@@ -173,7 +173,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   <tr>
     <td align="center" colspan="4">
   ';
-  if($scene != "default" && $scene != "index"){ 
+  if($scene != "default" && $scene != "index" && $scene != "viewCount"){ 
     printPageButton($viewTag, $nowPage, $maxPage);
     echo'
     <table width="100%">
@@ -181,8 +181,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
       <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
     </td></tr>
     </table>';
-  }
-  if($scene == "viewCount"){
+  }else if($scene == "viewCount"){
     printPageButtonViewCount($viewCount, $nowPage, $maxPage);
   }
   echo '

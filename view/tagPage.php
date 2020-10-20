@@ -31,10 +31,22 @@ function getTagViewContents(string $serachTag)
     
     $pathToFolder = $pathToCommentPosted."/".$path;
 
+    $oneContente = getContentsFromFolder($pathToFolder);
     
-    //print_r($viewContentOfList);
-    $viewContentOfList[] = getContentsFromFolder($pathToFolder);
-    
+    if($serachTag === "___time_"){
+      $viewContentOfList[] = $oneContente;
+      continue;
+    }
+    foreach($oneContente["tag"] as $t){
+      if($t === $serachTag){
+        $viewContentOfList[] = $oneContente;
+      }
+    }    
+    foreach($oneContente["tagFixed"] as $t){
+      if($t === $serachTag){
+        $viewContentOfList[] = $oneContente;
+      }
+    }
   }
   
   return $viewContentOfList;

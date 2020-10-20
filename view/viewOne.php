@@ -24,8 +24,12 @@ function main_viewOne(int $index)
 
     $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[6];
     
-    if($isPublic != "public"){
+    if($isPublic === "private"){
 			echo '<br>INDEX:<i>'.$index.'</i>は現在非公開です。';
+      return;
+    }
+    if($isPublic === "wait"){
+			echo '<br>INDEX:<i>'.$index.'</i>は審査待ちです。';
       return;
     }
     // 閲覧数を記録する

@@ -8,8 +8,8 @@ if(!isOkUserInfo($_POST["username"], $_POST["password"])){
     echo '一致しないユーザー名とパスワードが入力されました。';
     exit();
 }else{
-    setcookie("username", $_POST["username"], time() + 60 * 60 * 24);
-    setcookie("password", $_POST["password"], time() + 60 * 60 * 24);
+    setcookie("username", $_POST["username"], time() + 60 * 60 * 3);
+    setcookie("password", $_POST["password"], time() + 60 * 60 * 3);
 }
 
 $scene = "default";

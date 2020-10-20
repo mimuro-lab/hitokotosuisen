@@ -13,6 +13,9 @@ function printContent_allView($nowPage)
     if(isset($_POST["mode"])){
         $mode = $_POST["mode"];
     }
+    if(isset($_GET["mode"])){
+        $mode = $_GET["mode"];
+    }
     $contentAll = getPostedAll($mode);
     $allCount = count($contentAll);
     $viewsPerPage = 10;

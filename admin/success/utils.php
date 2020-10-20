@@ -133,6 +133,10 @@ function printContentPre($content, $maxContent, $starNumber)
         }else if($content["info"][6] == "wait"){
             $status = '<font color="#C0C0C0">認証待ち状態</font>';
         }
+        $preMode = "default";
+        if(isset($_POST["mode"])){
+            $preMode = $_POST["mode"];
+        }
         echo '
         <table width="100%" border="0">
         <tr><td colspan="3"><hr></td></tr>
@@ -145,7 +149,7 @@ function printContentPre($content, $maxContent, $starNumber)
         <td width="40%">
         Title:'.$content["view"][0].'<br>
         '.$content["info"][4].'<br>
-        <a style="text-decoration: none;" href="./?scene=view&index='.$content["index"].'">
+        <a style="text-decoration: none;" href="./?scene=view&index='.$content["index"].'&mode='.$preMode.'">
         <font color="#2C7CFF">詳細を設定する</font></a>
         </td>
         <td width="30%">

@@ -2,9 +2,9 @@
 
 require_once(__DIR__."\\utils.php");
 
-print_r($_POST);echo "<br>";
-print_r($_GET);echo "<br>";
-print_r($_COOKIE);echo "<br>";
+#print_r($_POST);echo "<br>";
+#print_r($_GET);echo "<br>";
+#print_r($_COOKIE);echo "<br>";
 date_default_timezone_set('Asia/Tokyo');
 
 $scene = "default";
@@ -13,7 +13,7 @@ if(isset($_POST["scene"])){
 }
 if(isset($_GET["token"])){
 	if(isOkToken($_GET["token"])){
-		setcookie("token_admin", $_GET["token"], time() + 60*60*24);
+		setcookie("token_admin", $_GET["token"], time() + 60*60*3);
 		$scene = "success";
 	}else{
 		$scene = "failed";
