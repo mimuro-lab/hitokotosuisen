@@ -16,6 +16,8 @@ function printSelect(array $preStatus)
 {
     echo '
     <br><br>
+    変更する場合は、選択して更新ボタンを押してください。
+    <br><br>
     <form action=".?scene=siteStatus" method="post">
     閲覧ページ
     <select name="viewStatus">

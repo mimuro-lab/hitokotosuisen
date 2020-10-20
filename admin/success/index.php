@@ -42,7 +42,7 @@ function main(string $_scene)
     echo '
     <table width="100%">
     <tr>
-    <td width="5%"></td><td width="20%">';
+    <td width="5%"></td><td width="20%" valign="top">';
     printLeftPage();
     echo '</td>
     <td width="50%">
@@ -66,7 +66,7 @@ function main(string $_scene)
     }
     echo '
     </td>
-    <td witdth="5%"></td><td width="20%">';
+    <td witdth="5%"></td><td width="20%" valign="top">';
     
     if($_scene === "allView"){
         printInputIndex();

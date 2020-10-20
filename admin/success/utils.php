@@ -6,7 +6,7 @@ if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COO
     exit();
 }
 
-function getPostedAll()
+function getPostedAll(string $mode)
 {
     $pathToPostdFolder = __DIR__."//..//..//data//posted";
     $listOfFolder = scandir($pathToPostdFolder);
@@ -18,6 +18,15 @@ function getPostedAll()
       } 
     }
     $listOfFolder = $listTmp;
+
+    $restricStatus = "none";
+    if($mode === "public"){
+        $restricStatus = "public";
+    }else if($mode === "private"){
+        $restricStatus = "private";
+    }else if($mode === "wait"){
+        $restricStatus = "wait";
+    }
     
     $listOfContent = array();
     foreach($listOfFolder as $path){
@@ -26,6 +35,16 @@ function getPostedAll()
         }    
         $pathToDir = $pathToPostdFolder."\\".$path;
         $oneContent = array();
+        $commentStatus = explode(",", file_get_contents($pathToDir."\\info.txt"))[6];
+        if($restricStatus === "public" && $commentStatus !== "public"){
+            continue;
+        }
+        if($restricStatus === "private" && $commentStatus !== "private"){
+            continue;
+        }
+        if($restricStatus === "wait" && $commentStatus !== "wait"){
+            continue;
+        }
         $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
         $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
         $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
@@ -34,6 +53,23 @@ function getPostedAll()
         $oneContent["count"] = explode(",", file_get_contents($pathToDir."\\count.txt"));
         array_push($listOfContent, $oneContent);
     }
+
+    if(count($listOfContent) == 0){
+        return array();
+    }
+
+    if( $mode === "ascend"){
+        return $listOfContent;
+    }
+
+    if($mode === "default" ||$mode = "descend"){
+        foreach ((array) $listOfContent as $key => $value) {
+            $sort[$key] = $value['index'];
+        }
+        array_multisort($sort, SORT_DESC, $listOfContent);
+        return $listOfContent;
+    }
+
     return $listOfContent;
 }
 

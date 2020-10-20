@@ -6,11 +6,14 @@ if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COO
 }
 
 require_once(".//utils.php");
-require_once(".//utils.php");
 
 function printContent_allView($nowPage)
 {
-    $contentAll = getPostedAll();
+    $mode = "default";
+    if(isset($_POST["mode"])){
+        $mode = $_POST["mode"];
+    }
+    $contentAll = getPostedAll($mode);
     $allCount = count($contentAll);
     $viewsPerPage = 10;
     $maxPage = ceil($allCount / $viewsPerPage);
@@ -33,6 +36,31 @@ function printInputIndex(){
         <input type="hidden" name="scene" value="view">
         <input type="submit" value="検索">
     </p>
+    </form>
+    <br>
+    <form action="./?scene=allView" method="post">
+        <input type="hidden" name="mode" value="ascend">
+        <input type="submit" value="昇順にならべる">
+    </form>
+    <br>
+    <form action="./?scene=allView" method="post">
+        <input type="hidden" name="mode" value="descend">
+        <input type="submit" value="降順にならべる">
+    </form>
+    <br>
+    <form action="./?scene=allView" method="post">
+        <input type="hidden" name="mode" value="wait">
+        <input type="submit" value="認証待ちのみ">
+    </form>
+    <br>
+    <form action="./?scene=allView" method="post">
+        <input type="hidden" name="mode" value="public">
+        <input type="submit" value="公開状態のみ">
+    </form>
+    <br>
+    <form action="./?scene=allView" method="post">
+        <input type="hidden" name="mode" value="private">
+        <input type="submit" value="非公開状態のみ">
     </form>
     ';
 }
