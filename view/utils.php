@@ -45,6 +45,9 @@ function getEndComment(string $oriComment, int $restLines)
 function printHTMLOfComment($listOfContents)
 {
   foreach($listOfContents as $comment){
+    $comment["comment"] = str_replace("?cma?",",",$comment["comment"]);
+    $comment["book"] = str_replace("?cma?",",",$comment["book"]);
+    
     $rinkDate = substr($comment["date"], 0, 10);
     $date = str_replace($rinkDate, "", $comment["date"]);
     echo '

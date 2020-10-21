@@ -111,12 +111,18 @@ function getNextFolder()
 
 function make_info($pathToFolder)
 {
+    // 保存時のhtmlエスケープ処理
     $_POST["number"] = htmlspecialchars($_POST["number"]);
     $_POST["name"] = htmlspecialchars($_POST["name"]);
     $_POST["book"] = htmlspecialchars($_POST["book"]);
     $_POST["tag"] = htmlspecialchars($_POST["tag"]);
     $_POST["fixedTag"] = htmlspecialchars($_POST["fixedTag"]);
 
+    // 保存時のカンマのエスケープ処理
+    $_POST["number"] = str_replace(",", "?cma?", $_POST["number"]);
+    $_POST["name"] = str_replace(",", "?cma?", $_POST["name"]);
+    $_POST["book"] = str_replace(",", "?cma?", $_POST["book"]);
+    $_POST["comment"] = str_replace(",", "?cma?", $_POST["comment"]);
 
     $w = date("w");
     $week_name = array("日", "月", "火", "水", "木", "金", "土");

@@ -46,8 +46,10 @@ function getPostedAll(string $mode)
             continue;
         }
         $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
+        $oneContent["info"] = str_replace("?cma?", ",", $oneContent["info"]);
         $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
         $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
+        $oneContent["view"] = str_replace("?cma?", ",", $oneContent["view"]);
         $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
         $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
         $oneContent["count"] = explode(",", file_get_contents($pathToDir."\\count.txt"));
@@ -102,8 +104,10 @@ function getPostedFromIndex(int $index)
     
     $oneContent = array();
     $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
+    $oneContent["info"] = str_replace("?cma?", ",", $oneContent["info"]);
     $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
     $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
+    $oneContent["view"] = str_replace("?cma?", ",", $oneContent["view"]);
     $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
     $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
     $oneContent["count"] = explode(",", file_get_contents($pathToDir."\\count.txt"));

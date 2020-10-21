@@ -44,6 +44,8 @@ function main_viewOne(int $index)
     
     // 内容を表示する
     $content = getContentsFromFolder($pathToFolder);
+    $content["comment"] = str_replace("?cma?",",",$content["comment"]);
+    $content["book"] = str_replace("?cma?",",",$content["book"]);
 		echo '
     <table border="0" width="100%"  bgcolor="#fafafa">
     <tr>

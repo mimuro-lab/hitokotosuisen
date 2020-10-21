@@ -32,6 +32,9 @@ function getTagViewContents(string $serachTag)
     $pathToFolder = $pathToCommentPosted."/".$path;
 
     $oneContente = getContentsFromFolder($pathToFolder);
+    if(!$oneContente){
+      continue;
+    }
     
     if($serachTag === "___time_"){
       $viewContentOfList[] = $oneContente;
@@ -58,6 +61,7 @@ function viewTagComment(string $viewTag, int $page)
   
   // 2週間分、上限10コメント読み込む。
   $viewContents = getTagViewContents($viewTag);
+
 
   $numOfContents = count($viewContents);
 
