@@ -45,10 +45,10 @@ function delete_token_re(String $token){
 
 }
 
-function main_quitPage($post)
+function main_quitPage()
 {
     
-    $token = $post["token"]."\r\n";
+    $token = $_POST["token"]."\r\n";
 
     //　なんかできない。2020/10/04
     if(delete_token_re($token)===false){

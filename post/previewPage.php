@@ -44,19 +44,19 @@ function getFixedTagsIndex()
     return $fixed_tags;
 }
 
-function isSetAll($post)
+function isSetAll()
 {
-    if(isset($post["number"]) && $post["number"] !== "" &&  
-        isset($post["level"]) && $post["level"] !== "" &&  
-       isset($post["name"]) && $post["name"] !== "" &&  
-       isset($post["book"]) &&  $post["book"] !== "" &&  
-       isset($post["comment"]) && $post["comment"] !== "" ){
+    if(isset($_POST["number"]) && $_POST["number"] !== "" &&  
+        isset($_POST["level"]) && $_POST["level"] !== "" &&  
+       isset($_POST["name"]) && $_POST["name"] !== "" &&  
+       isset($_POST["book"]) &&  $_POST["book"] !== "" &&  
+       isset($_POST["comment"]) && $_POST["comment"] !== "" ){
            return true;
     }
     return false;
 }
 
-function printButton($next, $post)
+function printButton($next)
 {
     //入力画面へ戻るボタンと、確定ボタン
     echo '
@@ -68,9 +68,9 @@ function printButton($next, $post)
     <tr>
     
     <td align="left">
-    <form action="" method="post">
+    <form action="" method="POST">
         <input type="hidden" name="scene" value="input_comment">
-        <input type="hidden" name="token" value="'.$post["token"].'">
+        <input type="hidden" name="token" value="'.$_POST["token"].'">
         <button type="submit">　戻る　</button>
     </form>
     </td>
@@ -78,18 +78,18 @@ function printButton($next, $post)
     <td align="right">
     ';
     if($next){
-        $send_comment = htmlspecialchars($post["comment"]);
+        $send_comment = htmlspecialchars($_POST["comment"]);
         echo '
-        <form action="" method="post">
+        <form action="" method="POST">
             <input type="hidden" name="scene" value="post_comment">
-            <input type="hidden" name="email" value="'.$post["email"].'">
-            <input type="hidden" name="number" value="'.$post["number"].'">
-            <input type="hidden" name="name" value="'.$post["name"].'">
-            <input type="hidden" name="book" value="'.$post["book"].'">
-            <input type="hidden" name="tag" value="'.$post["tag"].'">
-            <input type="hidden" name="level" value="'.$post["level"].'">
+            <input type="hidden" name="email" value="'.$_POST["email"].'">
+            <input type="hidden" name="number" value="'.$_POST["number"].'">
+            <input type="hidden" name="name" value="'.$_POST["name"].'">
+            <input type="hidden" name="book" value="'.$_POST["book"].'">
+            <input type="hidden" name="tag" value="'.$_POST["tag"].'">
+            <input type="hidden" name="level" value="'.$_POST["level"].'">
             <input type="hidden" name="comment" value="'.$send_comment.'">
-            <input type="hidden" name="token" value="'.$post["token"].'">
+            <input type="hidden" name="token" value="'.$_POST["token"].'">
         ';
         // 固定タグ
         $fixed = "";
@@ -113,11 +113,8 @@ function printButton($next, $post)
 
 }
 
-function printPreview($post)
+function printPreview()
 {
-    $post["comment"] = str_replace("\r\n", "?newl?", $post["comment"]);
-    $post["comment"] = htmlspecialchars($post["comment"]);
-    $post["comment"] = str_replace("?newl?", "<br>", $post["comment"]);
 
     $number = false;
     $level = false;
@@ -125,23 +122,23 @@ function printPreview($post)
     $book = false;
     $tag = false;
     $comment = false;
-    if(isset($post["number"]) && $post["number"] !==""){
-        $number = $post["number"];
+    if(isset($_POST["number"]) && $_POST["number"] !==""){
+        $number = $_POST["number"];
     }
-    if(isset($post["level"]) && $post["level"] !== ""){
-        $level = $post["level"];
+    if(isset($_POST["level"]) && $_POST["level"] !== ""){
+        $level = $_POST["level"];
     }
-    if(isset($post["name"]) && $post["name"] !==""){
-        $name = $post["name"];
+    if(isset($_POST["name"]) && $_POST["name"] !==""){
+        $name = $_POST["name"];
     }    
-    if(isset($post["book"]) && $post["book"] !==""){
-        $book = $post["book"];
+    if(isset($_POST["book"]) && $_POST["book"] !==""){
+        $book = $_POST["book"];
     }    
-    if(isset($post["tag"]) && $post["tag"] !==""){
-        $tag = explode(",", $post["tag"]);
+    if(isset($_POST["tag"]) && $_POST["tag"] !==""){
+        $tag = explode(",", $_POST["tag"]);
     }    
-    if(isset($post["comment"]) && $post["comment"] !==""){
-        $comment = $post["comment"];
+    if(isset($_POST["comment"]) && $_POST["comment"] !==""){
+        $comment = $_POST["comment"];
     }
 
     echo '
@@ -254,22 +251,31 @@ function printPreview($post)
 
 }
 
-function main_previewPage($post){
+function main_previewPage(){
 
-    setcookie("email", $post["email"], time() + 60 * 15);
-    setcookie("number", $post["number"], time() + 60 * 15);
-    setcookie("level", $post["level"], time() + 60 * 15);
-    setcookie("name", $post["name"], time() + 60 * 15);
-    setcookie("book", $post["book"], time() + 60 * 15);
-    setcookie("tag", $post["tag"], time() + 60 * 15);
-    setcookie("comment", $post["comment"], time() + 60 * 15);
+    // html文字は変換する
+    $_POST["comment"] = str_replace("\r\n", "?newl?", $_POST["comment"]);
+    $_POST["comment"] = htmlspecialchars($_POST["comment"]);
+    $_POST["comment"] = str_replace("?newl?", "<br>", $_POST["comment"]);
+    $_POST["number"] = htmlspecialchars($_POST["number"]);
+    $_POST["name"] = htmlspecialchars($_POST["name"]);
+    $_POST["book"] = htmlspecialchars($_POST["book"]);
+    $_POST["tag"] = htmlspecialchars($_POST["tag"]);
+    
+    setcookie("email", $_POST["email"], time() + 60 * 15);
+    setcookie("number", $_POST["number"], time() + 60 * 15);
+    setcookie("level", $_POST["level"], time() + 60 * 15);
+    setcookie("name", $_POST["name"], time() + 60 * 15);
+    setcookie("book", $_POST["book"], time() + 60 * 15);
+    setcookie("tag", $_POST["tag"], time() + 60 * 15);
+    setcookie("comment", $_POST["comment"], time() + 60 * 15);
     $fixed = "";
     foreach(getFixedTagsIndex() as $i){
         $fixed .= $i.",";
     }
     setcookie("fixed_tag", $fixed, time() + 60 * 15);
 
-    if(!isSetAll($post)){
+    if(!isSetAll()){
         echo '<table width="100%"><tr><td align="center"><font size="+2" color="#000000">
         以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。
         </font></td></tr></table>';
@@ -280,8 +286,8 @@ function main_previewPage($post){
         </font></td></tr></table>';
     }
 
-    $next = printPreview($post);
-    printButton($next, $post);
+    $next = printPreview();
+    printButton($next);
 
 }
 

@@ -84,15 +84,15 @@ if(isset($_POST["scene"])){
 					setcookie("token", $token, time() + 60 * 15);
 					break;
 				case "preview_comment":
-					main_previewPage($_POST);
+					main_previewPage();
 					break;
 				case "post_comment":
 					session_start();
-					main_postPage($_POST);
+					main_postPage();
 					break;
 				case "quit_post":
 					session_unset();
-					main_quitPage($_POST);
+					main_quitPage();
 					break;
 				}
 

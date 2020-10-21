@@ -109,31 +109,33 @@ function getNextFolder()
     return $nextPath;
 }
 
-function make_info($post, $pathToFolder)
+function make_info($pathToFolder)
 {
+    $_POST["number"] = htmlspecialchars($_POST["number"]);
+    $_POST["name"] = htmlspecialchars($_POST["name"]);
+    $_POST["book"] = htmlspecialchars($_POST["book"]);
+    $_POST["tag"] = htmlspecialchars($_POST["tag"]);
+    $_POST["fixedTag"] = htmlspecialchars($_POST["fixedTag"]);
+
 
     $w = date("w");
     $week_name = array("日", "月", "火", "水", "木", "金", "土");
     $dateOfMake = date("Y/m/d") . "($week_name[$w]) ".date("H:i");
     $dateOfTag =  date("Y/m/d");
-    $book = $post["book"];
+    $book = $_POST["book"];
 
     // 検索に使われるファイル（タグと、ほんのタイトル）
-    $tag = $post["tag"];
+    $tag = $_POST["tag"];
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
     file_put_contents($tag_filePath, $tag);
 
     // 固定タグを保存するファイル
-    $fixed_tag = $post["fixedTag"];
+    $fixed_tag = $_POST["fixedTag"];
     $fixed_filePath = $pathToFolder."\\search_kwd_fixed.txt";
     file_put_contents($fixed_filePath, $fixed_tag);
 
     // コメントの表示に使われるファイル
-    $comment = $post["comment"];
-    $comment = str_replace("\r\n", "?newl?", $comment);   //改行をhtml形式に合わせる
-    $comment = str_replace(",", "?cma?", $comment);     //,のエスケープ処理（保存形式がCSVになるから）
-    $comment = htmlspecialchars($comment);              //htmlのエスケープ処理
-    $comment = str_replace("?newl?", "<br>", $comment);
+    $comment = $_POST["comment"];
     $view_content = $book.",".$dateOfMake.",".$comment;
     $view_filePath = $pathToFolder."\\view.txt";
     file_put_contents($view_filePath, $view_content);
@@ -141,10 +143,10 @@ function make_info($post, $pathToFolder)
     // 投稿主の情報を格納するファイル
     $length = 10;
     $token_comment = base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
-    $name = $post["name"];
-    $number = $post["number"];
-    $level = $post["level"];
-    $email = $post["email"];
+    $name = $_POST["name"];
+    $number = $_POST["number"];
+    $level = $_POST["level"];
+    $email = $_POST["email"];
     $initStatus = file_get_contents("./../data/initStatus.txt");
     $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake.','.$initStatus;
     $info_filePath = $pathToFolder."\\info.txt";
@@ -159,25 +161,25 @@ function make_info($post, $pathToFolder)
     return $token_comment;
 }
 
-function main_postPage($post)
+function main_postPage()
 {
     
     $success = false;
     $token_comment = "";
 
     if(!isset($_SESSION["savedIndex"])){
-        if(isset($post["number"]) && isset($post["name"]) && isset($post["email"]) && 
-        isset($post["book"]) && isset($post["tag"]) && isset($post["comment"])){
+        if(isset($_POST["number"]) && isset($_POST["name"]) && isset($_POST["email"]) && 
+        isset($_POST["book"]) && isset($_POST["tag"]) && isset($_POST["comment"])){
             $success = true;
             $pathToFolder = getNextFolder();
             mkdir($pathToFolder);
-            $token_comment = basename($pathToFolder).":".make_info($post, $pathToFolder);
+            $token_comment = basename($pathToFolder).":".make_info($pathToFolder);
             $_SESSION["savedIndex"] = basename($pathToFolder);
         }
 
     }
     if($success){
-        delete_token($post["token"]);
+        delete_token($_POST["token"]);
         echo '<table width="100%"><tr><td align="center"><font size="+1" color="#000000">
         投稿が終了しました。INDEXは'.explode(":",$token_comment)[0].'です。<br><br>
         <a style="text-decoration: none;" href="http://localhost:8080/view?index='.explode(":",$token_comment)[0].'">
@@ -186,14 +188,14 @@ function main_postPage($post)
         <font color="red">'.$token_comment.'<br><br><br>
         ※コメントを編集・削除するのに必要なIDです。メモしておいてください。<br><br>
 
-        '.$post["email"].' 宛てにこのコメントIDを送信しますか？</font><br><br>        
+        '.$_POST["email"].' 宛てにこのコメントIDを送信しますか？</font><br><br>        
         </font></td></tr>
         <tr><td align="center">
         <form action="" method="post">
         <input type="hidden" name="scene" value="post_comment">
         <input type="hidden" name="sendToken" value="true">
         <input type="hidden" name="token_comment" value="'.$token_comment.'">
-        <input type="hidden" name="email" value="'.$post["email"].'">
+        <input type="hidden" name="email" value="'.$_POST["email"].'">
         <input type="submit" value="送信する">
         </form>
         </td></tr></table>
@@ -210,17 +212,17 @@ function main_postPage($post)
         ';
         delete_cookie();
         return;
-    }else if(isset($post["sendToken"]) && $post["sendToken"] == "true"){
-        sendToken($post["token_comment"], $post["email"]);
+    }else if(isset($_POST["sendToken"]) && $_POST["sendToken"] == "true"){
+        sendToken($_POST["token_comment"], $_POST["email"]);
         echo '
         コメントIDをてに送信しました。。<br><br>
         送信したコメントIDは以下の通りです。<br><br>
-        <h3>'.$post["token_comment"].'</h3><br><br>
+        <h3>'.$_POST["token_comment"].'</h3><br><br>
         <form action="" method="post">
         <input type="hidden" name="scene" value="post_comment">
         <input type="hidden" name="sendToken" value="true">
-        <input type="hidden" name="token_comment" value='.$post["token_comment"].'>
-        <input type="hidden" name="email" value="'.$post["email"].'">
+        <input type="hidden" name="token_comment" value='.$_POST["token_comment"].'>
+        <input type="hidden" name="email" value="'.$_POST["email"].'">
         <input type="submit" value="再送信する">
         </form>
         <table border="1" width="100%">
