@@ -18,8 +18,8 @@ if(!isset($_POST["scene"])){
 	$_POST["scene"] = "default";
 }
 
-#print_r($_GET); echo "<br>";
-#print_r($_POST);echo "<br>";
+#print_r(htmlspecialchars($_GET)); echo "<br>";
+#print_r(htmlspecialchars($_POST));echo "<br>";
 #print_r($_COOKIE);
 
 ?>
@@ -57,10 +57,10 @@ if(!isset($_POST["scene"])){
 					main_editPage($_POST);
 					break;
 				case "preview_comment":
-					main_previewPage($_POST);
+					main_previewPage();
 					break;
 				case "post_comment":
-					main_postPage($_POST);
+					main_postPage();
 					break;
 				}
 

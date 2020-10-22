@@ -1,9 +1,9 @@
 ﻿<?php
 
-function isSetAll($post)
+function isSetAll()
 {
-    if(isset($post["book"]) &&  $post["book"] !== "" &&  
-       isset($post["comment"]) && $post["comment"] !== "" ){
+    if(isset($_POST["book"]) &&  $_POST["book"] !== "" &&  
+       isset($_POST["comment"]) && $_POST["comment"] !== "" ){
            return true;
     }
     return false;
@@ -39,7 +39,7 @@ function getFixedTags()
     return $fixed_tags;
 }
 
-function printButton_EditedPreview($next, $post)
+function printButton_EditedPreview($next)
 {
     //入力画面へ戻るボタンと、確定ボタン
     $fixedTag = "";
@@ -53,11 +53,11 @@ function printButton_EditedPreview($next, $post)
     <form action="" method="post">
         <input type="hidden" name="scene" value="edit_comment">
         <input type="hidden" name="back" value="backed">
-        <input type="hidden" name="ID" value="'.$post["ID"].'">
-        <input type="hidden" name="book" value="'.$post["book"].'">
-        <input type="hidden" name="tag" value="'.$post["tag"].'">
+        <input type="hidden" name="ID" value="'.$_POST["ID"].'">
+        <input type="hidden" name="book" value="'.$_POST["book"].'">
+        <input type="hidden" name="tag" value="'.$_POST["tag"].'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
-        <input type="hidden" name="comment" value="'.$post["comment"].'">
+        <input type="hidden" name="comment" value="'.$_POST["comment"].'">
         <button type="submit">　戻る　</button>
     </form>
     </td>
@@ -68,11 +68,11 @@ function printButton_EditedPreview($next, $post)
     echo '
     <form action="" method="post">
         <input type="hidden" name="scene" value="post_comment">　
-        <input type="hidden" name="ID" value="'.$post["ID"].'">
-        <input type="hidden" name="book" value="'.$post["book"].'">
-        <input type="hidden" name="tag" value="'.$post["tag"].'">
+        <input type="hidden" name="ID" value="'.$_POST["ID"].'">
+        <input type="hidden" name="book" value="'.$_POST["book"].'">
+        <input type="hidden" name="tag" value="'.$_POST["tag"].'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
-        <input type="hidden" name="comment" value="'.$post["comment"].'">
+        <input type="hidden" name="comment" value="'.$_POST["comment"].'">
         <button type="submit">確定する</button>
     </form>
     ';
@@ -88,24 +88,25 @@ function printButton_EditedPreview($next, $post)
 
 }
 
-function printPreview($post)
+function printPreview()
 {
-    $post["comment"] = str_replace("\r\n", "?newl?", $post["comment"]);
-    $post["comment"] = htmlspecialchars($post["comment"]);
-    $post["comment"] = str_replace("?newl?", "<br>", $post["comment"]);
+    $_POST["comment"] = str_replace("\r\n", "?newl?", $_POST["comment"]);
+    $_POST["comment"] = htmlspecialchars($_POST["comment"]);
+    $_POST["comment"] = str_replace("?newl?", "<br>", $_POST["comment"]);
+    $_POST["book"] = htmlspecialchars($_POST["book"]);
 
     $book = false;
     $comment = false;
     $tag = "";
     
-    if(isset($post["book"]) && $post["book"] !==""){
-        $book = $post["book"];
+    if(isset($_POST["book"]) && $_POST["book"] !==""){
+        $book = $_POST["book"];
     }    
-    if(isset($post["comment"]) && $post["comment"] !==""){
-        $comment = $post["comment"];
+    if(isset($_POST["comment"]) && $_POST["comment"] !==""){
+        $comment = $_POST["comment"];
     }
-    if(isset($post["tag"]) && $post["tag"] !==""){
-        $tag = explode(",",$post["tag"]);
+    if(isset($_POST["tag"]) && $_POST["tag"] !==""){
+        $tag = explode(",",$_POST["tag"]);
     }
 
     echo '
@@ -179,10 +180,10 @@ function printPreview($post)
 
 }
 
-function main_previewPage($post){
+function main_previewPage(){
 
     echo '<table width="100%"><tr><td align="center">';
-    if(!isSetAll($post)){
+    if(!isSetAll()){
         echo '<font size="+2" color="#696969">以下の<font color="red">未入力</font>を入力してください。<br>戻るボタンから入力しなおせます。</font>';
     }else{
         echo '<font size="+2" color="#696969">
@@ -192,8 +193,8 @@ function main_previewPage($post){
     }
     echo '</td></tr></table>';
 
-    $next = printPreview($post);
-    printButton_EditedPreview($next, $post);
+    $next = printPreview();
+    printButton_EditedPreview($next);
 
 }
 

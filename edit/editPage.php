@@ -2,9 +2,13 @@
 
 require_once(".//utils.php");
 
-function printEditFormBack($post)
+function printEditFormBack()
 {
-    $comment = str_replace("<br>", "", $post["comment"]);
+    # html文字のエスケープ処理
+    $_POST["book"] = htmlspecialchars($_POST["book"]);
+    $_POST["tag"] = htmlspecialchars($_POST["tag"]);
+    $_POST["tagFixed"] = htmlspecialchars($_POST["tagFixed"]);
+    $comment = str_replace("<br>", "", $_POST["comment"]);
     echo '
     <table width="100%">
     <tr><td align="center"><font size="+2" color="#696969">編集内容を入力してください</font><br>
@@ -17,7 +21,7 @@ function printEditFormBack($post)
     echo '
     <input type="checkbox" name="fix_date" value="checked_fix_date" checked>投稿日時</input> &nbsp;<input type="checkbox" name="fix_book" value="checked_fix_book" checked>本の名前</input><br>';
     //固定タグを表示する
-    $tagFixed = explode(":", $post["tagFixed"]);
+    $tagFixed = explode(":", $_POST["tagFixed"]);
     $tagFixedInd = getFixedInd($tagFixed);
     $fixedTags = explode(",", file_get_contents(__DIR__."\\..\\data\\tagTable.txt"));
     for($i = 0; $i < count($fixedTags); $i++){
@@ -39,37 +43,36 @@ function printEditFormBack($post)
     </tr>
     <tr><td><br></td></tr>
     <tr>
-    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$post["tag"].'"></input>
+    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$_POST["tag"].'"></input>
     </td>
     <tr><td><br></td></tr>
     </tr>
     <tr>
     <td width="50%" align="center">〇推薦する本の名前</td>
-    <td  width="50%" align="center"><input type="text" name="book" value="'.$post["book"].'"></input></td>
+    <td  width="50%" align="center"><input type="text" name="book" value="'.$_POST["book"].'"></input></td>
     </tr>
     <tr><td><br></td></tr>
     <tr><td><br></td></tr>
     <tr><td colspan="2" align="center">〇推薦内容</td></tr>
     <tr><td colspan="2" align="center">
-    <textarea name="comment"  rows="20" cols="80">'.$post["comment"].'</textarea>
+    <textarea name="comment"  rows="20" cols="80">'.$_POST["comment"].'</textarea>
     </td></tr>
     <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
-    <input type="hidden" name="ID" value="'.$post["ID"].'">
+    <input type="hidden" name="ID" value="'.$_POST["ID"].'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';
 }
 
-function printEditForm($post)
+function printEditForm()
 {
-    
     $tag = array();
-    $tagFixed = explode(":", $post["tagFixed"]);
+    $tagFixed = explode(":", $_POST["tagFixed"]);
     $tagFixedInd = getFixedInd($tagFixed);
     
-    for($i = 0; $i < count(explode(":",$post["tag"]));$i++){
-        array_push($tag, explode(":",$post["tag"])[$i]);
+    for($i = 0; $i < count(explode(":",$_POST["tag"]));$i++){
+        array_push($tag, explode(":",$_POST["tag"])[$i]);
     }
     
     echo '
@@ -114,7 +117,7 @@ function printEditForm($post)
     <tr><td><br></td></tr>
     <tr>
     <td width="50%" align="center">〇推薦する本の名前</td>
-    <td width="50%" align="center"><input type="text" name="book" value="'.$post["book"].'"></input></td>
+    <td width="50%" align="center"><input type="text" name="book" value="'.$_POST["book"].'"></input></td>
     </td>
     <tr><td><br></td></tr>
     <tr><td><br></td></tr>
@@ -122,24 +125,24 @@ function printEditForm($post)
     
     <tr><td colspan="2" align="center">〇推薦内容</td></tr>
     <tr><td colspan="2" align="center">
-    <textarea name="comment" rows="20" cols="80">'.$post["comment"].'</textarea>
+    <textarea name="comment" rows="20" cols="80">'.$_POST["comment"].'</textarea>
     </td></tr>
     <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>
-    <input type="hidden" name="ID" value="'.$post["ID"].'">
+    <input type="hidden" name="ID" value="'.$_POST["ID"].'">
     <input type="hidden" name="scene" value="preview_comment">
     </form>
     ';
 }
 
-function main_editPage($post)
+function main_editPage()
 {
-    //savePostToCookie($post);
+    //savePostToCookie($_POST);
 
     if(!isset($_POST["back"])){
-        printEditForm($post);
+        printEditForm();
     }else{
-        printEditFormBack($post);
+        printEditFormBack();
     }
 
 }
