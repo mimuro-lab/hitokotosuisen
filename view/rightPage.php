@@ -16,6 +16,6 @@
 </form>
 
 <br><br>
-<a href="http://localhost:8080/view?tag=___time_">最新の投稿順</a><br><br>
-<a href="http://localhost:8080/view?viewCount=descend">閲覧数が多い順</a><br><br>
-<a href="http://localhost:8080/view?viewCount=ascend">閲覧数が少ない順</a><br><br>
+<a href="./?tag=___time_">最新の投稿順</a><br><br>
+<a href="./?viewCount=descend">閲覧数が多い順</a><br><br>
+<a href="./?viewCount=ascend">閲覧数が少ない順</a><br><br>

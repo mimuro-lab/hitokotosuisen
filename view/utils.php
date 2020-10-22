@@ -70,7 +70,7 @@ function printHTMLOfComment($listOfContents)
       <td style="opacity:0.5" colspan="2" style="word-break: break-all;"  colspan="2"><font size="-1" face="arial unicode ms">'.getEndComment($comment["comment"], 3).'</font></td>
     </tr>
     <tr>
-      <td style="opacity:0.8" colspan="2" align="center"><a href="http://localhost:8080/view/?index='.$comment["index"].'"><font color="#696969">この投稿を全部見る</td>
+      <td style="opacity:0.8" colspan="2" align="center"><a href="./?index='.$comment["index"].'"><font color="#696969">この投稿を全部見る</td>
     </tr>
     
     <tr><td colspan="2" align="right">タグ<br>

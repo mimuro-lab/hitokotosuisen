@@ -192,7 +192,7 @@ function main_postPage()
         delete_token($_POST["token"]);
         echo '<table width="100%"><tr><td align="center"><font size="+1" color="#000000">
         投稿が終了しました。INDEXは'.explode(":",$token_comment)[0].'です。<br><br>
-        <a style="text-decoration: none;" href="http://localhost:8080/view?index='.explode(":",$token_comment)[0].'">
+        <a style="text-decoration: none;" href="./../view?index='.explode(":",$token_comment)[0].'">
         <font size="+2" color="#696969">投稿した内容を見る</font></a><br><br>
         また、コメントIDを発行しました。<br><br>
         <font color="red">'.$token_comment.'<br><br><br>
@@ -216,7 +216,7 @@ function main_postPage()
         <table border="1" width="100%">
         <tr><td align="center">
         投稿は完了しました。<br>
-        <a href="http://localhost:8080">トップページへ戻る</a>
+        <a href="./../">トップページへ戻る</a>
         </td></tr>
         </table>
         ';
@@ -238,7 +238,7 @@ function main_postPage()
         <table border="1" width="100%">
         <tr><td align="center">
         投稿は完了しました。<br>
-        <a href="http://localhost:8080">トップページへ戻る</a>
+        <a href="./..">トップページへ戻る</a>
         </td></tr>
         </table>
         ';
@@ -249,7 +249,7 @@ function main_postPage()
     <table border="1" width="100%">
     <tr><td align="center">
     投稿できませんでした。最初からやり直してください。<br>
-    <a href="http://localhost:8080">トップページへ戻る</a>
+    <a href="./..">トップページへ戻る</a>
     </td></tr>
     </table>
     ';

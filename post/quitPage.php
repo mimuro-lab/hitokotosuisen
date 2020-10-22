@@ -58,7 +58,7 @@ function main_quitPage()
         <table border="1" width="100%">
         <tr><td align="center">
         投稿を中断しました。<br>
-        <a href="http://localhost:8080">トップページへ戻る</a>
+        <a href="./../">トップページへ戻る</a>
         </td></tr>
         </table>
         ';
