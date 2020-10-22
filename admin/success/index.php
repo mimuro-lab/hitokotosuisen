@@ -1,5 +1,12 @@
 ﻿<?php
+
 require_once(".//..//utils.php");
+
+// ここでは、cookieに保存された token_admin, username, password がすべて一致しない限り、exit()を実行する。
+if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COOKIE["token_admin"])){
+    exit();
+}
+
 require_once(".//utils.php");
 require_once(".//allView.php");
 require_once(".//view.php");
@@ -10,10 +17,7 @@ require_once(".//siteStatus.php");
 #print_r($_POST); echo "<br>";
 #print_r($_COOKIE); echo "<br>";
 
-// ここでは、cookieに保存された token_admin, username, password がすべて一致しない限り、exit()を実行する。
-if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COOKIE["token_admin"])){
-    exit();
-}
+
 
 $scene = "default";
 if(isset($_GET["scene"])){

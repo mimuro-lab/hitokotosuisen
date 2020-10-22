@@ -1,8 +1,8 @@
 ﻿<?php
 require_once(__DIR__."\\utils.php");
-print_r($_GET);echo "<br>";
-print_r($_POST);echo "<br>";
-print_r($_COOKIE);echo "<br>";
+//print_r($_GET);echo "<br>";
+//print_r($_POST);echo "<br>";
+//print_r($_COOKIE);echo "<br>";
 
 if(!isOkUserInfo($_POST["username"], $_POST["password"])){
     echo '一致しないユーザー名とパスワードが入力されました。';
