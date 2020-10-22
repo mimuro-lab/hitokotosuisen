@@ -28,7 +28,7 @@ function delete_token(String $token){
         return false;
     }
     $fp = fopen($pathToToken, "r");
-    $pathToTmp = __DIR__."/token_tmp.csv";
+    $pathToTmp = __DIR__."/../data/token_tmp.csv";
     $fp_tmp = fopen($pathToTmp, "w");
     
     // 一行ずつ読み込み、tmpファイルに書き込む
