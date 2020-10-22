@@ -18,6 +18,9 @@ date_default_timezone_set('Asia/Tokyo');
 function printTitleLine(string $inputTag, string $viewCount)
 {
 
+  # htmlのエスケープ処理
+  $inputTag = htmlspecialchars($inputTag);
+
   if($viewCount == "descend"){
     return "<h4>閲覧数が多い順</h4>";
   }
@@ -31,13 +34,16 @@ function printTitleLine(string $inputTag, string $viewCount)
   }
   
   if($inputTag != ""){
-    return "<h4>キーワード".$inputTag."を含む投稿</h4>";
+    return 'キーワード<b>'.$inputTag."</b>を含む投稿";
   }
 
 }
 
 function printPageButton(string $viewTag, int $nowPage, int $maxPage)
 {
+  
+  # htmlのエスケープ処理
+  $viewTag = htmlspecialchars($viewTag);
   
   if($nowPage < 1){
     $nowPage = 1;
