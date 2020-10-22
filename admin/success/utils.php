@@ -35,7 +35,8 @@ function getPostedAll(string $mode)
         }    
         $pathToDir = $pathToPostdFolder."\\".$path;
         $oneContent = array();
-        $commentStatus = explode(",", file_get_contents($pathToDir."\\info.txt"))[6];
+        #$commentStatus = explode(",", file_get_contents($pathToDir."\\info.txt"))[6];
+        $commentStatus = file_get_contents($pathToDir."\\status.txt");
         if($restricStatus === "public" && $commentStatus !== "public"){
             continue;
         }
@@ -52,6 +53,7 @@ function getPostedAll(string $mode)
         $oneContent["view"] = str_replace("?cma?", ",", $oneContent["view"]);
         $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
         $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
+        $oneContent["status"] = $commentStatus;
         $oneContent["count"] = explode(",", file_get_contents($pathToDir."\\count.txt"));
         array_push($listOfContent, $oneContent);
     }
@@ -105,6 +107,7 @@ function getPostedFromIndex(int $index)
     $oneContent = array();
     $oneContent["info"] = explode(",", file_get_contents($pathToDir."\\info.txt"));
     $oneContent["info"] = str_replace("?cma?", ",", $oneContent["info"]);
+    $oneContent["status"] = file_get_contents($pathToDir."\\status.txt");
     $oneContent["index"] = file_get_contents($pathToDir."\\index.txt");
     $oneContent["view"] = explode(",", file_get_contents($pathToDir."\\view.txt"));
     $oneContent["view"] = str_replace("?cma?", ",", $oneContent["view"]);
@@ -130,11 +133,11 @@ function printContentPre($content, $maxContent, $starNumber)
     </table>';
     foreach($trimedContent as $content){
         $status = "none";
-        if($content["info"][6] == "public"){
+        if($content["status"] == "public"){
             $status = '<font color="#78FF94">公開状態</font>';
-        }else if($content["info"][6] == "private"){
+        }else if($content["status"] == "private"){
             $status = '<font color="#FF367F">非公開状態</font>';
-        }else if($content["info"][6] == "wait"){
+        }else if($content["status"] == "wait"){
             $status = '<font color="#C0C0C0">認証待ち状態</font>';
         }
         $preMode = "default";

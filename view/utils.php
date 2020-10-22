@@ -102,7 +102,8 @@ function printHTMLOfComment($listOfContents)
 function getContentsFromFolder($pathToFolder)
 {
   //公開状態でないのなら取得しない。
-  $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[6];
+#  $isPublic = explode(",", file_get_contents($pathToFolder."/info.txt"))[6];
+  $isPublic = file_get_contents($pathToFolder."/status.txt");
   if($isPublic != "public"){
     return false;
   }

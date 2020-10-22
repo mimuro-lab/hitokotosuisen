@@ -5,16 +5,8 @@ if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COO
 }
 function update_status($nextStatus)
 {
-    $pathToInfo = __DIR__."\\..\\..\\data\\posted\\".$_GET["index"]."\\info.txt";
-    $contentInfo = file_get_contents($pathToInfo);
-    $contentInfo = explode(",", $contentInfo);
-    $contentInfo[6] = $nextStatus;
-    $putContent = "";
-    for($i = 0; $i < count($contentInfo) - 1; $i++){
-        $putContent .= $contentInfo[$i].",";
-    }
-    $putContent .= $nextStatus;
-    file_put_contents($pathToInfo, $putContent);
+    $pathToInfo = __DIR__."\\..\\..\\data\\posted\\".$_GET["index"]."\\status.txt";
+    file_put_contents($pathToInfo, $nextStatus);
 }
 
 function main_view()
@@ -45,14 +37,14 @@ function main_view()
 
     $status = "none";
     $color = "#C0C0C0";
-    if(isset($content["info"][6])){
-        if($content["info"][6] === "public"){
+    if(isset($content["status"])){
+        if($content["status"] === "public"){
             $status = "公開状態";
             $color = "#78FF94";
-        }else if($content["info"][6] === "private"){
+        }else if($content["status"] === "private"){
             $status = "非公開状態";
             $color = "#FF367F";
-        }else if($content["info"][6] === "wait"){
+        }else if($content["status"] === "wait"){
             $status = "認証待ち状態";
         }
     }
@@ -92,7 +84,7 @@ function main_view()
     <td width="50%">メールアドレス</td><td width="50%">'.$content["info"][4].'</td>
     </tr>
     <tr>
-    <td width="50%">コメントID</td><td width="50%">'.$content["info"][0].'</td>
+    <td width="50%">コメントID</td><td width="50%">'.$content["index"].":".$content["info"][0].'</td>
     </tr>
     <tr>
     <td width="50%">投稿日時</td><td width="50%">'.$content["info"][5].'</td>

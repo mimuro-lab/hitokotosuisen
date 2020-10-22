@@ -189,6 +189,12 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
     </table>';
   }else if($scene == "viewCount"){
     printPageButtonViewCount($viewCount, $nowPage, $maxPage);
+    echo'
+    <table width="100%">
+    <tr><td align="center" colspan="2">
+      <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
+    </td></tr>
+    </table>';
   }
   echo '
     </td>

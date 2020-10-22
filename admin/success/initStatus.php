@@ -6,30 +6,68 @@ if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COO
 
 function printNowStatus()
 {
-    echo '現在の初期状態は';
+    echo '現在の初期状態';
     $nowStatus = file_get_contents('./../../data/initStatus.txt');
-    $nowStatus = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $nowStatus);
-    $nowStatus = preg_replace('/[^a-zA-Z]/', '', $nowStatus);
+    $nowStatus = explode(",", $nowStatus);
+    $nowStatus[0] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $nowStatus[0]);
+    $nowStatus[0] = preg_replace('/[^a-zA-Z]/', '', $nowStatus[0]);
+
     $echoStatus = "";
     $color = "";
-    if($nowStatus === "wait"){
+    if($nowStatus[0] === "wait"){
         $color = "#C0C0C0";
         $echoStatus = "認証待ち";
-    }else if($nowStatus === "public"){
+    }else if($nowStatus[0] === "public"){
         $color = "#78FF94";
         $echoStatus = "公開状態";
-    }else if($nowStatus == "private"){
+    }else if($nowStatus[0] == "private"){
         $color = "#FF367F";
         $echoStatus = "非公開状態";
     }
-    echo '<br><br><font color="'.$color.'">'.$echoStatus."</font><br><br>";
+
+    $echoStatusEdit = "";
+    $colorEdit = "";
+    if($nowStatus[1] === "wait"){
+        $colorEdit = "#C0C0C0";
+        $echoStatusEdit = "認証待ち";
+    }else if($nowStatus[1] === "public"){
+        $colorEdit = "#78FF94";
+        $echoStatusEdit = "公開状態";
+    }else if($nowStatus[1] == "private"){
+        $colorEdit = "#FF367F";
+        $echoStatusEdit = "非公開状態";
+    }
+
+    echo '
+    <br><br>
+    <table border="1" width="100%">
+    <tr>
+    <td align="center" widht="50%">投稿時</td>
+    <td align="center" width="50%"><font color="'.$color.'">'.$echoStatus.'</font></td>
+    </tr>
+    <tr>
+    <td align="center" widht="50%">編集時</td>
+    <td align="center" width="50%"><font color="'.$colorEdit.'">'.$echoStatusEdit.'</font></td>
+    </tr>
+    </table>
+    ';
 }
 
 function printNextStatus()
 {
     echo '
+    <br>
+    以下のように変更しますか？
+    <br><br>
     <form action=".?scene=initStatus" method="post">
+    投稿時：
     <select name="status">
+    <option value="wait">承認待ち</option>
+    <option value="public">公開状態</option>
+    <option value="private">非公開状態</option>
+    </select><br><br>
+    編集時：
+    <select name="statusEdit">
     <option value="wait">承認待ち</option>
     <option value="public">公開状態</option>
     <option value="private">非公開状態</option>
@@ -39,15 +77,16 @@ function printNextStatus()
     ';
 }
 
-function saveNextStatus(string $next)
+function saveNextStatus()
 {
+    $next = $_POST["status"].",".$_POST["statusEdit"];
     file_put_contents("./../../data/initStatus.txt", $next);
 }
 
 function main_initStatus()
 {
-    if(isset($_POST["status"])){
-        saveNextStatus($_POST["status"]);
+    if(isset($_POST["status"])&&isset($_POST["statusEdit"])){
+        saveNextStatus();
     }
     echo '
     <table width="100%">

@@ -7,6 +7,8 @@ date_default_timezone_set('Asia/Tokyo');
 function fix_comment()
 {
 
+
+
     # 保存時のhtml文字エスケープ処理
     $_POST["book"] = htmlspecialchars($_POST["book"]);
     $_POST["tag"] = htmlspecialchars($_POST["tag"]);
@@ -16,9 +18,14 @@ function fix_comment()
     $_POST["book"] = str_replace(",", "?cma?", $_POST["book"]);
     $_POST["comment"] = str_replace(",", "?cma?", $_POST["comment"]);
 
-
     $folderIND = explode(":", explode(",", $_POST["ID"])[0])[0];
     $pathToFolder = __DIR__."\\..\\data\\posted\\".$folderIND;
+    
+    #　公開状態の設定
+    $status = file_get_contents("./../data/initStatus.txt");
+    $status = explode(",",$status)[1];
+    file_put_contents($pathToFolder."\\status.txt", $status);
+    
     // タグの修正。
     $tag_filePath = $pathToFolder."\\search_kwd.txt";
     $tag_content = $_POST["tag"];

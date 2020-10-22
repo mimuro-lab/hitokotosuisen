@@ -146,6 +146,11 @@ function make_info($pathToFolder)
     $view_filePath = $pathToFolder."\\view.txt";
     file_put_contents($view_filePath, $view_content);
 
+    // 公開状態を設定するファイル
+    $initStatus = explode(",", file_get_contents("./../data/initStatus.txt"))[1];
+    $status_filePath = $pathToFolder."\\status.txt";
+    file_put_contents($status_filePath, $initStatus);
+
     // 投稿主の情報を格納するファイル
     $length = 10;
     $token_comment = base_convert(mt_rand(pow(36, $length - 1), pow(36, $length) - 1), 10, 36);
@@ -153,8 +158,7 @@ function make_info($pathToFolder)
     $number = $_POST["number"];
     $level = $_POST["level"];
     $email = $_POST["email"];
-    $initStatus = file_get_contents("./../data/initStatus.txt");
-    $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake.','.$initStatus;
+    $info_content = $token_comment.','.$name.','.$number.','.$level.','.$email.','.$dateOfMake;
     $info_filePath = $pathToFolder."\\info.txt";
     file_put_contents($info_filePath, $info_content);
 
