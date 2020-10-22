@@ -57,13 +57,13 @@ function main_postPage()
         echo '
         <br>
         <table width="100%"><tr><td align="center">
-        <a style="text-decoration: none;" href="http://localhost:8080/view?index='.explode(":", $_POST["ID"])[0].'">
+        <a style="text-decoration: none;" href="./../view?index='.explode(":", $_POST["ID"])[0].'">
         <font size="+2" color="#696969">編集した投稿を見る</font></a></td></tr></table>
         <br><br>
         <table border="1" width="100%">
         <tr><td align="center">
         この記事の編集は完了しました。<br>
-        <a href="http://localhost:8080">トップページへ戻る</a>
+        <a href="./../">トップページへ戻る</a>
         </td></tr>
         </table>
         ';

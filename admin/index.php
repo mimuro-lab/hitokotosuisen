@@ -79,7 +79,7 @@ function printAdminedPage(bool $isOk)
 		$to = "hitokotosuisen@gmail.com";
 		$subject = "管理画面へのログイン";
 		$message = 'ipアドレス　'.$_SERVER["REMOTE_ADDR"].'　から管理画面へのアクセスが求められました。
-		<br><a href="http://localhost:8080/admin?token='.$token.'">管理画面へ行く</a>';
+		<br><a href="http://'.file_get_contents("servername.txt").'/admin?token='.$token.'">管理画面へ行く</a>';
 		$headers = "From: from@example.com\r\n";
     $headers .= "Content-type: text/html;charset=UTF-8";
 		mail($to, $subject, $message, $headers);

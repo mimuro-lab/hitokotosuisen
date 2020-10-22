@@ -1,1 +1,1 @@
-﻿<br><br><a href="http://localhost:8080">トップページへ戻る</a>
+﻿<br><br><a href="./../">トップページへ戻る</a>
