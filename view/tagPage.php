@@ -40,16 +40,21 @@ function getTagViewContents(string $serachTag)
       $viewContentOfList[] = $oneContente;
       continue;
     }
+    $hit = false;
     foreach($oneContente["tag"] as $t){
       if($t === $serachTag){
-        $viewContentOfList[] = $oneContente;
+        $hit = $oneContente;
       }
     }    
     foreach($oneContente["tagFixed"] as $t){
       if($t === $serachTag){
-        $viewContentOfList[] = $oneContente;
+        $hit = $oneContente;
       }
     }
+    if(!$hit){
+      continue;
+    }
+    $viewContentOfList[] = $hit;
   }
   
   return $viewContentOfList;

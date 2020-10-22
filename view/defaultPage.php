@@ -35,8 +35,6 @@ function getDefailtViewContents(string $recentDate, int $maxComments)
     
     $pathToFolder = $pathToCommentPosted."/".$path;
 
-    
-    //print_r($viewContentOfList);
     $viewContentOfList[] = getContentsFromFolder($pathToFolder);
     
   }

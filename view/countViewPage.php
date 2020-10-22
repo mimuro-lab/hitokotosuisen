@@ -36,6 +36,7 @@ function getAscendContents()
       $viewContentOfList[] = getContentsFromFolder($pathToFolder);
       
     }
+
     foreach ((array) $viewContentOfList as $key => $value) {
       $sort[$key] = $value['counter'];
     }
@@ -59,6 +60,8 @@ function main_countView(string $upOrDown, int $page)
         $viewContents = getAscendContents();
         $viewContents = array_reverse($viewContents);
     }
+
+  
 
     $numOfContents = count($viewContents);
 
