@@ -75,7 +75,7 @@ function showForm(string $token, string $email){
         }
         $preFixed = $tmp;
     }
-    print_r($preFixed);
+    #print_r($preFixed);
     echo '
     <form action="." method="post">
     <table border="0" width="100%" bgcolor="#fafafa">

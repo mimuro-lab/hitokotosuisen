@@ -24,7 +24,7 @@ function printSelect(array $preStatus)
     変更する場合は、選択して更新ボタンを押してください。
     <br><br>
     <form action=".?scene=siteStatus" method="post">
-    閲覧ページ
+    閲覧ページ：
     <select name="viewStatus">
     <option value="public" ';
     if($preStatus["view"]==="public"){
@@ -37,7 +37,7 @@ function printSelect(array $preStatus)
     }
     echo '>非公開状態</option>
     </select><br><br>
-    投稿ページ
+    投稿ページ：
     <select name="postStatus">
     <option value="public" ';
     if($preStatus["post"]==="public"){
@@ -50,7 +50,7 @@ function printSelect(array $preStatus)
     }
     echo '>非公開状態</option>
     </select><br><br>
-    編集ページ
+    編集ページ：
     <select name="editStatus">
     <option value="public" ';
     if($preStatus["edit"]==="public"){
@@ -82,7 +82,7 @@ function main_siteStatus()
     }
 
     echo '<table width="100%">
-    <tr><td align="center">現在の状態は以下です。<br><br></td>
+    <tr><td align="center">ここでは、サイトの状態を変更します。<br>現在の状態は以下です。<br><br></td>
     <tr><td>';
     $viewStatus = getNowSiteStatus()['view'];
     if($viewStatus === "public"){
@@ -102,7 +102,7 @@ function main_siteStatus()
     }else if($editStatus === "private"){
         $editStatus = '<font color="#FF367F">非公開状態</font>';
     }
-    echo '<table width="100%">
+    echo '<table width="100%" border="1">
     <tr><td align="center">閲覧ページ</td><td align="center">'.$viewStatus.'</td></tr>
     <tr><td align="center">投稿ページ</td><td align="center">'.$postStatus.'</td></tr>
     <tr><td align="center">編集ページ</td><td align="center">'.$editStatus.'</td></tr>

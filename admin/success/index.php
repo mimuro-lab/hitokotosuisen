@@ -2,6 +2,11 @@
 
 require_once(".//..//utils.php");
 
+if(!isset($_COOKIE["username"]) || !isset($_COOKIE["password"]) || !isset($_COOKIE["token_admin"])){
+    echo "正しい認証手順を踏んでください。";
+    exit();
+}
+
 // ここでは、cookieに保存された token_admin, username, password がすべて一致しない限り、exit()を実行する。
 if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COOKIE["token_admin"])){
     exit();
@@ -49,7 +54,7 @@ function main(string $_scene)
     <td width="5%"></td><td width="20%" valign="top">';
     printLeftPage();
     echo '</td>
-    <td width="50%">
+    <td width="50%" valign="top">
     ';
     switch($_scene){
         case "default":

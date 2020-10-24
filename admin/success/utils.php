@@ -9,6 +9,11 @@ require_once(".//..//utils.php");
 
 function getPostedAll(string $mode)
 {
+
+    if($mode === "default"){
+        $mode = "wait";
+    }
+
     $pathToPostdFolder = __DIR__."//..//..//data//posted";
     $listOfFolder = scandir($pathToPostdFolder);
     $max = count($listOfFolder);
@@ -67,7 +72,7 @@ function getPostedAll(string $mode)
         return $listOfContent;
     }
 
-    if($mode === "default" ||$mode = "descend"){
+    if($mode = "descend"){
         foreach ((array) $listOfContent as $key => $value) {
             $sort[$key] = $value['index'];
         }
@@ -123,6 +128,14 @@ function getPostedFromIndex(int $index)
 function printContentPre($content, $maxContent, $starNumber)
 {
 
+    if(count($content) == 0){
+        echo '
+        <table width="100%">
+        <tr><td align="center">該当する投稿はありません。</td></tr>
+        </table>
+        ';
+        return;
+    }
     $trimedContent = array_slice($content, $starNumber, $maxContent);
     echo '
     <table width="100%">

@@ -27,7 +27,7 @@ function sendmailToUser($mail_user){
     ひとことすいせんに参加して頂き、ありがとうございます。<br>
     以下のリンクをクリックして、投稿用画面へおすすみください。<br><br>
 
-    <a href = "http://'.file_get_contents("servername.txt").'/post/?token='.$token.'">投稿しに行く</a>
+    <a href = "http://'.file_get_contents("./../data/servername.txt").'/post/?token='.$token.'">投稿しに行く</a>
     <br>
     ';
 

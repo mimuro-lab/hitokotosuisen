@@ -41,6 +41,7 @@ function getAscendContents()
       $sort[$key] = $value['counter'];
     }
     
+    if(count($viewContentOfList) !== 0)
     array_multisort($sort, SORT_ASC, $viewContentOfList);
 
     return $viewContentOfList;

@@ -56,6 +56,10 @@ function printNowStatus()
 
 function printNextStatus()
 {
+    $nowStatus = file_get_contents('./../../data/initStatus.txt');
+    $nowStatus = explode(",", $nowStatus);
+    $preStatus = $nowStatus[0];
+    $preStatusEdit = $nowStatus[1];
     echo '
     <br>
     以下のように変更しますか？
@@ -63,15 +67,39 @@ function printNextStatus()
     <form action=".?scene=initStatus" method="post">
     投稿時：
     <select name="status">
-    <option value="wait">承認待ち</option>
-    <option value="public">公開状態</option>
-    <option value="private">非公開状態</option>
+    <option value="wait" ';
+    if($preStatus === "wait"){
+        echo 'selected';
+    }
+    echo '>承認待ち</option>
+    <option value="public" ';
+    if($preStatus === "public"){
+        echo 'selected';
+    }
+    echo'>公開状態</option>
+    <option value="private" ';
+    if($preStatus === "private"){
+        echo 'selected';
+    }
+    echo '>非公開状態</option>
     </select><br><br>
     編集時：
     <select name="statusEdit">
-    <option value="wait">承認待ち</option>
-    <option value="public">公開状態</option>
-    <option value="private">非公開状態</option>
+    <option value="wait" ';
+    if($preStatusEdit === "wait"){
+        echo 'selected';
+    }
+    echo '>承認待ち</option>
+    <option value="public" ';
+    if($preStatusEdit === "public"){
+        echo 'selected';
+    }
+    echo '>公開状態</option>
+    <option value="private" ';
+    if($preStatusEdit === "private"){
+        echo 'selected';
+    }
+    echo '>非公開状態</option>
     </select><br><br>
     <button type="submit">更新する</button>
     </form>

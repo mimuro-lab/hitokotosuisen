@@ -225,7 +225,8 @@ function main_postPage()
     }else if(isset($_POST["sendToken"]) && $_POST["sendToken"] == "true"){
         sendToken($_POST["token_comment"], $_POST["email"]);
         echo '
-        コメントIDをてに送信しました。。<br><br>
+        <table width="100%"><tr><td align="center">
+        コメントIDを'.$_POST["email"].'宛てに送信しました。<br><br>
         送信したコメントIDは以下の通りです。<br><br>
         <h3>'.$_POST["token_comment"].'</h3><br><br>
         <form action="" method="post">
@@ -235,6 +236,7 @@ function main_postPage()
         <input type="hidden" name="email" value="'.$_POST["email"].'">
         <input type="submit" value="再送信する">
         </form>
+        </td></tr></table>
         <table border="1" width="100%">
         <tr><td align="center">
         投稿は完了しました。<br>
