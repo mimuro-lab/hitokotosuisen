@@ -90,6 +90,7 @@ function printButton($next)
             <input type="hidden" name="level" value="'.$_POST["level"].'">
             <input type="hidden" name="comment" value="'.$send_comment.'">
             <input type="hidden" name="token" value="'.$_POST["token"].'">
+            <input type="hidden" name="nameStatus" value="'.$_POST["nameStatus"].'">
         ';
         // 固定タグ
         $fixed = "";
@@ -122,6 +123,7 @@ function printPreview()
     $book = false;
     $tag = false;
     $comment = false;
+    $nameStatus = false;
     if(isset($_POST["number"]) && $_POST["number"] !==""){
         $number = $_POST["number"];
     }
@@ -139,6 +141,9 @@ function printPreview()
     }    
     if(isset($_POST["comment"]) && $_POST["comment"] !==""){
         $comment = $_POST["comment"];
+    }
+    if(isset($_POST["nameStatus"]) && $_POST["nameStatus"] != ""){
+        $nameStatus = $_POST["nameStatus"];
     }
 
     echo '
@@ -177,6 +182,19 @@ function printPreview()
     }
 
     echo '</td>
+    </tr>
+    <tr><td><br></td></tr>
+    <td width="50%" align="center">〇名前の公開</td><td width="50%" align="center">
+    ';
+    if($nameStatus !== false){
+        if($nameStatus === "public"){
+            echo "公開";
+        }else if($nameStatus === "private"){
+            echo "非公開";
+        }
+    }
+    echo '
+    </td>
     </tr>
     <tr><td><br></td></tr>
     <tr>

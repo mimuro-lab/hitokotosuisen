@@ -142,7 +142,8 @@ function make_info($pathToFolder)
 
     // コメントの表示に使われるファイル
     $comment = $_POST["comment"];
-    $view_content = $book.",".$dateOfMake.",".$comment;
+    $nameStatus = "name_".$_POST["nameStatus"];
+    $view_content = $book.",".$dateOfMake.",".$comment.",".$nameStatus;
     $view_filePath = $pathToFolder."\\view.txt";
     file_put_contents($view_filePath, $view_content);
 

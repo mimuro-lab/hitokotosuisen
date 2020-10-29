@@ -7,7 +7,7 @@
 	</p>
 </form>
 
-<form action="/view" method="get">
+<form action="." method="get">
 	<p>
 		INDEXから探す<br>
 		<input type="number" min="0" name="index" size="20">

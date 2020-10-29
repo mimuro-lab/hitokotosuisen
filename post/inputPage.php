@@ -93,6 +93,15 @@ function showForm(string $token, string $email){
     </tr>
     <tr><td><br></td></tr>
     <tr>
+    <td width="50%" align="center">〇名前の公開</td><td width="50%" align="center">
+    <select name="nameStatus">
+    <option value="private">非公開</option>
+    <option value="public">公開</option>
+    </select>
+    </td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
     <td width="50%" align="center">〇固定タグ</td>
     <td width="50%" align="center">
     ';
