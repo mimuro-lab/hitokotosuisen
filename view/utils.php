@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once(__DIR__."\\..\\data\\getName.php");
+
 function getPreviewComment(string $oriComment, int $restLines)
 {
 
@@ -59,7 +61,8 @@ function printHTMLOfComment($listOfContents)
       <td style="word-break: break-all;"><font size="+1" face="arial black">'.$comment["book"].'</font></td>
       <td style="word-break: break-all;"  align="right">
       <font size="-1">'.$comment["date"].'&nbsp;INDEX:'.$comment["index"].'<br></font>
-      <font size="-1" style="opacity:0.7" face="arial unicode ms">'.$comment["counter"].'&nbsp;回閲覧</font>
+      <font size="-1" style="opacity:0.7" face="arial unicode ms">'.$comment["counter"].'&nbsp;回閲覧<br></font>
+      <font size="-1">'.$comment["name"].'：投稿者<br></font>
       </td>
     </tr>
 
@@ -144,6 +147,7 @@ function getContentsFromFolder($pathToFolder)
   $OneViewContents["tag"] = $contentOfTag;
   $OneViewContents["tagFixed"] = $contentOfTagFix;
   $OneViewContents["counter"] = $contentOfCounter;
+  $OneViewContents["name"] = getName(False, $pathToFolder);
 
   return $OneViewContents;
 }

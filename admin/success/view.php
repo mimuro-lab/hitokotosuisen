@@ -37,6 +37,8 @@ function main_view()
     }
     $content = getPostedFromIndex($_GET["index"]);
 
+    print_r($content);
+
     $status = "none";
     $color = "#C0C0C0";
     if(isset($content["status"])){
@@ -78,6 +80,17 @@ function main_view()
     </tr>
     <tr>
     <td width="50%">氏名</td><td width="50%">'.$content["info"][1].'</td>
+    </tr>
+    <tr>
+    <td width="50%">氏名の公開状態</td><td width="50%">';
+    
+    if($content["nameStatus"]){
+        echo "公開";
+    }else if(!$content["nameStatus"]){
+        echo "非公開";
+    }
+    
+    echo '</td>
     </tr>
     <tr>
     <td width="50%">学籍番号</td><td width="50%">'.$content["info"][2].'</td>

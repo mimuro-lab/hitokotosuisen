@@ -6,6 +6,7 @@ if(!isOkUserInfo($_COOKIE["username"], $_COOKIE["password"]) || !isOkToken($_COO
 }
 
 require_once(".//..//utils.php");
+require_once(__DIR__."//..//..//data//getName.php");
 
 function getPostedAll(string $mode)
 {
@@ -120,6 +121,7 @@ function getPostedFromIndex(int $index)
     $oneContent["serch_kwd"] = explode(",", file_get_contents($pathToDir."\\search_kwd.txt"));
     $oneContent["serch_kwd_fixed"] = explode(",", file_get_contents($pathToDir."\\search_kwd_fixed.txt"));
     $oneContent["count"] = explode(",", file_get_contents($pathToDir."\\count.txt"));
+    $oneContent["nameStatus"] =  getName(True, $pathToDir);
 
     return $oneContent;
 

@@ -60,7 +60,10 @@ function main_viewOne(int $index)
       </td>
     </tr>
     <tr>
-      <td colspan="2" align="right"><font style="opacity:0.7" face="arial unicode ms">'.$content["counter"].'&nbsp;回閲覧</font></td>
+      <td colspan="2" align="right">
+        <font style="opacity:0.7" face="arial unicode ms">'.$content["counter"].'&nbsp;回閲覧<br></font>
+        <font>'.$content["name"].'：投稿者<br></font>
+      </td>
     </tr>
     <tr><td colspan="2" align="center"><font style="opacity:0.5" size="-1" face="arial unicode ms">推薦内容</font></td></tr>
     <tr>
