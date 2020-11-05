@@ -1,8 +1,7 @@
-aaa".//view//defaultPage.php"
 <?php
 require_once(".//view//defaultPage.php")
 ?>
-bbb
+
 <!DOCTYPE html>
 <html>
   <head>

@@ -91,7 +91,7 @@ function main_view()
     <td width="50%">学籍番号</td><td width="50%">'.$content["info"][2].'</td>
     </tr>
     <tr>
-    <td width="50%">メールアドレス</td><td width="50%">'.$content["info"][4].'</td>
+    <td width="50%">メールアドレス</td><td width="50%"><a href="mailto:'.$content["info"][4].'">'.$content["info"][4].'</a></td>
     </tr>
     <tr>
     <td width="50%">コメントID</td><td width="50%">'.$content["index"].":".$content["info"][0].'</td>
