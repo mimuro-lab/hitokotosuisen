@@ -65,7 +65,19 @@ function printPreviewFromID($comment)
     <table width="100%" bgcolor="#fafafa">
     <tr><td colspan="2"><hr></td></tr>
     <tr>
-        <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["book"].'</td>
+    <td width="50%" align="center">〇INDEX</td><td width="50%" align="center">'.$comment["index"].'</td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+        <td width="50%" align="center">〇名前の公開状態</td><td width="50%" align="center">';
+    // タグを全て表示する
+    if($comment['nameStatus'] == "name_public"){
+        echo "公開";
+    }else if($comment['nameStatus'] == "name_private"){
+        echo "非公開";
+    }
+    
+    echo '</td>
     </tr>
     <tr><td><br></td></tr>
     <tr>
@@ -85,6 +97,11 @@ function printPreviewFromID($comment)
       echo $t."<br>";
     }
     echo '</td></tr>
+    <tr><td><br></td></tr>
+    <tr>
+        <td width="50%" align="center">〇推薦する本の名前</td><td width="50%" align="center">'.$comment["book"].'</td>
+    </tr>
+    <tr><td><br></td></tr>
     <tr>
         <td align="center" colspan="2">〇推薦内容</td>
     </tr>
@@ -130,6 +147,7 @@ function getContentsFromFolder_inFix($pathToFolder)
   $OneViewContents["book"] = $contentOfTxt[0];
   $OneViewContents["date"] = $contentOfTxt[1];
   $OneViewContents["comment"] = $contentOfTxt[2];
+  $OneViewContents["nameStatus"] = $contentOfTxt[3];
   $OneViewContents["index"] = $contentOfIndex;
   $OneViewContents["tag"] = $contentOfTag;
   $OneViewContents["tagFixed"] = $contentOfTagFix;

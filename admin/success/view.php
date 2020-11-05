@@ -37,7 +37,7 @@ function main_view()
     }
     $content = getPostedFromIndex($_GET["index"]);
 
-    print_r($content);
+    #print_r($content);
 
     $status = "none";
     $color = "#C0C0C0";
@@ -60,13 +60,8 @@ function main_view()
     echo '
     <table width="100%">
     <tr><td colspan="2" align="center">
-    <form action="./?scene=view&index='.$_GET["index"].'&mode='.$preMode.'" method="post">
-    <li>状態を変更する
-    <select name="status">
-    <option value="public">公開状態</option>
-    <option value="private">非公開状態</option>
-    </select></li><br>
-    <button type="submit">更新する</button>
+    <form action="./?scene=view&index='.$_GET["index"].'&mode='.$preMode.'" method="post" id="refresh">
+    <button type="submit">更新</button>
     </form>
     </td></tr>
     <tr>
@@ -145,6 +140,19 @@ function main_view()
     }
     
     echo '
+    </td></tr>
+    <tr><td><br></td></tr>
+    <tr><td colspan="2" align="center">
+    <table width="100%" border="1"><tr><td align="center"s>
+    <form action="./?scene=view&index='.$_GET["index"].'&mode='.$preMode.'" method="post" id="refrect">
+    状態を変更する<br><br>
+    <select name="status" form="refrect">
+    <option value="public">公開状態</option>
+    <option value="private">非公開状態</option>
+    </select></li>
+    <button type="submit">反映</button>
+    </form>
+    </td></tr></table>
     </td></tr>
     <tr><td colspan="2"s align="center"><br><br><a href="./?scene=allView&mode='.$preMode.'">[一覧に戻る]</a></td></tr>
     </table>';

@@ -15,6 +15,15 @@ function printEditFormBack()
     ※名前と学籍番号は変更できません。</td></tr></table>
     <form action="." method="post">
     <table width="100%" bgcolor="#fafafa">
+    <tr>
+    <td width="50%" align="center">〇名前の公開</td><td width="50%" align="center">
+    <select name="nameStatus">
+    <option value="private">非公開</option>
+    <option value="public">公開</option>
+    </select>
+    </td>
+    </tr>
+    <tr><td><br></td></tr>
     <td width="50%" align="center">〇固定タグ</td>
     <td width="50%" align="center">
     ';
@@ -41,9 +50,10 @@ function printEditFormBack()
     echo '
     </td>
     </tr>
+
     <tr><td><br></td></tr>
     <tr>
-    <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$_POST["tag"].'"></input>
+    <td width="50%" align="center">〇自由fタグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="'.$_POST["tag"].'"></input>
     </td>
     <tr><td><br></td></tr>
     </tr>
@@ -78,6 +88,15 @@ function printEditForm()
     echo '
     <form action="." method="post">
     <table width="100%" bgcolor="#fafafa">
+    <tr>
+    <td width="50%" align="center">〇名前の公開</td><td width="50%" align="center">
+    <select name="nameStatus">
+    <option value="private">非公開</option>
+    <option value="public">公開</option>
+    </select>
+    </td>
+    </tr>
+    <tr><td><br></td></tr>
     <td width="50%" align="center">〇固定タグ</td>
     <td width="50%" align="center">
     ';

@@ -9,7 +9,8 @@ require_once(".//repostPage.php");
 $status = explode(",", file_get_contents("./../data/siteStatus.txt"))[2];
 
 if($status !== "public"){
-	echo '申し訳ありません。ただいまメンテナンス中です。';
+	echo '申し訳ありません。ただいまメンテナンス中です。<br>
+	<a href="http://'.file_get_contents("./../data/servername.txt").'">トップページへ戻る</a>';
 	exit();
 }
 
@@ -19,7 +20,7 @@ if(!isset($_POST["scene"])){
 }
 
 #print_r(htmlspecialchars($_GET)); echo "<br>";
-#print_r(htmlspecialchars($_POST));echo "<br>";
+#print_r($_POST);echo "<br>";
 #print_r($_COOKIE);
 
 ?>

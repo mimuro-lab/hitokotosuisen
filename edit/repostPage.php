@@ -7,8 +7,6 @@ date_default_timezone_set('Asia/Tokyo');
 function fix_comment()
 {
 
-
-
     # 保存時のhtml文字エスケープ処理
     $_POST["book"] = htmlspecialchars($_POST["book"]);
     $_POST["tag"] = htmlspecialchars($_POST["tag"]);
@@ -43,7 +41,8 @@ function fix_comment()
     $comment = str_replace(",", "?cma?", $comment);     //,のエスケープ処理（保存形式がCSVになるから）
     $comment = htmlspecialchars($comment);              //htmlのエスケープ処理
     $comment = str_replace("?newl?", "<br>", $comment);
-    $view_content = $_POST["book"].",".$dateOfMake.",".$comment;
+    $isPublic = "name_".$_POST["nameStatus"];
+    $view_content = $_POST["book"].",".$dateOfMake.",".$comment.",".$isPublic;
     file_put_contents($view_filePath, $view_content);
     
     return true;

@@ -9,7 +9,9 @@ require_once(__DIR__."\\countViewPage.php");
 $status = explode(",", file_get_contents("./../data/siteStatus.txt"))[0];
 
 if($status !== "public"){
-	echo '申し訳ありません。ただいまメンテナンス中です。';
+  echo '申し訳ありません。ただいまメンテナンス中です。<br>
+  <a href="http://'.file_get_contents("./../data/servername.txt").'">トップページへ戻る</a>
+  ';
 	exit();
 }
 

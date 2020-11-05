@@ -58,6 +58,7 @@ function printButton_EditedPreview($next)
         <input type="hidden" name="tag" value="'.$_POST["tag"].'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$_POST["comment"].'">
+        <input type="hidden" name="nameStatus" value="'.$_POST["nameStatus"].'">
         <button type="submit">　戻る　</button>
     </form>
     </td>
@@ -73,6 +74,7 @@ function printButton_EditedPreview($next)
         <input type="hidden" name="tag" value="'.$_POST["tag"].'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$_POST["comment"].'">
+        <input type="hidden" name="nameStatus" value="'.$_POST["nameStatus"].'">
         <button type="submit">確定する</button>
     </form>
     ';
@@ -98,6 +100,7 @@ function printPreview()
     $book = false;
     $comment = false;
     $tag = "";
+    $nameStatus = "";
     
     if(isset($_POST["book"]) && $_POST["book"] !==""){
         $book = $_POST["book"];
@@ -108,11 +111,18 @@ function printPreview()
     if(isset($_POST["tag"]) && $_POST["tag"] !==""){
         $tag = explode(",",$_POST["tag"]);
     }
-
+    if(isset($_POST["nameStatus"])){
+        if($_POST["nameStatus"] === "public"){
+            $nameStatus = "公開";
+        }else if($_POST["nameStatus"] === "private"){
+            $nameStatus = "非公開";
+        }
+    }
+    
     echo '
     <br><br>
     <table width="100%" bgcolor="#fafafa">
-
+    <td align="center" width="50%">〇名前の公開状態</td><td align="center" width="50%">'.$nameStatus.'</td>
     <tr><td><br></td></tr>
     <tr>
     <td align="center" width="50%">〇固定タグ</td><td align="center" width="50%">';
