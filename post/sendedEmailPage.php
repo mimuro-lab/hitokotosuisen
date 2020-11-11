@@ -126,7 +126,7 @@ function main_sendMail($post)
     $userMail = $post["email"];
 
 	if(sendPostMail($userMail)){
-        echo '<table width="100%"><tr><td align="center"><font size="+2" color="#696969"><br>'
+        echo '<table width="100%"><tr><td align="center"><font size="+1" color="#696969"><br>'
         .$userMail.'宛てに応募用メールを送信しました。メールの内容をご確認ください。</font>
         </td></tr></table><br>';
 	}else{

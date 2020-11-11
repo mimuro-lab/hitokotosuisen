@@ -23,6 +23,7 @@ function delete_token_re(String $token){
     $tokenLine = "";
     while(!feof($fp)){
 
+        print_r($tokenLine."<br>");
         // fgetにより一行読み込み
         $tokenLine = fgets($fp);
         // 最後の行になったらbreak
@@ -33,9 +34,10 @@ function delete_token_re(String $token){
         $saved_token = preg_replace('/[^0-9a-zA-Z]/', '', $saved_token);
 
         $token = preg_replace('/[^0-9a-zA-Z]/', '', $token);
-        
         if($saved_token != $token){
             fwrite($fp_tmp, $tokenLine);
+        }else{
+            print_r($tokenLine);
         }
     }
 

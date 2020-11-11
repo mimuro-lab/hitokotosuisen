@@ -103,7 +103,7 @@ if(isset($_POST["scene"])){
 			<td width="20%" valign="top">
 			<br>
 			<?php
-			if($scene == "sended_email" || $scene == "input_comment" || $scene == "preview_comment"){
+			if($scene == "input_comment" || $scene == "preview_comment"){
 				require_once(".//rightPage.php");
 			}?>
 			</td>

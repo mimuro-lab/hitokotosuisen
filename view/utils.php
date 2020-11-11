@@ -44,7 +44,7 @@ function getEndComment(string $oriComment, int $restLines)
 }
 
 // date, book, index, tag, commentが必要
-function printHTMLOfComment($listOfContents)
+function printHTMLOfComment($listOfContents, bool $validURL = True)
 {
   foreach($listOfContents as $comment){
     $comment["comment"] = str_replace("?cma?",",",$comment["comment"]);
@@ -72,20 +72,31 @@ function printHTMLOfComment($listOfContents)
     <tr>
       <td style="opacity:0.5" colspan="2" style="word-break: break-all;"  colspan="2"><font size="-1" face="arial unicode ms">'.getEndComment($comment["comment"], 3).'</font></td>
     </tr>
-    <tr>
-      <td style="opacity:0.8" colspan="2" align="center"><a href="./?index='.$comment["index"].'"><font color="#696969">この投稿を全部見る</td>
-    </tr>
-    
-    <tr><td colspan="2" align="right">タグ<br>
+
     ';
+    
+    if($validURL){
+      echo'
+      <tr>
+        <td style="opacity:0.8" colspan="2" align="center"><a href="./?index='.$comment["index"].'"><font color="#696969">この投稿を全部見る</td>
+      </tr>
+      ';
+    }
+    echo '<tr><td colspan="2" align="right">タグ<br>';
 
     foreach($comment["tag"] as $tag){
-      echo '<a href="./?tag='.$tag.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+      if($validURL){
+        $tag_ = str_replace("&amp;", "___and___", $tag);
+        echo '<a href="./?tag='.$tag_.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+      }
     }
     echo '<br>';
 
     foreach($comment["tagFixed"] as $tag){
-      echo '<a href="./?tag='.$tag.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+      $tag_ = str_replace("&amp;", "___and___", $tag);
+      if($validURL){
+        echo '<a href="./?tag='.$tag_.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
+      }
     }
 
     echo '

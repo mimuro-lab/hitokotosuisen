@@ -71,18 +71,18 @@ function getDefailtViewContentsAscend(int $maxComments)
   return $viewContentOfList;
 }
 
-function viewDefaultComment(string $recentDate, int $maxComments)
+function viewDefaultComment(string $recentDate, int $maxComments, bool $isTopPage = false)
 {
   // 閲覧数の多い順で、$maxComments分表示する。
   $viewContentAscend = getDefailtViewContentsAscend($maxComments);
-  echo '<a href="http://'.file_get_contents(__DIR__."/../data/servername.txt").'/view?viewCount=descend" style="text-decoration: none;"><font size="+2" color="#696969">閲覧数の多い投稿</font></a>';
-  printHTMLOfComment($viewContentAscend);
+  echo '<a href="'.file_get_contents(__DIR__."/../data/servername.txt").'/view?viewCount=descend" style="text-decoration: none;"><font size="+2" color="#696969">閲覧数の多い投稿</font></a>';
+  printHTMLOfComment($viewContentAscend, !$isTopPage);
   echo '<br><br><br><br>';
 
   // 2週間分、上限10コメント読み込む。
   $viewContents = getDefailtViewContents($recentDate, $maxComments);
-  echo '<a href="http://'.file_get_contents(__DIR__."/../data/servername.txt").'/view?tag=___time_" style="text-decoration: none;"><font size="+2" color="#696969">最新の投稿</font></a>';
-  printHTMLOfComment($viewContents);
+  echo '<a href="'.file_get_contents(__DIR__."/../data/servername.txt").'/view?tag=___time_" style="text-decoration: none;"><font size="+2" color="#696969">最新の投稿</font></a>';
+  printHTMLOfComment($viewContents, !$isTopPage);
 }
 
 ?>

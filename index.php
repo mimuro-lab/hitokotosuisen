@@ -33,7 +33,7 @@ require_once(".//view//defaultPage.php")
 					
 					$status = explode(",", file_get_contents("./data/siteStatus.txt"))[0];
 					if($status === "public"){
-						viewDefaultComment(7, 3);
+						viewDefaultComment(7, 3, True);
 					}
 					
 					?>	

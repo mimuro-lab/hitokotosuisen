@@ -36,6 +36,7 @@ function printTitleLine(string $inputTag, string $viewCount)
   }
   
   if($inputTag != ""){
+    #$inputTag = str_replace("___and___", "&amp;", $inputTag);
     return 'キーワード<b>'.$inputTag."</b>を含む投稿";
   }
 

@@ -4,6 +4,7 @@ require_once(__DIR__."\\utils.php");
 
 function getTagViewContents(string $serachTag)
 {
+  $serachTag = str_replace("___and___", "&amp;", $serachTag);
   $pathToCommentPosted = __DIR__."/./../data/posted/";
   $listOfFolder = scandir($pathToCommentPosted);
   $max = 0;
