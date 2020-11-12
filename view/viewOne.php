@@ -80,14 +80,16 @@ function main_viewOne(int $index)
     ';
     foreach($content["tag"] as $tag){
       if($tag != ""){
-        echo '&nbsp;&nbsp;<a href="./?tag='.$tag.'">'.$tag.'</a>';
+        $tag_ = str_replace("&amp;", "%26", $tag);
+        echo '&nbsp;&nbsp;<a href="./?tag='.$tag_.'">'.$tag.'</a>';
       }
     }
 
     echo '<br>';
     foreach($content["tagFixed"] as $tag){
       if($tag != ""){
-        echo '&nbsp;&nbsp;<a href="./?tag='.$tag.'">'.$tag.'</a>';
+        $tag_ = str_replace("&amp;", "%26", $tag);
+        echo '&nbsp;&nbsp;<a href="./?tag='.$tag_.'">'.$tag.'</a>';
       }
     }
     echo '

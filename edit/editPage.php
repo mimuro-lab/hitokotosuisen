@@ -80,6 +80,9 @@ function printEditForm()
     $tag = array();
     $tagFixed = explode(":", $_POST["tagFixed"]);
     $tagFixedInd = getFixedInd($tagFixed);
+
+    # htmlのエスケープ処理
+    $_POST["book"] = htmlspecialchars($_POST["book"]);
     
     for($i = 0; $i < count(explode(":",$_POST["tag"]));$i++){
         array_push($tag, explode(":",$_POST["tag"])[$i]);
@@ -115,7 +118,7 @@ function printEditForm()
                 $checked = "checked";
             }
         }
-        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'" '.$checked.'>'.$fixedTags[$i]."&nbsp;";
+        echo '<input type="checkbox" name="fix_'.$i.'" value="checked_fix_'.$i.'" '.$checked.'>'.htmlspecialchars($fixedTags[$i])."&nbsp;";
     }
     
     echo '
@@ -125,7 +128,7 @@ function printEditForm()
     <tr>
     <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center"><input type="text" size="45" name="tag" value="';
     foreach($tag as $t){
-        echo $t;
+        echo htmlspecialchars($t);
         if($t !== ""){
             echo ",";
         }

@@ -82,18 +82,21 @@ function printHTMLOfComment($listOfContents, bool $validURL = True)
       </tr>
       ';
     }
-    echo '<tr><td colspan="2" align="right">タグ<br>';
+    echo '<tr><td colspan="2" align="right">';
+    if($validURL){
+      echo "タグ<br>";
+    }
 
     foreach($comment["tag"] as $tag){
       if($validURL){
-        $tag_ = str_replace("&amp;", "___and___", $tag);
+        $tag_ = str_replace("&amp;", "%26", $tag);
         echo '<a href="./?tag='.$tag_.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
       }
     }
     echo '<br>';
 
     foreach($comment["tagFixed"] as $tag){
-      $tag_ = str_replace("&amp;", "___and___", $tag);
+      $tag_ = str_replace("&amp;", "%26", $tag);
       if($validURL){
         echo '<a href="./?tag='.$tag_.'"><font size="-1" color="#6495ed">'.$tag.'</a>&nbsp;';
       }

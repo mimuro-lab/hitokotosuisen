@@ -55,7 +55,7 @@ function printButton_EditedPreview($next)
         <input type="hidden" name="back" value="backed">
         <input type="hidden" name="ID" value="'.$_POST["ID"].'">
         <input type="hidden" name="book" value="'.$_POST["book"].'">
-        <input type="hidden" name="tag" value="'.$_POST["tag"].'">
+        <input type="hidden" name="tag" value="'.htmlspecialchars($_POST["tag"]).'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$_POST["comment"].'">
         <input type="hidden" name="nameStatus" value="'.$_POST["nameStatus"].'">
@@ -71,7 +71,7 @@ function printButton_EditedPreview($next)
         <input type="hidden" name="scene" value="post_comment">　
         <input type="hidden" name="ID" value="'.$_POST["ID"].'">
         <input type="hidden" name="book" value="'.$_POST["book"].'">
-        <input type="hidden" name="tag" value="'.$_POST["tag"].'">
+        <input type="hidden" name="tag" value="'.htmlspecialchars($_POST["tag"]).'">
         <input type="hidden" name="tagFixed" value="'.$fixedTag.'">
         <input type="hidden" name="comment" value="'.$_POST["comment"].'">
         <input type="hidden" name="nameStatus" value="'.$_POST["nameStatus"].'">
@@ -137,7 +137,7 @@ function printPreview()
     <td width="50%" align="center">〇自由タグ</td><td width="50%" align="center">';
     if($tag !== ""){
         foreach($tag as $t){
-            echo $t;
+            echo htmlspecialchars($t);
             if($t !== ""){
                 echo "<br>";
             }
