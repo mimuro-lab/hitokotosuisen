@@ -8,7 +8,7 @@ function printEditFormBack()
     $_POST["book"] = htmlspecialchars($_POST["book"]);
     $_POST["tag"] = htmlspecialchars($_POST["tag"]);
     $_POST["tagFixed"] = htmlspecialchars($_POST["tagFixed"]);
-    $comment = str_replace("<br>", "", $_POST["comment"]);
+    $comment = str_replace("<br>", "\r\n", $_POST["comment"]);
     echo '
     <table width="100%">
     <tr><td align="center"><font size="+2" color="#696969">編集内容を入力してください</font><br>
@@ -65,7 +65,7 @@ function printEditFormBack()
     <tr><td><br></td></tr>
     <tr><td colspan="2" align="center">〇推薦内容</td></tr>
     <tr><td colspan="2" align="center">
-    <textarea name="comment"  rows="20" cols="80">'.$_POST["comment"].'</textarea>
+    <textarea name="comment"  rows="20" cols="80">'.$comment.'</textarea>
     </td></tr>
     <tr><td colspan="2" align="center"><br><input type="submit" value="プレビュー画面へ行く"></td></tr>
     </table>

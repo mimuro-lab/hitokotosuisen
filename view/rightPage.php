@@ -16,6 +16,11 @@
 </form>
 
 <br><br>
-<a href="./?tag=___time_">最新の投稿順</a><br><br>
-<a href="./?viewCount=descend">閲覧数が多い順</a><br><br>
-<a href="./?viewCount=ascend">閲覧数が少ない順</a><br><br>
+
+<?php 
+echo '
+	<a href="'.__DIR__.'/?tag=___time_">最新の投稿順</a><br><br>
+	<a href="'.__DIR__.'/?viewCount=descend">閲覧数が多い順</a><br><br>
+	<a href="'.__DIR__.'/?viewCount=ascend">閲覧数が少ない順</a><br><br>
+';
+?>

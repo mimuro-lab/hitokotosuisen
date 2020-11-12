@@ -12,12 +12,18 @@ function printButton($canFind, $comment, $ID)
     ';
     if($canFind){
         $comment["comment"] = str_replace("<br>", "\r\n", $comment["comment"]);
+        /*
         echo '
             <form action="" method="post">
             <input type="hidden" name="scene" value="edit_comment">
             <input type="hidden" name="ID" value="'.$ID.'">
             <input type="hidden" name="tag" value="';
-        
+        */
+        echo '
+            <form action="" method="post">
+            <input type="hidden" name="scene" value="select">
+            <input type="hidden" name="ID" value="'.$ID.'">
+            <input type="hidden" name="tag" value="';
         foreach($comment["tag"] as $tag){
             echo $tag.":";
         }

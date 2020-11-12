@@ -4,7 +4,7 @@ require_once(".//inputIDPage.php");
 require_once(".//editPage.php");
 require_once(".//previewPage.php");
 require_once(".//repostPage.php");
-
+require_once(".//selectPage.php");
 // 編集ページが有効かどうか？
 $status = explode(",", file_get_contents("./../data/siteStatus.txt"))[2];
 
@@ -53,6 +53,9 @@ if(!isset($_POST["scene"])){
 					break;
 				case "input_ID":
 					main_inputID($_POST["ID"]);
+					break;
+				case "select":
+					main_selectPage();
 					break;
 				case "edit_comment":
 					main_editPage($_POST);
