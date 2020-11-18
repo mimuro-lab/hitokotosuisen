@@ -20,7 +20,7 @@ if(!isset($_POST["scene"])){
 }
 
 #print_r(htmlspecialchars($_GET)); echo "<br>";
-print_r($_POST);echo "<br>";
+#print_r($_POST);echo "<br>";
 #print_r($_COOKIE);
 
 ?>

@@ -256,6 +256,7 @@ function main_postPage()
     </td></tr>
     </table>
     ';
+    delete_token_re($_POST["token"]);
     return;
 }
 

@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once(".//quitPage.php");
+
 // emailを取得する。tokenにマッチするemailを返す関数。
 // 失敗したら必ずfalseを返す。
 function get_email(String $token){
@@ -173,6 +175,7 @@ function main_inputPage($token){
         もう一度最初からやり直してください。<br>
         </font></tr></td></table>
         ';
+        delete_token_re($token);
     }
 }
 

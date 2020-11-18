@@ -7,12 +7,13 @@ function delete_token_re(String $token){
 
     // token.csvがなかったらリターンする。
     if(!file_exists($pathToToken)){
-        echo "token.csvが見つかりません。";
+        #echo "token.csvが見つかりません。";
         return false;
     }
     // ファイルを開けなかったらリターンする。
     if(!fopen($pathToToken, "r")){
-        echo "token.csvを開けませんでした。";
+        
+        #echo "token.csvを開けませんでした。";
         return false;
     }
     $fp = fopen($pathToToken, "r");
@@ -23,7 +24,7 @@ function delete_token_re(String $token){
     $tokenLine = "";
     while(!feof($fp)){
 
-        print_r($tokenLine."<br>");
+        #print_r($tokenLine."<br>");
         // fgetにより一行読み込み
         $tokenLine = fgets($fp);
         // 最後の行になったらbreak

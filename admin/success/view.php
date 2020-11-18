@@ -37,8 +37,6 @@ function main_view()
     }
     $content = getPostedFromIndex($_GET["index"]);
 
-    #print_r($content);
-
     $status = "none";
     $color = "#C0C0C0";
     if(isset($content["status"])){
