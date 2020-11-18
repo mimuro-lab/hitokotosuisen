@@ -92,9 +92,11 @@ function printButton_EditedPreview($next)
 
 function printPreview()
 {
+    /*
     $_POST["comment"] = str_replace("\r\n", "?newl?", $_POST["comment"]);
     $_POST["comment"] = htmlspecialchars($_POST["comment"]);
     $_POST["comment"] = str_replace("?newl?", "<br>", $_POST["comment"]);
+    */
     $_POST["book"] = htmlspecialchars($_POST["book"]);
 
     $book = false;
@@ -106,7 +108,9 @@ function printPreview()
         $book = $_POST["book"];
     }    
     if(isset($_POST["comment"]) && $_POST["comment"] !==""){
-        $comment = $_POST["comment"];
+        $comment = str_replace("\r\n", "?newl?", $_POST["comment"]);
+        $comment = htmlspecialchars($comment);
+        $comment = str_replace("?newl?", "<br>", $comment);
     }
     if(isset($_POST["tag"]) && $_POST["tag"] !==""){
         $tag = explode(",",$_POST["tag"]);

@@ -47,8 +47,12 @@ function printContent_allView($nowPage, $viewsPerPage)
     echo '<table width="100%"><tr><td align="center">('.$nowPage.'/'.$maxPage.')<br><br></td></tr></table>';
     printContentPre($contentAll, $viewsPerPage, ($nowPage-1) * $viewsPerPage);
     echo '<table width="100%"><tr><td align="center">';
+    $mode = "default";
+    if(isset($_GET["mode"])){
+        $mode = $_GET["mode"];
+    }
     for($i = 1; $i <= $maxPage; $i++){
-        echo '<a href="./?scene=allView&page='.$i.'">'.$i.'</a>&nbsp;';
+        echo '<a href="./?scene=allView&page='.$i.'&mode='.$mode.'">'.$i.'</a>&nbsp;';
     }
     echo '</td></tr></table>';
     return $maxPage;
@@ -65,28 +69,23 @@ function printInputIndex(){
         <input type="hidden" name="scene" value="view" form="byIND">
     </form>
     <br>
-    <form action="./?scene=allView" method="post" id="sort3">
-        <input type="hidden" name="mode" value="wait" form="sort3">
+    <form action="./?scene=allView&mode=wait" method="post" id="sort3">
         <input type="submit" value="認証待ちのみ" form="sort3">
     </form>
     <br>
-    <form action="./?scene=allView" method="post" id="sort4">
-        <input type="hidden" name="mode" value="public" form="sort4">
+    <form action="./?scene=allView&mode=public" method="post" id="sort4">
         <input type="submit" value="公開状態のみ" form="sort4">
     </form>
     <br>
-    <form action="./?scene=allView" method="post" id="sort5">
-        <input type="hidden" name="mode" value="private" form="sort5">
+    <form action="./?scene=allView&mode=private" method="post" id="sort5">
         <input type="submit" value="非公開状態のみ" form="sort5">
     </form>
     <br>
-    <form action="./?scene=allView" method="post" id="sort1">
-        <input type="hidden" name="mode" value="ascend" form="sort1">
+    <form action="./?scene=allView&mode=ascend" method="post" id="sort1">
         <input type="submit" value="INDEX（昇順）" form="sort1">
     </form>
     <br>
-    <form action="./?scene=allView" method="post" id="sort2">
-        <input type="hidden" name="mode" value="descend" form="sort2">
+    <form action="./?scene=allView&mode=descend" method="post" id="sort2">
         <input type="submit" value="INDEX（降順）" form="sort2">
     </form>
     <br>
@@ -104,11 +103,16 @@ function main_allView()
     // ボタンを表示する
     $prePage = $page <= 1 ? 1 : $page - 1;
     $nextPage = $page >= $maxPage ? $maxPage : $page + 1;
+    $nextMode = "default";
+    if(isset($_GET["mode"])){
+        $nextMode = $_GET["mode"];
+    }
     echo '
     <br>
     <table width="100%"><tr><td align="center">
-    <form action="" method="get" id="movePage">
+    <form action="./?scene=allView&mode='.$nextMode.'" method="get" id="movePage">
     <input type="hidden" name="scene" value="allView" form="movePage">
+    <input type="hidden" name="mode" value="'.$nextMode.'" form="movePage">
     <button type="submit" name="page" value="'.$prePage.'" form="movePage">前へ</button>
     <button type="submit" name="page" value="'.$nextPage.'" form="movePage">次へ</button>
     </fotm>

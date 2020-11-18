@@ -14,7 +14,10 @@ function fix_comment()
 
     // 保存時のカンマのエスケープ処理
     $_POST["book"] = str_replace(",", "?cma?", $_POST["book"]);
-    $_POST["comment"] = str_replace(",", "?cma?", $_POST["comment"]);
+    $comment = str_replace(",", "?cma?", $_POST["comment"]);
+    $comment = str_replace("\r\n", "?newl?", $comment);
+    $comment = htmlspecialchars($comment);
+    $comment = str_replace("?newl?", "<br>", $comment);
 
     $folderIND = explode(":", explode(",", $_POST["ID"])[0])[0];
     $pathToFolder = __DIR__."\\..\\data\\posted\\".$folderIND;
@@ -36,11 +39,7 @@ function fix_comment()
     // コメントの表示に使われるファイル
     $view_filePath = $pathToFolder."\\view.txt";
     $dateOfMake = explode(",", file_get_contents($view_filePath))[1];
-    $comment = $_POST["comment"];
-    $comment = str_replace("\r\n", "?newl?", $comment);   //改行をhtml形式に合わせる
-    $comment = str_replace(",", "?cma?", $comment);     //,のエスケープ処理（保存形式がCSVになるから）
-    #$comment = htmlspecialchars($comment);              //htmlのエスケープ処理
-    $comment = str_replace("?newl?", "<br>", $comment);
+    #$comment = str_replace("?newl?", "<br>", $comment);
     $isPublic = "name_".$_POST["nameStatus"];
     $view_content = $_POST["book"].",".$dateOfMake.",".$comment.",".$isPublic;
     file_put_contents($view_filePath, $view_content);

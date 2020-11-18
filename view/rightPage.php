@@ -4,7 +4,7 @@
 function printRightPage(){
 	return '
 	<table width="100%"><tr><td>
-	<form action="/view" method="get">
+	<form action="'.file_get_contents(".//..//data//servername.txt").'/view/" method="get">
 		<p>
 			キーワードで検索する<br>
 			<input type="text" name="tag" size="20">
@@ -13,7 +13,7 @@ function printRightPage(){
 		</p>
 	</form>
 
-	<form action="." method="get">
+	<form action="'.file_get_contents(".//..//data//servername.txt").'/view/" method="get">
 		<p>
 			INDEXから探す<br>
 			<input type="number" min="0" name="index" size="20">

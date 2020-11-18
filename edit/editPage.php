@@ -8,7 +8,8 @@ function printEditFormBack()
     $_POST["book"] = htmlspecialchars($_POST["book"]);
     $_POST["tag"] = htmlspecialchars($_POST["tag"]);
     $_POST["tagFixed"] = htmlspecialchars($_POST["tagFixed"]);
-    $comment = str_replace("<br>", "\r\n", $_POST["comment"]);
+    #$comment = str_replace("<br>", "\r\n", $_POST["comment"]);
+    $comment = $_POST["comment"];
     echo '
     <table width="100%">
     <tr><td align="center"><font size="+2" color="#696969">編集内容を入力してください</font><br>

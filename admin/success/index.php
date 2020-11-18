@@ -19,7 +19,7 @@ require_once(".//leftPage.php");
 require_once(".//initStatus.php");
 require_once(".//siteStatus.php");
 #print_r($_GET); echo "<br>";
-#print_r($_POST); echo "<br>";
+print_r($_POST); echo "<br>";
 #print_r($_COOKIE); echo "<br>";
 
 
