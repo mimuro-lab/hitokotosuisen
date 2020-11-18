@@ -4,6 +4,7 @@ require_once(__DIR__."\\defaultPage.php");
 require_once(__DIR__."\\tagPage.php");
 require_once(__DIR__."\\viewOne.php");
 require_once(__DIR__."\\countViewPage.php");
+require_once(__DIR__."\\rightPage.php");
 
 // 閲覧ページが有効かどうか？
 $status = explode(",", file_get_contents("./../data/siteStatus.txt"))[0];
@@ -146,7 +147,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
   echo '
   <table border="0" width="100%">
   <tr>
-    <td colspan="4" align="center">
+    <td colspan="5" align="center">
     <img src="./../title_1.gif"><br>
     <a href="." style="text-decoration: none;"><font size="+2" color="#000000">閲覧ページ</font></a>
     </td>
@@ -177,17 +178,18 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
 
   echo '
   </td>
-  <td align="center" valign="top" width="25%">'.file_get_contents(__DIR__."\\rightPage.php").'</td>
+  <td width="5%"></td>
+  <td align="center" valign="top" width="20%">'.printRightPage().'</td>
   </tr>
   <tr>
-    <td align="center" colspan="4">
+    <td align="center" colspan="5">
   ';
   if($scene != "default" && $scene != "index" && $scene != "viewCount"){ 
     printPageButton($viewTag, $nowPage, $maxPage);
     echo'
     <table width="100%">
     <tr><td align="center" colspan="2">
-      <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
+      <br><br><br><br>
     </td></tr>
     </table>';
   }else if($scene == "viewCount"){
@@ -195,7 +197,7 @@ function printPageButtonViewCount(string $UpOrDown, int $nowPage, int $maxPage)
     echo'
     <table width="100%">
     <tr><td align="center" colspan="2">
-      <br><br><a href="javascript:history.back()">[戻る]</a><br><br>
+      <br><br><br><br>
     </td></tr>
     </table>';
   }

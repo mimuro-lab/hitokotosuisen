@@ -64,6 +64,8 @@ function showForm(string $token, string $email){
     }
     if(isset($_COOKIE["comment"])){
         $pre_comment = $_COOKIE["comment"];
+        $pre_comment = str_replace("<br>", "\r\n",$pre_comment);
+        #echo $pre_comment;
     }
     if(isset($_COOKIE["fixed_tag"])){
         $preFixed = explode(",", $_COOKIE["fixed_tag"]);

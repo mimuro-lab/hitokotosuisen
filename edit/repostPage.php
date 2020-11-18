@@ -39,7 +39,7 @@ function fix_comment()
     $comment = $_POST["comment"];
     $comment = str_replace("\r\n", "?newl?", $comment);   //改行をhtml形式に合わせる
     $comment = str_replace(",", "?cma?", $comment);     //,のエスケープ処理（保存形式がCSVになるから）
-    $comment = htmlspecialchars($comment);              //htmlのエスケープ処理
+    #$comment = htmlspecialchars($comment);              //htmlのエスケープ処理
     $comment = str_replace("?newl?", "<br>", $comment);
     $isPublic = "name_".$_POST["nameStatus"];
     $view_content = $_POST["book"].",".$dateOfMake.",".$comment.",".$isPublic;
