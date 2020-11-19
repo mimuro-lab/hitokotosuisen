@@ -197,7 +197,7 @@ function main_postPage()
         <font size="+2" color="#696969">投稿した内容を見る</font></a><br><br>
         また、コメントIDを発行しました。<br><br>
         <font color="red">'.$token_comment.'<br><br><br>
-        ※コメントを編集・削除するのに必要なIDです。メモしておいてください。<br><br>
+        ※コメントを編集するのに必要なIDです。メモしておいてください。<br><br>
 
         '.$_POST["email"].' 宛てにこのコメントIDを送信しますか？</font><br><br>        
         </font></td></tr>

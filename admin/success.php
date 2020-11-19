@@ -17,7 +17,7 @@ $scene = "default";
 function main($_scene){
     switch($_scene){
         case "default":
-            echo '<table width="100%"><tr><td align="center">認証に成功しました。<a href=".//success/">管理者画面へ行く</a></td></tr></table>';
+            echo '<table width="100%"><tr><td align="center">認証に成功しました。<br><a href=".//success/">管理者画面へ行く</a></td></tr></table>';
         break;
     }
 }

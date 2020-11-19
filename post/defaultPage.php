@@ -9,4 +9,9 @@
     <input type="hidden" name="scene" value="sended_email">
     <input type="submit" value="送信">
 </td></tr></form>
+<tr>
+<td align="center"><font size="+2" color="#696969">
+※投稿直後に、自動的に「承認待ち」か「非公開」の状態になることがありますが、管理者が内容を確認次第、公開するかどうかを判断いたします。
+<br><br></font></td>
+</tr>
 </table>

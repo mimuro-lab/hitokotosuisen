@@ -37,7 +37,7 @@ function printDefaultPage(){
 	<tr><td><br></td></tr>
 	<tr><td align="center" colspan="2">
 	<input type="hidden" name="scene" value="verificate">
-	<input type="submit">
+	<input type="submit" value="ログイン"></input>
 	</td></tr>
 	</table>
 	';
@@ -59,7 +59,7 @@ function printReInput(){
 
 	<tr><td><br></td></tr>
 	<tr><td align="center" colspan="2">
-	<input type="submit">
+	<input type="submit" value="ログイン">
 	</td></tr>
 	</table>
 	';
@@ -87,7 +87,8 @@ function printAdminedPage(bool $isOk)
 		<table width="100%">
 		<tr>
 			<td align="center">認証に成功しました。<br>
-			管理者用メールアドレスに<font color="red">一時的に有効なURL</font>を送信しました。</td>
+			管理者用メールアドレスに<font color="red">一時的に有効なURL</font>を送信しました。<br>
+			有効期限が3時間なので注意してください。</td>
 		</tr>
 		</table>
 		';

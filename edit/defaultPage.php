@@ -10,4 +10,9 @@
     <input type="submit" value="編集する">
 </form>
 </td></tr>
+<tr>
+<td align="center"><font size="+2" color="#696969">
+※編集直後に、自動的に「承認待ち」か「非公開」の状態になることがありますが、管理者が内容を確認次第、公開するかどうかを判断いたします。
+<br><br></font></td>
+</tr>
 </table>

@@ -38,7 +38,7 @@ function delete_token_re(String $token){
         if($saved_token != $token){
             fwrite($fp_tmp, $tokenLine);
         }else{
-            print_r($tokenLine);
+            #print_r($tokenLine);
         }
     }
 
@@ -50,12 +50,10 @@ function delete_token_re(String $token){
 
 function main_quitPage()
 {
-    
     $token = $_POST["token"]."\r\n";
 
     //　なんかできない。2020/10/04
     if(delete_token_re($token)===false){
-        echo "failed";
     }else{
         echo '
         <table border="1" width="100%">
@@ -66,9 +64,6 @@ function main_quitPage()
         </table>
         ';
     }
-
-
-
 }
 
 ?>

@@ -10,7 +10,7 @@ $status = explode(",", file_get_contents("./../data/siteStatus.txt"))[1];
 
 if($status !== "public"){
 	echo '申し訳ありません。ただいまメンテナンス中です。<br>
-	<a href="http://'.file_get_contents("./../data/servername.txt").'">トップページへ戻る</a>';
+	<a href="'.file_get_contents("./../data/servername.txt").'">トップページへ戻る</a>';
 	exit();
 }
 
@@ -29,7 +29,10 @@ if(isset($_GET["token"])){
 }else if(isset($_POST["token"])){
 	$token = $_POST["token"];
 }
-
+# setcookieはここに書く必要がある。
+if($scene === "input_comment"){
+	setcookie("token", $token, time() + 60 * 15);
+}
 // postにscineがセットされていたら、postを優先する。
 if(isset($_POST["scene"])){
 	$scene = $_POST["scene"];
@@ -82,7 +85,8 @@ if(isset($_POST["scene"])){
 					break;
 				case "input_comment":
 					main_inputPage($token);
-					setcookie("token", $token, time() + 60 * 15);
+					//setcookieはHTMLより前に記載する必要がある。よって、上のほうに記載。
+					//setcookie("token", $token, time() + 60 * 15);
 					break;
 				case "preview_comment":
 					main_previewPage();
